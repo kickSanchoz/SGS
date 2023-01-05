@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SanchozGamesStore</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="Basket">Корзина</string>
+    <string name="Catalog">Каталог</string>
+    <string name="Profile">Профиль</string>
+
 </resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_main"
+    app:startDestination="@id/navigation_catalog">
+
+    <fragment
+        android:id="@+id/navigation_basket"
+        android:name="ru.sanchozgamesstore.android.ui.mainStage.basket.BasketFragment"
+        android:label="BasketFragment"
+        tools:layout="@layout/fragment_basket" />
+
+    <fragment
+        android:id="@+id/navigation_catalog"
+        android:name="ru.sanchozgamesstore.android.ui.mainStage.catalog.CatalogFragment"
+        android:label="CatalogFragment"
+        tools:layout="@layout/fragment_catalog" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="ru.sanchozgamesstore.android.ui.mainStage.profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile" />
+</navigation>

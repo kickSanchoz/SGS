@@ -10,5 +10,12 @@
 
     <color name="transparent">#00000000</color>
     <color name="background">#060709</color>
+<!--    <color name="background_bottomNavigation">#131519</color>-->
+    <color name="background_bottomNavigation">#2C2D2F</color>
+
+    <color name="red">#FF0000</color>
+
+    <color name="grey">#747577</color>
+    <color name="grey2">#8F9093</color>
 
 </resources>
