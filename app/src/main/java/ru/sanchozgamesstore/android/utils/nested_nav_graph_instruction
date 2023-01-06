@@ -1,0 +1,12 @@
+Чтобы связать BottomNavigationView с вложенными NavigationGraph, нужно:
+1) для каждой отдельной ветки нужно создать свой nav_graph_XXX.xml с id "@+id/nav_graph_XXX"
+2) создать общий nav_graph.xml, куда с помощью include добавить все отдельные ветки
+3) в nav_graph.xml установить в качестве android:startDestination id одной из отдельной ветки
+(android:startDestination="@+id/nav_graph_XXX")
+4) в файле menu, который содержит список разделов в bottomNavView, для каждого item в качестве id
+установить точно такой же id, как id отдельной ветки, которую он должен хранить.
+
+Т.е., если вложенный navGraph имеет в качестве id - "@+id/nav_graph_123", то в файле menu (для
+bottomNavView) у item, который должен открыть эту ветку, должно быть
+android:id="@+id/nav_graph_123". А общее дерево с navGraph в качестве startDestination должно быть
+значение "@+id/nav_graph_123".

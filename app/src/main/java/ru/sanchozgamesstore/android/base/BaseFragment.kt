@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.CallSuper
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -15,13 +16,16 @@ abstract class BaseFragment<VB : ViewDataBinding> : Fragment() {
 
     abstract fun getLayoutID(): Int
 
+    @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parseArguments()
     }
 
+    @CallSuper
     open fun parseArguments() {}
 
+    @CallSuper
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,12 +38,16 @@ abstract class BaseFragment<VB : ViewDataBinding> : Fragment() {
         return binding.root
     }
 
+    @CallSuper
     open fun setUpViews() {}
 
+    @CallSuper
     open fun observeView() {}
 
+    @CallSuper
     open fun observeData() {}
 
+    @CallSuper
     override fun onDestroyView() {
         super.onDestroyView()
         mViewBinding = null

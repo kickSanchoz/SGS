@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_catalog"
+    app:startDestination="@id/navigation_catalog">
+
+    <fragment
+        android:id="@+id/navigation_catalog"
+        android:name="ru.sanchozgamesstore.android.ui.mainStage.catalog.CatalogFragment"
+        android:label="CatalogFragment"
+        tools:layout="@layout/fragment_catalog">
+        <action
+            android:id="@+id/action_navigation_catalog_to_gamePageFragment"
+            app:destination="@id/gamePageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gamePageFragment"
+        android:name="ru.sanchozgamesstore.android.ui.mainStage.catalog.game.GamePageFragment"
+        android:label="GamePageFragment"
+        tools:layout="@layout/fragment_game_page">
+        <argument
+            android:name="gameId"
+            android:defaultValue="-1"
+            app:argType="integer" />
+    </fragment>
+</navigation>
