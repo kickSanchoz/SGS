@@ -14,7 +14,7 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>() {
         super.observeView()
 
         binding.btnToGamePage.setOnClickListener {
-            val action = CatalogFragmentDirections.actionNavigationCatalogToGamePageFragment(1)
+            val action = CatalogFragmentDirections.actionCatalogFragmentToGamePageFragment(1)
             findNavController().navigate(action)
         }
     }

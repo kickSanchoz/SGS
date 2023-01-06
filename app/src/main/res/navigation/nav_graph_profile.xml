@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_profile"
-    app:startDestination="@id/navigation_profile">
+    app:startDestination="@id/profileFragment">
 
     <fragment
-        android:id="@+id/navigation_profile"
+        android:id="@+id/profileFragment"
         android:name="ru.sanchozgamesstore.android.ui.mainStage.profile.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile" />

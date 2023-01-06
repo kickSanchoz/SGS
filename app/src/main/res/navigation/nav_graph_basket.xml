@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_basket"
-    app:startDestination="@id/navigation_basket">
+    app:startDestination="@id/basketFragment">
 
     <fragment
-        android:id="@+id/navigation_basket"
+        android:id="@+id/basketFragment"
         android:name="ru.sanchozgamesstore.android.ui.mainStage.basket.BasketFragment"
         android:label="BasketFragment"
         tools:layout="@layout/fragment_basket" />
