@@ -2,6 +2,9 @@ package ru.sanchozgamesstore.android.data.domain.enums
 
 import ru.sanchozgamesstore.R
 
+/**
+ * Все доступные виды магазинов
+ * */
 enum class Store {
     STEAM {
         override val id: Int = 1
@@ -42,8 +45,21 @@ enum class Store {
     EPICGAMES {
         override val id: Int = 11
         override val icon: Int = R.drawable.ic_egs
+    },
+    UNDEFINED {
+        override val id: Int = -1
+        override val icon: Int = R.drawable.ic_question_mark
+
     };
 
     abstract val id: Int
     abstract val icon: Int
+
+    companion object {
+        fun getStoreById(id: Int): Store {
+            return values().find {
+                it.id == id
+            } ?: UNDEFINED
+        }
+    }
 }

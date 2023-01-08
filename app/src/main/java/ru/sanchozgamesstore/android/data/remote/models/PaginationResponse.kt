@@ -1,4 +1,4 @@
-package ru.sanchozgamesstore.android.data.remote.response
+package ru.sanchozgamesstore.android.data.remote.models
 
 import com.squareup.moshi.Json
 
