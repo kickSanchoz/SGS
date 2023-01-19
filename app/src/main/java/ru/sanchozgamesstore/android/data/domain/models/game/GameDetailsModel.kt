@@ -5,9 +5,11 @@ import ru.sanchozgamesstore.android.data.domain.models.genre.GenreModel
 import ru.sanchozgamesstore.android.data.domain.models.platform.MetacriticPlatformModel
 import ru.sanchozgamesstore.android.data.domain.models.platform.ParentPlatformModel
 import ru.sanchozgamesstore.android.data.domain.models.publisher.PublisherModel
+import ru.sanchozgamesstore.android.data.domain.models.rating.RatingMap
 import ru.sanchozgamesstore.android.data.domain.models.rating.RatingModel
 import ru.sanchozgamesstore.android.data.domain.models.store.StoreModel
 import ru.sanchozgamesstore.android.data.domain.models.tag.TagModel
+import ru.sanchozgamesstore.android.utils.converter.DateConverter
 
 /**
  * Доменовская модель. Детальная информация по игре
@@ -20,9 +22,9 @@ import ru.sanchozgamesstore.android.data.domain.models.tag.TagModel
  * @param description_raw описание игры без html тэгов
  * @param metacritic средняя оценка игры на metacritic по всем платформам
  * @param metacritic_platforms список с оценками игры на metacritic по каждой отдельной платформе
- * @param released дата релиза игры (YYYY-MM-DD)
+ * @param _released дата релиза игры (YYYY-MM-DD)
  * @param tba информация об игре будет оглашена позже
- * @param updated дата последнего обновления информации об игре (YYYY-MM-DDTHH:MM:SS)
+ * @param _updated дата последнего обновления информации об игре (YYYY-MM-DDTHH:MM:SS)
  * @param background_image картинка-фон игры
  * @param background_image_additional дополнительная картинка-фон игры
  * @param website url сайта игры
@@ -56,9 +58,9 @@ data class GameDetailsModel(
     val description_raw: String,
     val metacritic: Int,
     val metacritic_platforms: List<MetacriticPlatformModel>,
-    val released: String,
+    private val _released: String,
     val tba: Boolean,
-    val updated: String,
+    private val _updated: String,
     val background_image: String,
     val background_image_additional: String,
     val website: String,
@@ -83,7 +85,25 @@ data class GameDetailsModel(
     val tags: List<TagModel>,
     val publishers: List<PublisherModel>,
 ) {
-    //TODO поля с отформатированным временем
+    /**
+     * Дата релиза игры (dd.MM.yyyy)
+     * */
+    val released: String
+        get() = DateConverter.backendDateToDisplayDate(_released)
+
+    /**
+     * Дата последнего обновления информации об игре (dd.MM.yyyy HH:mm)
+     * */
+    val updated: String
+        get() = DateConverter.backendDateTimeToDisplayDateTime(_updated)
+
+    /**
+     * Мапа "разновидность рейтинга" - "данные рейтинга"
+     * */
+    val ratingMap: RatingMap
+        get() = RatingMap(displayAllKnownRatings = true).apply {
+            setRatings(ratings)
+        }
 }
 
 

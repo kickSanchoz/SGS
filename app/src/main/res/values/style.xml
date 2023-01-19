@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--  ShapeAppearance   -->
+
     <style name="DefaultShapeAppearance" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">@dimen/shapeRadius</item>
+        <item name="cornerSize">@dimen/shapeRadius8</item>
+    </style>
+
+    <style name="DefaultShapeAppearance.R4">
+        <item name="cornerSize">@dimen/shapeRadius4</item>
     </style>
 
     <style name="DefaultShapeAppearance.Circle">
         <item name="cornerSize">50%</item>
     </style>
 
+    <!--  ShapeAppearance   -->
+
+
     <!--  TextAppearance   -->
     <style name="TextAppearance" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="android:fontFamily">@font/open_sans</item>
         <item name="fontFamily">@font/open_sans</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/s14</item>
     </style>
 
@@ -147,5 +156,28 @@
     <style name="TextAppearance.Bold.S8">
         <item name="android:textSize">@dimen/s8</item>
     </style>
+
+    <!--  TextAppearance   -->
+
+
+    <!--  CardView Style   -->
+
+    <style name="DefaultCardView">
+        <item name="shapeAppearance">@style/DefaultShapeAppearance</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <style name="DefaultCardView.R4">
+        <item name="shapeAppearance">@style/DefaultShapeAppearance.R4</item>
+    </style>
+
+    <style name="DefaultCardView.Padding">
+        <item name="contentPaddingLeft">4dp</item>
+        <item name="contentPaddingRight">4dp</item>
+        <item name="contentPaddingTop">2dp</item>
+        <item name="contentPaddingBottom">2dp</item>
+    </style>
+
+    <!--  CardView Style   -->
 
 </resources>

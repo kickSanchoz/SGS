@@ -14,8 +14,19 @@
     <color name="background_bottomNavigation">#2C2D2F</color>
 
     <color name="red">#FF0000</color>
+    <color name="red2">#F83847</color>
+
+    <color name="orange">#F89033</color>
+
+    <color name="yellow">#FFCC33</color>
+
+    <color name="green">#66CC33</color>
+    <color name="green2">#71B835</color>
+
+    <color name="blue">#5B88EC</color>
 
     <color name="grey">#747577</color>
     <color name="grey2">#8F9093</color>
+    <color name="grey3">#707070</color>
 
 </resources>

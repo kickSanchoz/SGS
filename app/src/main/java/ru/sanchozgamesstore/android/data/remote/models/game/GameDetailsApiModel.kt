@@ -99,17 +99,15 @@ data class GameDetailsApiModel(
             metacritic_platforms = metacritic_platforms.map {
                 it.toModel()
             },
-            released = released,
+            _released = released,
             tba = tba,
-            updated = updated,
+            _updated = updated,
             background_image = background_image,
             background_image_additional = background_image_additional,
             website = website,
             rating = rating,
             rating_top = rating_top,
-            ratings = ratings.map {
-                it.toModel()
-            },
+            ratings = ratings.map { it.toModel() },
             playtime = playtime,
             screenshots_count = screenshots_count,
             movies_count = movies_count,

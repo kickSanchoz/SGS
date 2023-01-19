@@ -2,6 +2,7 @@ package ru.sanchozgamesstore.android.data.remote.models.platform
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import ru.sanchozgamesstore.android.data.domain.enums.ParentPlatform
 import ru.sanchozgamesstore.android.data.domain.models.platform.ParentPlatformModel
 
 /**
@@ -27,7 +28,7 @@ data class ParentPlatformApiModel(
             name = name,
             slug = slug,
             platforms = platforms?.map { it.toModel() },
-            _image = null
+            _image = ParentPlatform.getParentPlatformById(id).icon
         )
     }
 

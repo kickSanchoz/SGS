@@ -65,6 +65,8 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
 //    implementation "com.github.lisawray.groupie:groupie:2.7.1"
 //    implementation "com.github.lisawray.groupie:groupie-databinding:2.7.1"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 
 
     // Lifecycle
@@ -110,7 +112,6 @@ dependencies {
 
     //Others dependencies
     implementation "androidx.work:work-runtime-ktx:2.7.1"
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
 
     //Tests

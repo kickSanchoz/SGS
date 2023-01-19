@@ -12,6 +12,7 @@
         tools:context=".android.ui.mainStage.basket.BasketFragment">
 
         <TextView
+            style="@style/TextAppearance.S14"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/Basket" />

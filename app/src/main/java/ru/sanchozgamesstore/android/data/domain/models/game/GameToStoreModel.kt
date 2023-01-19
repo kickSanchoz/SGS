@@ -13,22 +13,35 @@ import ru.sanchozgamesstore.R
  * @param url старица игры в магазине
  * */
 data class GameToStoreModel(
-    val _id: Int?,
-    val _name: String?,
+    private val _id: Int?,
+    private val _name: String?,
     val domain: String?,
-    val _games_count: Int?,
-    val _icon: Int?,
+    private val _games_count: Int?,
+    private val _icon: Int?,
     val url: String? = null,
 ) {
+
+    /**
+     * id магазина
+     * */
     val id: Int
         get() = _id ?: -1
 
+    /**
+     * название магазина
+     * */
     val name: String
         get() = _name ?: "Unknown"
 
+    /**
+     * кол-во игр в магазине
+     * */
     val games_count: Int
         get() = _games_count ?: 0
 
+    /**
+     * иконка магазина
+     * */
     val icon: Int
-        get() = R.drawable.ic_question_mark
+        get() = _icon ?: R.drawable.ic_question_mark
 }

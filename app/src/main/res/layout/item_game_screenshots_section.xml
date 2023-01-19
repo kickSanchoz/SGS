@@ -8,25 +8,23 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".android.ui.mainStage.catalog.CatalogFragment">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <TextView
-            style="@style/TextAppearance.S14"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/Catalog" />
-
-        <Button
-            android:id="@+id/btn_toGamePage"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_screenshots"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Страница игры"
+            android:nestedScrollingEnabled="false"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_game_screenshot" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
