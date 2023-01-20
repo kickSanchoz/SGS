@@ -4,9 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import ru.sanchozgamesstore.R
 import ru.sanchozgamesstore.android.data.domain.models.game.screnshot.ScreenshotModel
-import ru.sanchozgamesstore.android.utils.getPlaceholder
+import ru.sanchozgamesstore.android.utils.defaultPictureLoadParams
 import ru.sanchozgamesstore.databinding.ItemGameScreenshotBinding
 
 class GameScreenshotAdapter :
@@ -42,9 +41,7 @@ class GameScreenshotAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(screenshot: ScreenshotModel) {
             binding.ivScreenshot.load(screenshot.image) {
-                crossfade(true)
-                placeholder(getPlaceholder(binding.root.context))
-                error(R.drawable.ic_question_mark)
+                defaultPictureLoadParams(binding.root.context)
             }
         }
     }

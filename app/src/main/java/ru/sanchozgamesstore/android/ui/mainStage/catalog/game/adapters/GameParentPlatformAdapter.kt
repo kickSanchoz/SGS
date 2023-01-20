@@ -5,8 +5,7 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import ru.sanchozgamesstore.R
-import ru.sanchozgamesstore.android.utils.getPlaceholder
+import ru.sanchozgamesstore.android.utils.defaultPictureLoadParams
 import ru.sanchozgamesstore.databinding.ItemGameParentPlatformBinding
 
 class GameParentPlatformAdapter :
@@ -44,9 +43,7 @@ class GameParentPlatformAdapter :
             val iconRes = ResourcesCompat.getDrawable(binding.root.resources, icon, null)
 
             binding.ivIcon.load(iconRes) {
-                crossfade(true)
-                placeholder(getPlaceholder(binding.root.context))
-                error(R.drawable.ic_question_mark)
+                defaultPictureLoadParams(binding.root.context)
             }
         }
     }

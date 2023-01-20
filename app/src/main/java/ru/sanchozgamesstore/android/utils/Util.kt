@@ -9,6 +9,7 @@ import androidx.annotation.IntegerRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import coil.request.ImageRequest
 import ru.sanchozgamesstore.R
 
 /**
@@ -67,4 +68,12 @@ fun RecyclerView.removeItemDecorations() {
     while (itemDecorationCount > 0) {
         removeItemDecorationAt(0)
     }
+}
+
+fun ImageRequest.Builder.defaultPictureLoadParams(
+    context: Context
+): Unit {
+    crossfade(true)
+    placeholder(getPlaceholder(context))
+    error(R.drawable.ic_question_mark)
 }

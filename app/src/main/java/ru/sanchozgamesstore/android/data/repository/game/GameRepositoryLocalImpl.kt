@@ -11,6 +11,7 @@ import ru.sanchozgamesstore.android.data.domain.response.Resource
 import ru.sanchozgamesstore.android.data.remote.models.developer.DeveloperApiModel
 import ru.sanchozgamesstore.android.data.remote.models.game.GameDetailsApiModel
 import ru.sanchozgamesstore.android.data.remote.models.game.GamePlatformApiModel
+import ru.sanchozgamesstore.android.data.remote.models.game.GameToStoreBriefApiModel
 import ru.sanchozgamesstore.android.data.remote.models.game.screenshot.ScreenshotApiModel
 import ru.sanchozgamesstore.android.data.remote.models.genre.GenreApiModel
 import ru.sanchozgamesstore.android.data.remote.models.platform.*
@@ -586,42 +587,44 @@ class GameRepositoryLocalImpl : GameRepository {
     ): Resource<List<GameToStoreModel>> {
 
         //Полученный с сервера список объектов игра_id - магазин_id
-        val gameStores = listOf<GameToStoreBriefModel>(
-            GameToStoreBriefModel(
+        val gameStores = listOf<GameToStoreBriefApiModel>(
+            GameToStoreBriefApiModel(
                 id = 290375,
                 game_id = 3498,
                 store_id = 3,
                 url = "https://store.playstation.com/en-us/product/UP1004-CUSA00419_00-GTAVDIGITALDOWNL"
             ),
-            GameToStoreBriefModel(
+            GameToStoreBriefApiModel(
                 id = 438095,
                 game_id = 3498,
                 store_id = 11,
                 url = "https://www.epicgames.com/store/en-US/product/grand-theft-auto-v/home",
             ),
-            GameToStoreBriefModel(
+            GameToStoreBriefApiModel(
                 id = 290376,
                 game_id = 3498,
                 store_id = 1,
                 url = "http://store.steampowered.com/app/271590/",
             ),
-            GameToStoreBriefModel(
+            GameToStoreBriefApiModel(
                 id = 290377,
                 game_id = 3498,
                 store_id = 7,
                 url = "https://marketplace.xbox.com/en-US/Product/GTA-V/66acd000-77fe-1000-9115-d802545408a7",
             ),
-            GameToStoreBriefModel(
+            GameToStoreBriefApiModel(
                 id = 290378,
                 game_id = 3498,
                 store_id = 2,
                 url = "https://www.microsoft.com/en-us/store/p/grand-theft-auto-v/bpj686w6s0nh?cid=msft_web_chart",
             ),
-        )
+        ).map {
+            it.toModel()
+        }
 
         //Полученный список магазинов из детальной информации об игре
-        val fakeRemoteStores = listOf(
-            StoreModel(
+        val fakeRemoteStores = listOf<StoreApiModel>(
+            StoreApiModel(
                 id = 3,
                 name = "PlayStation Store",
                 slug = "playstation-store",
@@ -629,7 +632,7 @@ class GameRepositoryLocalImpl : GameRepository {
                 games_count = 7786,
                 image_background = "https://media.rawg.io/media/games/f87/f87457e8347484033cb34cde6101d08d.jpg",
             ),
-            StoreModel(
+            StoreApiModel(
                 id = 11,
                 name = "Epic Games",
                 slug = "epic-games",
@@ -637,7 +640,7 @@ class GameRepositoryLocalImpl : GameRepository {
                 games_count = 1190,
                 image_background = "https://media.rawg.io/media/games/c80/c80bcf321da44d69b18a06c04d942662.jpg",
             ),
-            StoreModel(
+            StoreApiModel(
                 id = 1,
                 name = "Steam",
                 slug = "steam",
@@ -645,7 +648,7 @@ class GameRepositoryLocalImpl : GameRepository {
                 games_count = 70600,
                 image_background = "https://media.rawg.io/media/games/26d/26d4437715bee60138dab4a7c8c59c92.jpg",
             ),
-            StoreModel(
+            StoreApiModel(
                 id = 7,
                 name = "Xbox 360 Store",
                 slug = "xbox360",
@@ -653,7 +656,7 @@ class GameRepositoryLocalImpl : GameRepository {
                 games_count = 1911,
                 image_background = "https://media.rawg.io/media/games/120/1201a40e4364557b124392ee50317b99.jpg",
             ),
-            StoreModel(
+            StoreApiModel(
                 id = 2,
                 name = "Xbox Store",
                 slug = "xbox-store",
@@ -661,7 +664,9 @@ class GameRepositoryLocalImpl : GameRepository {
                 games_count = 4755,
                 image_background = "https://media.rawg.io/media/games/4a0/4a0a1316102366260e6f38fd2a9cfdce.jpg",
             ),
-        )
+        ).map {
+            it.toModel()
+        }
 
         val res: List<GameToStoreModel> = gameStores.map {
             val rStore = fakeRemoteStores.find { rStore ->

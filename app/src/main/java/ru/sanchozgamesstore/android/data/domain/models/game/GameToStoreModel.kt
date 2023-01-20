@@ -1,6 +1,6 @@
 package ru.sanchozgamesstore.android.data.domain.models.game
 
-import ru.sanchozgamesstore.R
+import ru.sanchozgamesstore.android.data.domain.enums.Store
 
 /**
  * Доменовская модель. Информация о магазине для конкретной игры
@@ -43,5 +43,5 @@ data class GameToStoreModel(
      * иконка магазина
      * */
     val icon: Int
-        get() = _icon ?: R.drawable.ic_question_mark
+        get() = _icon ?: Store.getStoreById(id).icon
 }
