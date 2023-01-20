@@ -10,6 +10,7 @@ import ru.sanchozgamesstore.android.base.BaseFragment
 import ru.sanchozgamesstore.android.data.domain.models.game.GameDetailsModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource.Status
 import ru.sanchozgamesstore.android.ui.customView.RatingBarView
+import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.GameMetaDataAdapter
 import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.GameParentPlatformAdapter
 import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.GameScreenshotAdapter
 import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.GameStoreAdapter
@@ -34,6 +35,9 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
     /** Адаптер магазинов */
     private var gameStoreAdapter: GameStoreAdapter? = null
 
+    /** Адаптер разделов метадаты */
+    private var gameMetaDataAdapter: GameMetaDataAdapter? = null
+
     override fun getLayoutID(): Int = R.layout.fragment_game_page
 
     override fun parseArguments() {
@@ -49,6 +53,7 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
         gameParentPlatformAdapter = GameParentPlatformAdapter()
         gameScreenshotAdapter = GameScreenshotAdapter()
         gameStoreAdapter = GameStoreAdapter()
+        gameMetaDataAdapter = GameMetaDataAdapter()
 
         binding.apply {
             //Действия над ресайклером с родительскими платформами
@@ -81,6 +86,15 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
                 removeItemDecorations()
                 addItemDecoration(HorizontalGridItemDecoration(28, 10))
             }
+
+            //Действия над ресайклером с разделами метаданных
+            rvMetaData.apply {
+                adapter = gameMetaDataAdapter
+
+                //Удалить все декораторы, если они были
+                removeItemDecorations()
+                addItemDecoration(OrientationItemDecoration(8, 0, 0))
+            }
         }
     }
 
@@ -110,6 +124,12 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
             if (it.status == Status.SUCCESS && it.data != null) {
                 //Заполнение скриншотов
                 gameScreenshotAdapter?.addAll(it.data)
+            }
+        }
+
+        viewModel.gameMetaData.observe(viewLifecycleOwner) {
+            if (it.status == Status.SUCCESS && it.data != null) {
+                gameMetaDataAdapter?.addAll(it.data)
             }
         }
     }

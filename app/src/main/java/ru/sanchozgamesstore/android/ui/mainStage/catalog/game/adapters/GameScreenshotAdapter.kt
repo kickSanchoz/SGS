@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import ru.sanchozgamesstore.android.data.domain.models.game.screnshot.ScreenshotModel
+import ru.sanchozgamesstore.android.data.domain.models.game.screenshot.ScreenshotModel
 import ru.sanchozgamesstore.android.utils.defaultPictureLoadParams
 import ru.sanchozgamesstore.databinding.ItemGameScreenshotBinding
 

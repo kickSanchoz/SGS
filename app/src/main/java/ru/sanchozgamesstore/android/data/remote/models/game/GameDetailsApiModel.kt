@@ -59,7 +59,7 @@ data class GameDetailsApiModel(
     @Json(name = DESCRIPTION) val description: String,
     @Json(name = DESCRIPTION_RAW) val description_raw: String,
     @Json(name = METACRITIC) val metacritic: Int,
-    @Json(name = METACRITIC_PLATFORMS) val metacritic_platforms: List<MetacriticPlatformApiModel>,
+    @Json(name = METACRITIC_PLATFORMS) val metacritic_platforms: List<MetacriticPlatformApiModel>?,
     @Json(name = RELEASED) val released: String,
     @Json(name = TBA) val tba: Boolean,
     @Json(name = UPDATED) val updated: String,
@@ -68,7 +68,7 @@ data class GameDetailsApiModel(
     @Json(name = WEBSITE) val website: String,
     @Json(name = RATING) val rating: Double,
     @Json(name = RATING_TOP) val rating_top: Int,
-    @Json(name = RATINGS) val ratings: List<RatingApiModel>,
+    @Json(name = RATINGS) val ratings: List<RatingApiModel>?,
     @Json(name = PLAYTIME) val playtime: Int,
     @Json(name = SCREENSHOTS_COUNT) val screenshots_count: Int,
     @Json(name = MOVIES_COUNT) val movies_count: Int,
@@ -79,13 +79,13 @@ data class GameDetailsApiModel(
     @Json(name = REVIEWS_COUNT) val reviews_count: Int,
     @Json(name = SATURATED_COLOR) val saturated_color: String,
     @Json(name = DOMINANT_COLOR) val dominant_color: String,
-    @Json(name = PARENT_PLATFORMS) val parent_platforms: List<ParentPlatformResponse>,
-    @Json(name = PLATFORMS) val platforms: List<GamePlatformApiModel>,
-    @Json(name = STORES) val stores: List<StoreResponse>,
-    @Json(name = DEVELOPERS) val developers: List<DeveloperApiModel>,
-    @Json(name = GENRES) val genres: List<GenreApiModel>,
-    @Json(name = TAGS) val tags: List<TagApiModel>,
-    @Json(name = PUBLISHERS) val publishers: List<PublisherApiModel>,
+    @Json(name = PARENT_PLATFORMS) val parent_platforms: List<ParentPlatformResponse>?,
+    @Json(name = PLATFORMS) val platforms: List<GamePlatformApiModel>?,
+    @Json(name = STORES) val stores: List<StoreResponse>?,
+    @Json(name = DEVELOPERS) val developers: List<DeveloperApiModel>?,
+    @Json(name = GENRES) val genres: List<GenreApiModel>?,
+    @Json(name = TAGS) val tags: List<TagApiModel>?,
+    @Json(name = PUBLISHERS) val publishers: List<PublisherApiModel>?,
 ) {
     fun toModel(): GameDetailsModel {
         return GameDetailsModel(
@@ -96,9 +96,9 @@ data class GameDetailsApiModel(
             description = description,
             description_raw = description_raw,
             metacritic = metacritic,
-            metacritic_platforms = metacritic_platforms.map {
+            metacritic_platforms = metacritic_platforms?.map {
                 it.toModel()
-            },
+            } ?: emptyList(),
             _released = released,
             tba = tba,
             _updated = updated,
@@ -107,7 +107,9 @@ data class GameDetailsApiModel(
             website = website,
             rating = rating,
             rating_top = rating_top,
-            ratings = ratings.map { it.toModel() },
+            ratings = ratings?.map {
+                it.toModel()
+            } ?: emptyList(),
             playtime = playtime,
             screenshots_count = screenshots_count,
             movies_count = movies_count,
@@ -118,27 +120,27 @@ data class GameDetailsApiModel(
             reviews_count = reviews_count,
             saturated_color = saturated_color,
             dominant_color = dominant_color,
-            parent_platforms = parent_platforms.map {
+            parent_platforms = parent_platforms?.map {
                 it.platform.toModel()
-            },
-            platforms = platforms.map {
+            } ?: emptyList(),
+            platforms = platforms?.map {
                 it.toModel()
-            },
-            stores = stores.map {
+            } ?: emptyList(),
+            stores = stores?.map {
                 it.store.toModel()
-            },
-            developers = developers.map {
+            } ?: emptyList(),
+            developers = developers?.map {
                 it.toModel()
-            },
-            genres = genres.map {
+            } ?: emptyList(),
+            genres = genres?.map {
                 it.toModel()
-            },
-            tags = tags.map {
+            } ?: emptyList(),
+            tags = tags?.map {
                 it.toModel()
-            },
-            publishers = publishers.map {
+            } ?: emptyList(),
+            publishers = publishers?.map {
                 it.toModel()
-            },
+            } ?: emptyList(),
         )
     }
 

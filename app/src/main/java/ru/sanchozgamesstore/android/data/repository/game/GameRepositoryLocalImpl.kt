@@ -5,7 +5,7 @@ import ru.sanchozgamesstore.android.data.domain.enums.Store
 import ru.sanchozgamesstore.android.data.domain.models.game.GameDetailsModel
 import ru.sanchozgamesstore.android.data.domain.models.game.GameToStoreBriefModel
 import ru.sanchozgamesstore.android.data.domain.models.game.GameToStoreModel
-import ru.sanchozgamesstore.android.data.domain.models.game.screnshot.ScreenshotModel
+import ru.sanchozgamesstore.android.data.domain.models.game.screenshot.ScreenshotModel
 import ru.sanchozgamesstore.android.data.domain.models.store.StoreModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
 import ru.sanchozgamesstore.android.data.remote.models.developer.DeveloperApiModel
@@ -523,6 +523,9 @@ class GameRepositoryLocalImpl : GameRepository {
         )
 
         val gameDetails = gameDetailsApi.toModel()
+
+        delay(1)
+
         return Resource.success(gameDetails)
     }
 
@@ -577,6 +580,8 @@ class GameRepositoryLocalImpl : GameRepository {
                 url = it.url,
             )
         }
+
+        delay(1)
 
         return Resource.success(res)
     }
@@ -683,6 +688,8 @@ class GameRepositoryLocalImpl : GameRepository {
                 url = it.url,
             )
         }
+
+        delay(1)
 
         return Resource.success(res)
     }

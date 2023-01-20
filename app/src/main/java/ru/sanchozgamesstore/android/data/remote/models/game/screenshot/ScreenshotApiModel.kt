@@ -2,8 +2,17 @@ package ru.sanchozgamesstore.android.data.remote.models.game.screenshot
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import ru.sanchozgamesstore.android.data.domain.models.game.screnshot.ScreenshotModel
+import ru.sanchozgamesstore.android.data.domain.models.game.screenshot.ScreenshotModel
 
+/**
+ * Серверная модель. Скриншоты игры
+ *
+ * @param id id скриншота
+ * @param image url скриншота
+ * @param width ширина скриншота
+ * @param height высота скриншота
+ * @param is_deleted (?)
+ * */
 @JsonClass(generateAdapter = true)
 data class ScreenshotApiModel(
     @Json(name = ID) val id: Int,

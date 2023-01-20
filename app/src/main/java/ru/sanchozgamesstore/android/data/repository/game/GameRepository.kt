@@ -2,7 +2,7 @@ package ru.sanchozgamesstore.android.data.repository.game
 
 import ru.sanchozgamesstore.android.data.domain.models.game.GameDetailsModel
 import ru.sanchozgamesstore.android.data.domain.models.game.GameToStoreModel
-import ru.sanchozgamesstore.android.data.domain.models.game.screnshot.ScreenshotModel
+import ru.sanchozgamesstore.android.data.domain.models.game.screenshot.ScreenshotModel
 import ru.sanchozgamesstore.android.data.domain.models.store.StoreModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
 
