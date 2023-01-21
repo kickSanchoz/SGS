@@ -1,20 +1,25 @@
 package ru.sanchozgamesstore.android.ui.mainStage.catalog.game
 
 import android.util.Log
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import coil.load
 import dagger.hilt.android.AndroidEntryPoint
 import ru.sanchozgamesstore.R
 import ru.sanchozgamesstore.android.base.BaseFragment
 import ru.sanchozgamesstore.android.data.domain.models.game.GameDetailsModel
+import ru.sanchozgamesstore.android.data.domain.response.Resource
 import ru.sanchozgamesstore.android.data.domain.response.Resource.Status
 import ru.sanchozgamesstore.android.ui.customView.RatingBarView
 import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.*
+import ru.sanchozgamesstore.android.utils.defaultPictureLoadParams
 import ru.sanchozgamesstore.android.utils.itemDecoration.HorizontalGridItemDecoration
 import ru.sanchozgamesstore.android.utils.itemDecoration.OrientationItemDecoration
 import ru.sanchozgamesstore.android.utils.reducedString
 import ru.sanchozgamesstore.android.utils.removeItemDecorations
+import ru.sanchozgamesstore.android.utils.shimmerEnabled
 import ru.sanchozgamesstore.databinding.FragmentGamePageBinding
 
 @AndroidEntryPoint
@@ -67,10 +72,10 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
                 addItemDecoration(OrientationItemDecoration(8, 16, 0))
             }
 
-            ratingBarView = RatingBarView(binding.lRatings)
+            ratingBarView = RatingBarView(binding.blockRatings.lRatings)
 
             //Действия над ресайклером со скриншотами
-            lScreenshotsSection.rvScreenshots.apply {
+            blockScreenshots.rvScreenshots.apply {
                 adapter = gameScreenshotAdapter
 
                 //Удалить все декораторы, если они были
@@ -114,14 +119,7 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
 
         viewModel.gameDetails.observe(viewLifecycleOwner) {
             Log.e("gameDetails", "$it")
-
-            if (it.status == Status.SUCCESS) {
-                it.data?.let { gameInfo ->
-                    fillGamePage(gameInfo)
-                } ?: run {
-                    //Данных нет
-                }
-            }
+            fillGamePage(it)
         }
 
         viewModel.stores.observe(viewLifecycleOwner) {
@@ -145,34 +143,72 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
         }
     }
 
-    private fun fillGamePage(gameInfo: GameDetailsModel) {
-        //Заполнение родительских платформ
-        gameParentPlatformAdapter?.addAll(gameInfo.parent_platforms.map { parentPlatform ->
-            parentPlatform.image
-        })
+    private fun fillGamePage(gameDetails: Resource<GameDetailsModel>) {
 
-        gameMetacriticAdapter?.addAll(gameInfo.metacritic_platforms)
+        setViewsVisibility(gameDetails)
+
+        if (gameDetails.status == Status.SUCCESS && gameDetails.data != null) {
+            val data = gameDetails.data
+
+            //Заполнение родительских платформ
+            gameParentPlatformAdapter?.addAll(data.parent_platforms.map { parentPlatform ->
+                parentPlatform.image
+            })
+
+            gameMetacriticAdapter?.addAll(data.metacritic_platforms)
+
+            binding.apply {
+                //Установить картинку игры
+                ivBackground.load(data.background_image) {
+                    defaultPictureLoadParams(binding.root.context)
+                }
+
+                //Установить название игры
+                blockTitle.tvTitle.text = data.name
+
+                //Установить дату релиза игры
+                binding.blockReleaseDate.tvReleaseDate.text = data.released
+
+                ratingBarView?.setRatings(data.ratingMap)
+
+                //Установить описание игры
+                blockAbout.tvAbout.text = data.description_raw
+
+                val tags = if (data.tags.isEmpty()) {
+                    null
+                } else {
+                    data.tags.map {
+                        it.name
+                    }.reduce { acc, s -> reducedString(acc, s, ", ") }
+                }
+                tvTags.text = tags
+            }
+        }
+    }
+
+    private fun setViewsVisibility(gameDetails: Resource<GameDetailsModel>) {
+        if (gameDetails.status == Status.SUCCESS && gameDetails.data == null) {
+            //Данных нет
+            return
+        }
+
+        val status = gameDetails.status
 
         binding.apply {
-            //Установить название игры
-            tvTitle.text = gameInfo.name
+            blockTitle.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
+            blockTitle.tvTitle.isVisible = status != Status.LOADING
 
-            //Установить дату релиза игры
-            tvReleaseDate.text = gameInfo.released
+            blockReleaseDate.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
+            blockReleaseDate.clReleaseDate.isVisible = status != Status.LOADING
 
-            ratingBarView?.setRatings(gameInfo.ratingMap)
+            blockRatings.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
+            blockRatings.lRatings.root.isVisible = status != Status.LOADING
 
-            //Установить описание игры
-            tvAbout.text = gameInfo.description_raw
+            blockAbout.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
+            blockAbout.llAbout.isVisible = status != Status.LOADING
 
-            val tags = if (gameInfo.tags.isEmpty()) {
-                null
-            } else {
-                gameInfo.tags.map {
-                    it.name
-                }.reduce { acc, s -> reducedString(acc, s, ", ") }
-            }
-            tvTags.text = tags
+            blockScreenshots.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
+            blockScreenshots.rvScreenshots.isVisible = status != Status.LOADING
         }
     }
 

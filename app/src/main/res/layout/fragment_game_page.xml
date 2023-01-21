@@ -73,69 +73,37 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cl_header">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_title"
+                    <include
+                        android:id="@+id/block_title"
+                        layout="@layout/block_game_title"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textAppearance="@style/TextAppearance.Bold.S24"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="@string/Dummy_GameName" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/cl_releaseDate"
+                    <include
+                        android:id="@+id/block_releaseDate"
+                        layout="@layout/block_game_release_date"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_title">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_releaseDate_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ReleaseDateColon"
-                            android:textAppearance="@style/TextAppearance.Bold.S12"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <com.google.android.material.card.MaterialCardView
-                            style="@style/DefaultCardView.Padding"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/tv_releaseDate_label"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/tv_releaseDate"
-                                style="@style/TextAppearance.S10"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                tools:text="@string/Dummy_GameReleaseDate" />
-
-                        </com.google.android.material.card.MaterialCardView>
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        app:layout_constraintTop_toBottomOf="@id/block_title" />
 
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/br_releaseDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="cl_releaseDate"
+                        app:constraint_referenced_ids="block_releaseDate"
                         tools:layout_editor_absoluteX="16dp"
                         tools:layout_editor_absoluteY="467dp" />
 
                     <include
-                        android:id="@+id/l_ratings"
-                        layout="@layout/view_rating_bar"
+                        android:id="@+id/block_ratings"
+                        layout="@layout/block_game_ratings"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
@@ -143,56 +111,33 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/br_releaseDate" />
 
-                    <LinearLayout
-                        android:id="@+id/ll_about"
+                    <include
+                        android:id="@+id/block_about"
+                        layout="@layout/block_game_about"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:layout_marginEnd="12dp"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toStartOf="@id/l_screenshotsSection"
+                        app:layout_constraintEnd_toStartOf="@id/block_screenshots"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/l_ratings">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/About"
-                            android:textAppearance="@style/TextAppearance.Bold.S14" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_about"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:ellipsize="end"
-                            android:maxLines="10"
-                            android:textAppearance="@style/TextAppearance.S10"
-                            tools:text="@string/Dummy_GameDescription" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/ReadFull" />
-
-                    </LinearLayout>
+                        app:layout_constraintTop_toBottomOf="@id/block_ratings" />
 
                     <include
-                        android:id="@+id/l_screenshotsSection"
-                        layout="@layout/item_game_screenshots_section"
+                        android:id="@+id/block_screenshots"
+                        layout="@layout/block_game_screenshots"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/ll_about"
-                        app:layout_constraintTop_toBottomOf="@id/l_ratings" />
+                        app:layout_constraintStart_toEndOf="@id/block_about"
+                        app:layout_constraintTop_toBottomOf="@id/block_ratings" />
 
                     <androidx.constraintlayout.widget.Barrier
                         android:id="@+id/br_about_screenshots"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="ll_about,l_screenshotsSection" />
+                        app:constraint_referenced_ids="block_about,block_screenshots" />
 
                     <LinearLayout
                         android:id="@+id/ll_stores"

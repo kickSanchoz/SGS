@@ -22,7 +22,6 @@ data class MetacriticPlatformModel(
     /**
      * Цвет в зависимости от рейтинга
      * */
-
     val colorByMetascore
         @ColorRes
         get() = when (metascore) {

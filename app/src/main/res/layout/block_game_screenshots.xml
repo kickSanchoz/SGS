@@ -18,13 +18,24 @@
             android:nestedScrollingEnabled="false"
             android:orientation="vertical"
             android:overScrollMode="never"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="3"
-            tools:listitem="@layout/item_game_screenshot" />
+            tools:listitem="@layout/item_game_screenshot"
+            tools:visibility="visible" />
+
+        <include
+            android:id="@+id/l_shimmer"
+            layout="@layout/shimmer_game_screenshots"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

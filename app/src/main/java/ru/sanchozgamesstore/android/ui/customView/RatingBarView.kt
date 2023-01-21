@@ -26,6 +26,14 @@ class RatingBarView(
     private var gameRatingAdapter: GameRatingAdapter? = null
 
     init {
+        binding.llRatingBar.setBackgroundColor(
+            ResourcesCompat.getColor(
+                binding.root.resources,
+                RatingSpecies.UNDEFINED.color,
+                null
+            )
+        )
+
         gameRatingAdapter = GameRatingAdapter()
 
         binding.rvRatings.apply {

@@ -6,9 +6,11 @@ import android.content.res.Resources
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import coil.request.ImageRequest
+import com.facebook.shimmer.ShimmerFrameLayout
 import ru.sanchozgamesstore.R
 
 /**
@@ -46,14 +48,42 @@ fun RecyclerView.removeItemDecorations() {
     }
 }
 
+/**
+ * Параметры по-умолчанию при загрузке изображений
+ * */
 fun ImageRequest.Builder.defaultPictureLoadParams(
     context: Context
-): Unit {
+) {
     crossfade(true)
     placeholder(getPlaceholder(context))
     error(R.drawable.ic_question_mark)
 }
 
+/**
+ * Функция для аккумулирования строки
+ *
+ * @param acc аккумулированная строка
+ * @param s строка для добавления
+ * @param delimiter разделитель строк
+ * */
 fun reducedString(acc: String, s: String, delimiter: String): String {
     return "$acc$delimiter$s"
+}
+
+/**
+ * Изменение состояние шиммера
+ *
+ * @param value включить/выключить шиммер
+ * */
+fun ShimmerFrameLayout.shimmerEnabled(value: Boolean) {
+    when (value) {
+        true -> {
+            isVisible = true
+            startShimmer()
+        }
+        false -> {
+            isVisible = false
+            stopShimmer()
+        }
+    }
 }

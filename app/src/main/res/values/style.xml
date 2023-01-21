@@ -178,6 +178,14 @@
         <item name="contentPaddingBottom">2dp</item>
     </style>
 
+    <style name="ShimmerCardView" parent="DefaultCardView">
+        <item name="cardBackgroundColor">@color/transparent</item>
+    </style>
+
+    <style name="ShimmerCardView.R4">
+        <item name="shapeAppearance">@style/DefaultShapeAppearance.R4</item>
+    </style>
+
     <!--  CardView Style   -->
 
 </resources>

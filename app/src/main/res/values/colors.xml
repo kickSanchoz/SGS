@@ -30,4 +30,7 @@
     <color name="grey3">#707070</color>
     <color name="grey4">#2D2D2D</color>
 
+    <color name="shimmer_grey_highlight">#5F5F5F</color>
+    <color name="shimmer_grey">#C2C2C2</color>
+
 </resources>
