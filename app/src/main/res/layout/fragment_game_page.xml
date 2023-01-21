@@ -50,7 +50,9 @@
                         android:id="@+id/rv_parentPlatform"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
                         android:orientation="horizontal"
+                        android:overScrollMode="never"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="@id/iv_background"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -196,7 +198,7 @@
                         android:id="@+id/ll_stores"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="12dp"
                         android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -241,11 +243,75 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
+                            android:nestedScrollingEnabled="false"
                             android:orientation="vertical"
+                            android:overScrollMode="never"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@id/gl_metaData"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:itemCount="3"
+                            tools:listitem="@layout/view_game_meta_data" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="4dp"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toStartOf="@id/gl_metaData"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Metacritic"
+                                android:textAppearance="@style/TextAppearance.Bold.S14" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_metactiric"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:nestedScrollingEnabled="false"
+                                android:orientation="vertical"
+                                android:overScrollMode="never"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                tools:itemCount="6"
+                                tools:listitem="@layout/item_game_metacritic" />
+
+                        </LinearLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/cl_metaData">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_tags_label"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/Tags"
+                            android:textAppearance="@style/TextAppearance.Bold.S14"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_tags"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textAppearance="@style/TextAppearance.S10"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tv_tags_label"
+                            tools:text="@string/Dummy_GameTags" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

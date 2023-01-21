@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.res.Resources
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.annotation.IntegerRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
@@ -39,29 +38,6 @@ fun Context.hideKeyboard(view: View) {
 }
 
 /**
- * Получить цвет в зависимости от рейтинга
- * */
-@IntegerRes
-fun getColorByRatingScore(
-    @androidx.annotation.IntRange(from = 0, to = 100) rating: Int
-): Int {
-    return when (rating) {
-        in 0..50 -> {
-            R.color.red
-        }
-        in 51..79 -> {
-            R.color.yellow
-        }
-        in 80..100 -> {
-            R.color.green
-        }
-        else -> {
-            R.color.white
-        }
-    }
-}
-
-/**
  * Удалить все декораторы ресайклера
  * */
 fun RecyclerView.removeItemDecorations() {
@@ -76,4 +52,8 @@ fun ImageRequest.Builder.defaultPictureLoadParams(
     crossfade(true)
     placeholder(getPlaceholder(context))
     error(R.drawable.ic_question_mark)
+}
+
+fun reducedString(acc: String, s: String, delimiter: String): String {
+    return "$acc$delimiter$s"
 }

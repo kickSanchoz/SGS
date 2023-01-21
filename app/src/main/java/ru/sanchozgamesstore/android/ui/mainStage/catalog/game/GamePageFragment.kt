@@ -10,12 +10,10 @@ import ru.sanchozgamesstore.android.base.BaseFragment
 import ru.sanchozgamesstore.android.data.domain.models.game.GameDetailsModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource.Status
 import ru.sanchozgamesstore.android.ui.customView.RatingBarView
-import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.GameMetaDataAdapter
-import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.GameParentPlatformAdapter
-import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.GameScreenshotAdapter
-import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.GameStoreAdapter
+import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.*
 import ru.sanchozgamesstore.android.utils.itemDecoration.HorizontalGridItemDecoration
 import ru.sanchozgamesstore.android.utils.itemDecoration.OrientationItemDecoration
+import ru.sanchozgamesstore.android.utils.reducedString
 import ru.sanchozgamesstore.android.utils.removeItemDecorations
 import ru.sanchozgamesstore.databinding.FragmentGamePageBinding
 
@@ -38,6 +36,9 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
     /** Адаптер разделов метадаты */
     private var gameMetaDataAdapter: GameMetaDataAdapter? = null
 
+    /** Адаптер оценок метакритики по каждой платформе */
+    private var gameMetacriticAdapter: GameMetacriticAdapter? = null
+
     override fun getLayoutID(): Int = R.layout.fragment_game_page
 
     override fun parseArguments() {
@@ -54,6 +55,7 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
         gameScreenshotAdapter = GameScreenshotAdapter()
         gameStoreAdapter = GameStoreAdapter()
         gameMetaDataAdapter = GameMetaDataAdapter()
+        gameMetacriticAdapter = GameMetacriticAdapter()
 
         binding.apply {
             //Действия над ресайклером с родительскими платформами
@@ -94,6 +96,15 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
                 //Удалить все декораторы, если они были
                 removeItemDecorations()
                 addItemDecoration(OrientationItemDecoration(8, 0, 0))
+            }
+
+            //Действия над ресайклером с оценками игры от метакритики по каждом платформе
+            rvMetactiric.apply {
+                adapter = gameMetacriticAdapter
+
+                //Удалить все декораторы, если они были
+                removeItemDecorations()
+                addItemDecoration(OrientationItemDecoration(4, 0, 0))
             }
         }
     }
@@ -140,6 +151,8 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
             parentPlatform.image
         })
 
+        gameMetacriticAdapter?.addAll(gameInfo.metacritic_platforms)
+
         binding.apply {
             //Установить название игры
             tvTitle.text = gameInfo.name
@@ -151,6 +164,15 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
 
             //Установить описание игры
             tvAbout.text = gameInfo.description_raw
+
+            val tags = if (gameInfo.tags.isEmpty()) {
+                null
+            } else {
+                gameInfo.tags.map {
+                    it.name
+                }.reduce { acc, s -> reducedString(acc, s, ", ") }
+            }
+            tvTags.text = tags
         }
     }
 

@@ -18,6 +18,7 @@ import ru.sanchozgamesstore.android.data.domain.models.publisher.PublisherModel
 import ru.sanchozgamesstore.android.data.domain.models.store.StoreModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
 import ru.sanchozgamesstore.android.data.repository.game.GameRepository
+import ru.sanchozgamesstore.android.utils.reducedString
 import javax.inject.Inject
 
 @HiltViewModel
@@ -152,7 +153,7 @@ class GamePageViewModel @Inject constructor(
         return if (this.isEmpty() ) {
             null
         } else {
-            this.reduce { acc, s -> reducedString(acc, s) }
+            this.reduce { acc, s -> reducedString(acc, s, DELIMITER_NEWLINE) }
         }
     }
 
@@ -240,11 +241,6 @@ class GamePageViewModel @Inject constructor(
 
     companion object {
         private const val DELIMITER_NEWLINE = ",\n"
-
-
-        fun reducedString(acc: String, s: String): String {
-            return "$acc$DELIMITER_NEWLINE$s"
-        }
     }
 
 }
