@@ -46,19 +46,14 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_parentPlatform"
+                    <include
+                        android:id="@+id/block_parentPlatform"
+                        layout="@layout/block_game_parent_platform"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
-                        android:orientation="horizontal"
-                        android:overScrollMode="never"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintBottom_toBottomOf="@id/iv_background"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        tools:ignore="SpeakableTextPresentCheck"
-                        tools:listitem="@layout/item_game_parent_platform" />
+                        app:layout_constraintStart_toStartOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -139,33 +134,15 @@
                         app:barrierDirection="bottom"
                         app:constraint_referenced_ids="block_about,block_screenshots" />
 
-                    <LinearLayout
-                        android:id="@+id/ll_stores"
+                    <include
+                        android:id="@+id/block_stores"
+                        layout="@layout/block_game_stores"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/br_about_screenshots">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/WhereToBuy"
-                            android:textAppearance="@style/TextAppearance.Bold.S14" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_stores"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:nestedScrollingEnabled="false"
-                            android:overScrollMode="never"
-                            tools:itemCount="5"
-                            tools:listitem="@layout/item_game_store" />
-
-                    </LinearLayout>
+                        app:layout_constraintTop_toBottomOf="@id/br_about_screenshots" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cl_metaData"
@@ -174,91 +151,46 @@
                         android:layout_marginTop="12dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ll_stores">
+                        app:layout_constraintTop_toBottomOf="@id/block_stores">
 
                         <androidx.constraintlayout.widget.Guideline
-                            android:id="@+id/gl_metaData"
+                            android:id="@+id/gl_metadata"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             app:layout_constraintGuide_percent="0.5" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_metaData"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:nestedScrollingEnabled="false"
-                            android:orientation="vertical"
-                            android:overScrollMode="never"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/gl_metaData"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:itemCount="3"
-                            tools:listitem="@layout/view_game_meta_data" />
-
-                        <LinearLayout
+                        <include
+                            android:id="@+id/block_metacritic"
+                            layout="@layout/block_game_metacritic"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="4dp"
-                            android:orientation="vertical"
-                            app:layout_constraintEnd_toStartOf="@id/gl_metaData"
+                            app:layout_constraintEnd_toStartOf="@id/gl_metadata"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                            <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="@string/Metacritic"
-                                android:textAppearance="@style/TextAppearance.Bold.S14" />
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/rv_metactiric"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:nestedScrollingEnabled="false"
-                                android:orientation="vertical"
-                                android:overScrollMode="never"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                tools:itemCount="6"
-                                tools:listitem="@layout/item_game_metacritic" />
-
-                        </LinearLayout>
+                        <include
+                            android:id="@+id/block_metadata"
+                            layout="@layout/block_game_metadata"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/gl_metadata"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <include
+                        android:id="@+id/block_tags"
+                        layout="@layout/block_game_tags"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/cl_metaData">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_tags_label"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/Tags"
-                            android:textAppearance="@style/TextAppearance.Bold.S14"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/tv_tags"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:textAppearance="@style/TextAppearance.S10"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tv_tags_label"
-                            tools:text="@string/Dummy_GameTags" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        app:layout_constraintTop_toBottomOf="@id/cl_metaData" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

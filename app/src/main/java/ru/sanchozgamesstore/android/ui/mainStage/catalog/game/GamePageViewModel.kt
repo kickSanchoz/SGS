@@ -1,17 +1,18 @@
 package ru.sanchozgamesstore.android.ui.mainStage.catalog.game
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import ru.sanchozgamesstore.android.data.domain.enums.GameMetaDataSection
+import ru.sanchozgamesstore.android.data.domain.enums.GameMetadataSection
 import ru.sanchozgamesstore.android.data.domain.models.developer.DeveloperModel
 import ru.sanchozgamesstore.android.data.domain.models.game.GameDetailsModel
 import ru.sanchozgamesstore.android.data.domain.models.game.GamePlatformModel
 import ru.sanchozgamesstore.android.data.domain.models.game.GameToStoreModel
-import ru.sanchozgamesstore.android.data.domain.models.game.metaData.GameMetaData
+import ru.sanchozgamesstore.android.data.domain.models.game.metadata.GameMetadata
 import ru.sanchozgamesstore.android.data.domain.models.game.screenshot.ScreenshotModel
 import ru.sanchozgamesstore.android.data.domain.models.genre.GenreModel
 import ru.sanchozgamesstore.android.data.domain.models.publisher.PublisherModel
@@ -31,6 +32,7 @@ class GamePageViewModel @Inject constructor(
      * */
     val gameId = MutableLiveData<Int>().apply {
         observeForever {
+            Log.e("gameId", "bump")
             getGameDetails(it)
         }
     }
@@ -56,21 +58,21 @@ class GamePageViewModel @Inject constructor(
         val data = details.data
 
         val res = if (details.status == Resource.Status.SUCCESS && data != null) {
-            listOf<GameMetaData>(
-                GameMetaData(
-                    header = GameMetaDataSection.PLATFORMS,
+            listOf<GameMetadata>(
+                GameMetadata(
+                    header = GameMetadataSection.PLATFORMS,
                     sequence = platformsToSequence(data.platforms)
                 ),
-                GameMetaData(
-                    header = GameMetaDataSection.GENRES,
+                GameMetadata(
+                    header = GameMetadataSection.GENRES,
                     sequence = genresToSequence(data.genres)
                 ),
-                GameMetaData(
-                    header = GameMetaDataSection.DEVELOPERS,
+                GameMetadata(
+                    header = GameMetadataSection.DEVELOPERS,
                     sequence = developersToSequence(data.developers)
                 ),
-                GameMetaData(
-                    header = GameMetaDataSection.PUBLISHERS,
+                GameMetadata(
+                    header = GameMetadataSection.PUBLISHERS,
                     sequence = publishersToSequence(data.publishers)
                 ),
             )
@@ -150,7 +152,7 @@ class GamePageViewModel @Inject constructor(
      * @return null, если пустой список, иначе преобразованную строку
      * */
     private fun List<String>.toSequence(): String? {
-        return if (this.isEmpty() ) {
+        return if (this.isEmpty()) {
             null
         } else {
             this.reduce { acc, s -> reducedString(acc, s, DELIMITER_NEWLINE) }

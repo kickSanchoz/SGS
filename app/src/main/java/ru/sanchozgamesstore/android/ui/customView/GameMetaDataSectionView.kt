@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import ru.sanchozgamesstore.R
 import ru.sanchozgamesstore.android.base.BaseViewItem
-import ru.sanchozgamesstore.android.data.domain.models.game.metaData.GameMetaData
+import ru.sanchozgamesstore.android.data.domain.models.game.metadata.GameMetadata
 import ru.sanchozgamesstore.databinding.ViewGameMetaDataBinding
 
 class GameMetaDataSectionView(
@@ -16,7 +16,7 @@ class GameMetaDataSectionView(
      *
      * @param section данные раздела метаданных
      * */
-    fun setSectionData(section: GameMetaData) {
+    fun setSectionData(section: GameMetadata) {
         binding.apply {
             tvTitle.text = root.context.getString(section.header.title)
 

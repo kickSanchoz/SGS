@@ -3,12 +3,12 @@ package ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ru.sanchozgamesstore.android.data.domain.models.game.metaData.GameMetaData
+import ru.sanchozgamesstore.android.data.domain.models.game.metadata.GameMetadata
 import ru.sanchozgamesstore.android.ui.customView.GameMetaDataSectionView
 
 class GameMetaDataAdapter : RecyclerView.Adapter<GameMetaDataAdapter.GameMetaDataViewHolder>() {
 
-    private val sectionList = mutableListOf<GameMetaData>()
+    private val sectionList = mutableListOf<GameMetadata>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameMetaDataViewHolder {
         return GameMetaDataViewHolder(
@@ -29,7 +29,7 @@ class GameMetaDataAdapter : RecyclerView.Adapter<GameMetaDataAdapter.GameMetaDat
     /**
      * Добавлить разделы в адаптер
      * */
-    fun addAll(sections: List<GameMetaData>) {
+    fun addAll(sections: List<GameMetadata>) {
         sectionList.clear()
         sectionList.addAll(sections)
         notifyDataSetChanged()
@@ -37,7 +37,7 @@ class GameMetaDataAdapter : RecyclerView.Adapter<GameMetaDataAdapter.GameMetaDat
 
     class GameMetaDataViewHolder(private val binding: GameMetaDataSectionView) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(section: GameMetaData) {
+        fun bind(section: GameMetadata) {
             binding.setSectionData(section)
         }
     }

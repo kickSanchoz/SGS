@@ -5,7 +5,7 @@ import ru.sanchozgamesstore.R
 /**
  * Доступные разделы метаданных
  * */
-enum class GameMetaDataSection {
+enum class GameMetadataSection {
     PLATFORMS {
         override val title: Int = R.string.Platforms
     },

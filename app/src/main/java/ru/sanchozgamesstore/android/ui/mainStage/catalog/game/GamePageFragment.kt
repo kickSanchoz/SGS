@@ -64,7 +64,7 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
 
         binding.apply {
             //Действия над ресайклером с родительскими платформами
-            rvParentPlatform.apply {
+            blockParentPlatform.rvParentPlatform.apply {
                 adapter = gameParentPlatformAdapter
 
                 //Удалить все декораторы, если они были
@@ -84,7 +84,7 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
             }
 
             //Действия над ресайклером с интернет-магазинами
-            rvStores.apply {
+            blockStores.rvStores.apply {
                 adapter = gameStoreAdapter
 
                 layoutManager = GridLayoutManager(context, STORE_SPAN_COUNT)
@@ -94,22 +94,22 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
                 addItemDecoration(HorizontalGridItemDecoration(28, 10))
             }
 
-            //Действия над ресайклером с разделами метаданных
-            rvMetaData.apply {
-                adapter = gameMetaDataAdapter
-
-                //Удалить все декораторы, если они были
-                removeItemDecorations()
-                addItemDecoration(OrientationItemDecoration(8, 0, 0))
-            }
-
             //Действия над ресайклером с оценками игры от метакритики по каждом платформе
-            rvMetactiric.apply {
+            blockMetacritic.rvMetactiric.apply {
                 adapter = gameMetacriticAdapter
 
                 //Удалить все декораторы, если они были
                 removeItemDecorations()
                 addItemDecoration(OrientationItemDecoration(4, 0, 0))
+            }
+
+            //Действия над ресайклером с разделами метаданных
+            blockMetadata.rvMetadata.apply {
+                adapter = gameMetaDataAdapter
+
+                //Удалить все декораторы, если они были
+                removeItemDecorations()
+                addItemDecoration(OrientationItemDecoration(8, 0, 0))
             }
         }
     }
@@ -118,12 +118,12 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
         super.observeData()
 
         viewModel.gameDetails.observe(viewLifecycleOwner) {
-            Log.e("gameDetails", "$it")
+            Log.d("gameDetails", "$it")
             fillGamePage(it)
         }
 
         viewModel.stores.observe(viewLifecycleOwner) {
-            Log.e("stores", "$it")
+            Log.d("stores", "$it")
             if (it.status == Status.SUCCESS && !it.data.isNullOrEmpty()) {
                 gameStoreAdapter?.addAll(it.data)
             }
@@ -181,7 +181,7 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
                         it.name
                     }.reduce { acc, s -> reducedString(acc, s, ", ") }
                 }
-                tvTags.text = tags
+                blockTags.tvTags.text = tags
             }
         }
     }
@@ -195,6 +195,9 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
         val status = gameDetails.status
 
         binding.apply {
+            blockParentPlatform.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
+            blockParentPlatform.rvParentPlatform.isVisible = status != Status.LOADING
+
             blockTitle.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
             blockTitle.tvTitle.isVisible = status != Status.LOADING
 
@@ -209,6 +212,18 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
 
             blockScreenshots.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
             blockScreenshots.rvScreenshots.isVisible = status != Status.LOADING
+
+            blockStores.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
+            blockStores.llStores.isVisible = status != Status.LOADING
+
+            blockMetacritic.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
+            blockMetacritic.llMetacritic.isVisible = status != Status.LOADING
+
+            blockMetadata.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
+            blockMetadata.rvMetadata.isVisible = status != Status.LOADING
+
+            blockTags.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
+            blockTags.llTags.isVisible = status != Status.LOADING
         }
     }
 
