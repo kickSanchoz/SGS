@@ -1,6 +1,5 @@
 package ru.sanchozgamesstore.android.ui.mainStage.catalog.game
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
@@ -32,7 +31,6 @@ class GamePageViewModel @Inject constructor(
      * */
     val gameId = MutableLiveData<Int>().apply {
         observeForever {
-            Log.e("gameId", "bump")
             getGameDetails(it)
         }
     }

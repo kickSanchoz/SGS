@@ -37,7 +37,7 @@
                     android:background="@drawable/shimmer_background" />
 
                 <View
-                    android:layout_width="10dp"
+                    android:layout_width="28dp"
                     android:layout_height="match_parent" />
 
                 <View
@@ -61,7 +61,7 @@
                     android:background="@drawable/shimmer_background" />
 
                 <View
-                    android:layout_width="10dp"
+                    android:layout_width="28dp"
                     android:layout_height="match_parent" />
 
                 <View

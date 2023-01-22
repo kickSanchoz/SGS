@@ -18,6 +18,7 @@
     <string name="Publishers">Publishers</string>
     <string name="Metacritic">Metacritic</string>
     <string name="Tags">Tags</string>
+    <string name="ViewAll">view all</string>
 
     <string name="Dummy_GameName">Game title</string>
     <string name="Dummy_GameReleaseDate">01.01.1977</string>

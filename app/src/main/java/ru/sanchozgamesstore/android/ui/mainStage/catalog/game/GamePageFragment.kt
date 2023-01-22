@@ -10,6 +10,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.sanchozgamesstore.R
 import ru.sanchozgamesstore.android.base.BaseFragment
 import ru.sanchozgamesstore.android.data.domain.models.game.GameDetailsModel
+import ru.sanchozgamesstore.android.data.domain.models.game.GameToStoreModel
+import ru.sanchozgamesstore.android.data.domain.models.game.screenshot.ScreenshotModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
 import ru.sanchozgamesstore.android.data.domain.response.Resource.Status
 import ru.sanchozgamesstore.android.ui.customView.RatingBarView
@@ -39,7 +41,7 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
     private var gameStoreAdapter: GameStoreAdapter? = null
 
     /** Адаптер разделов метадаты */
-    private var gameMetaDataAdapter: GameMetaDataAdapter? = null
+    private var gameMetadataAdapter: GameMetadataAdapter? = null
 
     /** Адаптер оценок метакритики по каждой платформе */
     private var gameMetacriticAdapter: GameMetacriticAdapter? = null
@@ -57,9 +59,11 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
         super.setUpViews()
 
         gameParentPlatformAdapter = GameParentPlatformAdapter()
-        gameScreenshotAdapter = GameScreenshotAdapter()
+        gameScreenshotAdapter = GameScreenshotAdapter().apply {
+            setCutCount(3)
+        }
         gameStoreAdapter = GameStoreAdapter()
-        gameMetaDataAdapter = GameMetaDataAdapter()
+        gameMetadataAdapter = GameMetadataAdapter()
         gameMetacriticAdapter = GameMetacriticAdapter()
 
         binding.apply {
@@ -105,7 +109,7 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
 
             //Действия над ресайклером с разделами метаданных
             blockMetadata.rvMetadata.apply {
-                adapter = gameMetaDataAdapter
+                adapter = gameMetadataAdapter
 
                 //Удалить все декораторы, если они были
                 removeItemDecorations()
@@ -124,28 +128,26 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
 
         viewModel.stores.observe(viewLifecycleOwner) {
             Log.d("stores", "$it")
-            if (it.status == Status.SUCCESS && !it.data.isNullOrEmpty()) {
-                gameStoreAdapter?.addAll(it.data)
-            }
+            fillStoresBlock(it)
         }
 
         viewModel.screenshots.observe(viewLifecycleOwner) {
-            if (it.status == Status.SUCCESS && it.data != null) {
-                //Заполнение скриншотов
-                gameScreenshotAdapter?.addAll(it.data)
-            }
+            fillScreenshotsBlock(it)
         }
 
         viewModel.gameMetaData.observe(viewLifecycleOwner) {
             if (it.status == Status.SUCCESS && it.data != null) {
-                gameMetaDataAdapter?.addAll(it.data)
+                gameMetadataAdapter?.addAll(it.data)
             }
         }
     }
 
+    /**
+     * Заполнить блоки, зависящие от gameDetails
+     * */
     private fun fillGamePage(gameDetails: Resource<GameDetailsModel>) {
 
-        setViewsVisibility(gameDetails)
+        setMainViewsVisibility(gameDetails)
 
         if (gameDetails.status == Status.SUCCESS && gameDetails.data != null) {
             val data = gameDetails.data
@@ -186,7 +188,10 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
         }
     }
 
-    private fun setViewsVisibility(gameDetails: Resource<GameDetailsModel>) {
+    /**
+     * Установить видимости вью, зависящих от gameDetails
+     * */
+    private fun setMainViewsVisibility(gameDetails: Resource<GameDetailsModel>) {
         if (gameDetails.status == Status.SUCCESS && gameDetails.data == null) {
             //Данных нет
             return
@@ -210,12 +215,6 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
             blockAbout.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
             blockAbout.llAbout.isVisible = status != Status.LOADING
 
-            blockScreenshots.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
-            blockScreenshots.rvScreenshots.isVisible = status != Status.LOADING
-
-            blockStores.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
-            blockStores.llStores.isVisible = status != Status.LOADING
-
             blockMetacritic.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
             blockMetacritic.llMetacritic.isVisible = status != Status.LOADING
 
@@ -227,12 +226,60 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
         }
     }
 
+    /**
+     * Заполнение блока скриншотов
+     * */
+    private fun fillScreenshotsBlock(screenshots: Resource<List<ScreenshotModel>>) {
+
+        val status = screenshots.status
+
+        binding.apply {
+            blockScreenshots.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
+            blockScreenshots.rvScreenshots.isVisible = status != Status.LOADING
+        }
+
+        if (screenshots.status == Status.SUCCESS) {
+            screenshots.data?.let { data ->
+                //Заполнение скриншотов
+                gameScreenshotAdapter?.addAll(data)
+            } ?: run {
+                //Данных нет
+                return
+            }
+        }
+    }
+
+    /**
+     * Заполнение блока магазинов
+     * */
+    private fun fillStoresBlock(stores: Resource<List<GameToStoreModel>>) {
+        val status = stores.status
+
+        binding.apply {
+            blockStores.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
+            blockStores.llStores.isVisible = status != Status.LOADING
+        }
+
+        if (stores.status == Status.SUCCESS) {
+            stores.data?.let { data ->
+                //Заполнение магазинов
+                gameStoreAdapter?.addAll(data)
+            } ?: run {
+                //Данных нет
+                return
+            }
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
 
         gameParentPlatformAdapter = null
         ratingBarView = null
         gameScreenshotAdapter = null
+        gameStoreAdapter = null
+        gameMetacriticAdapter = null
+        gameMetadataAdapter = null
     }
 
     companion object {
