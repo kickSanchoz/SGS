@@ -1,5 +1,6 @@
 package ru.sanchozgamesstore.android.ui.mainStage.catalog.game
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
@@ -27,11 +28,21 @@ class GamePageViewModel @Inject constructor(
 ) : ViewModel() {
 
     /**
+     * Костылик :)
+     *
+     * Сохранённый id игры, для проверки при перезаходе на фрагмент (чтобы заново не вызывать методы)
+     * */
+    private var savedGameId: Int? = null
+
+    /**
      * Id игры
      * */
     val gameId = MutableLiveData<Int>().apply {
         observeForever {
-            getGameDetails(it)
+            if (it != savedGameId) {
+                savedGameId = it
+                getGameDetails(it)
+            }
         }
     }
 
@@ -238,6 +249,11 @@ class GamePageViewModel @Inject constructor(
     }
 
     //---------------------------------Доп. методы---------------------------------
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.e("ViewModel", "onCleared: ")
+    }
 
     companion object {
         private const val DELIMITER_NEWLINE = ",\n"

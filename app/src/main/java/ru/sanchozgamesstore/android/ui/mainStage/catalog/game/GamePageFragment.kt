@@ -17,8 +17,8 @@ import ru.sanchozgamesstore.android.data.domain.response.Resource.Status
 import ru.sanchozgamesstore.android.ui.customView.RatingBarView
 import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.*
 import ru.sanchozgamesstore.android.utils.defaultPictureLoadParams
-import ru.sanchozgamesstore.android.utils.itemDecoration.HorizontalGridItemDecoration
 import ru.sanchozgamesstore.android.utils.itemDecoration.OrientationItemDecoration
+import ru.sanchozgamesstore.android.utils.itemDecoration.VerticalGridItemDecoration
 import ru.sanchozgamesstore.android.utils.reducedString
 import ru.sanchozgamesstore.android.utils.removeItemDecorations
 import ru.sanchozgamesstore.android.utils.shimmerEnabled
@@ -95,7 +95,7 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
 
                 //Удалить все декораторы, если они были
                 removeItemDecorations()
-                addItemDecoration(HorizontalGridItemDecoration(28, 10))
+                addItemDecoration(VerticalGridItemDecoration(28, 10))
             }
 
             //Действия над ресайклером с оценками игры от метакритики по каждом платформе

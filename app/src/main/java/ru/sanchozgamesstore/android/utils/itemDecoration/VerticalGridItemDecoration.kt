@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.sanchozgamesstore.android.utils.px
 import kotlin.math.ceil
 
-class HorizontalGridItemDecoration(
+class VerticalGridItemDecoration(
     horizontalSpace: Int = 0,
     verticalSpace: Int = 0,
 ) : RecyclerView.ItemDecoration() {
