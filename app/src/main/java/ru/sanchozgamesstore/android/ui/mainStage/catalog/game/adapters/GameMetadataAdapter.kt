@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.sanchozgamesstore.android.data.domain.models.game.metadata.GameMetadata
-import ru.sanchozgamesstore.android.ui.customView.GameMetaDataSectionView
+import ru.sanchozgamesstore.android.ui.customView.GameMetaDataSectionViewItem
 
 class GameMetadataAdapter : RecyclerView.Adapter<GameMetadataAdapter.GameMetadataViewHolder>() {
 
@@ -12,7 +12,7 @@ class GameMetadataAdapter : RecyclerView.Adapter<GameMetadataAdapter.GameMetadat
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameMetadataViewHolder {
         return GameMetadataViewHolder(
-            GameMetaDataSectionView.bind(
+            GameMetaDataSectionViewItem.bind(
                 LayoutInflater.from(parent.context)
             )
         )
@@ -35,7 +35,7 @@ class GameMetadataAdapter : RecyclerView.Adapter<GameMetadataAdapter.GameMetadat
         notifyDataSetChanged()
     }
 
-    class GameMetadataViewHolder(private val binding: GameMetaDataSectionView) :
+    class GameMetadataViewHolder(private val binding: GameMetaDataSectionViewItem) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(section: GameMetadata) {
             binding.setSectionData(section)

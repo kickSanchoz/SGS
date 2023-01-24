@@ -13,7 +13,7 @@
 
         <include
             android:id="@+id/l_ratings"
-            layout="@layout/view_rating_bar"
+            layout="@layout/view_item_rating_bar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:visibility="gone"

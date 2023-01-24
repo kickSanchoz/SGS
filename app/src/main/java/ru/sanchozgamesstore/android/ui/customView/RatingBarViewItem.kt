@@ -14,11 +14,11 @@ import ru.sanchozgamesstore.android.data.domain.enums.RatingSpecies
 import ru.sanchozgamesstore.android.data.domain.models.rating.RatingMap
 import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.GameRatingAdapter
 import ru.sanchozgamesstore.android.utils.removeItemDecorations
-import ru.sanchozgamesstore.databinding.ViewRatingBarBinding
+import ru.sanchozgamesstore.databinding.ViewItemRatingBarBinding
 
-class RatingBarView(
-    binding: ViewRatingBarBinding,
-) : BaseViewItem<ViewRatingBarBinding>(binding) {
+class RatingBarViewItem(
+    binding: ViewItemRatingBarBinding,
+) : BaseViewItem<ViewItemRatingBarBinding>(binding) {
 
     /**
      * Адаптер для перечисления рейтингов под полоской рейтинга

@@ -5,11 +5,11 @@ import androidx.core.view.isVisible
 import ru.sanchozgamesstore.R
 import ru.sanchozgamesstore.android.base.BaseViewItem
 import ru.sanchozgamesstore.android.data.domain.models.game.metadata.GameMetadata
-import ru.sanchozgamesstore.databinding.ViewGameMetaDataBinding
+import ru.sanchozgamesstore.databinding.ViewItemGameMetaDataBinding
 
-class GameMetaDataSectionView(
-    binding: ViewGameMetaDataBinding
-) : BaseViewItem<ViewGameMetaDataBinding>(binding) {
+class GameMetaDataSectionViewItem(
+    binding: ViewItemGameMetaDataBinding
+) : BaseViewItem<ViewItemGameMetaDataBinding>(binding) {
 
     /**
      * Установить раздел метаданных
@@ -28,10 +28,10 @@ class GameMetaDataSectionView(
     }
 
     companion object {
-        fun bind(layoutInflater: LayoutInflater): GameMetaDataSectionView {
+        fun bind(layoutInflater: LayoutInflater): GameMetaDataSectionViewItem {
             return bind(
                 layoutInflater,
-                R.layout.view_game_meta_data
+                R.layout.view_item_game_meta_data
             )
         }
     }

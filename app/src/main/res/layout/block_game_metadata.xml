@@ -24,7 +24,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:itemCount="3"
-            tools:listitem="@layout/view_game_meta_data"
+            tools:listitem="@layout/view_item_game_meta_data"
             tools:visibility="visible" />
 
         <include

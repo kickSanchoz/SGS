@@ -14,7 +14,7 @@ import ru.sanchozgamesstore.android.data.domain.models.game.GameToStoreModel
 import ru.sanchozgamesstore.android.data.domain.models.game.screenshot.ScreenshotModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
 import ru.sanchozgamesstore.android.data.domain.response.Resource.Status
-import ru.sanchozgamesstore.android.ui.customView.RatingBarView
+import ru.sanchozgamesstore.android.ui.customView.RatingBarViewItem
 import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.*
 import ru.sanchozgamesstore.android.utils.defaultPictureLoadParams
 import ru.sanchozgamesstore.android.utils.itemDecoration.OrientationItemDecoration
@@ -29,7 +29,8 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
 
     private val viewModel: GamePageViewModel by viewModels()
 
-    private var ratingBarView: RatingBarView? = null
+    /** Кастомное представление полоски рейтинга */
+    private var ratingBarViewItem: RatingBarViewItem? = null
 
     /** Адаптер родительских платформ */
     private var gameParentPlatformAdapter: GameParentPlatformAdapter? = null
@@ -76,7 +77,7 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
                 addItemDecoration(OrientationItemDecoration(8, 16, 0))
             }
 
-            ratingBarView = RatingBarView(binding.blockRatings.lRatings)
+            ratingBarViewItem = RatingBarViewItem(binding.blockRatings.lRatings)
 
             //Действия над ресайклером со скриншотами
             blockScreenshots.rvScreenshots.apply {
@@ -171,7 +172,7 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
                 //Установить дату релиза игры
                 binding.blockReleaseDate.tvReleaseDate.text = data.released
 
-                ratingBarView?.setRatings(data.ratingMap)
+                ratingBarViewItem?.setRatings(data.ratingMap)
 
                 //Установить описание игры
                 blockAbout.tvAbout.text = data.description_raw
@@ -275,7 +276,7 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
         super.onDestroyView()
 
         gameParentPlatformAdapter = null
-        ratingBarView = null
+        ratingBarViewItem = null
         gameScreenshotAdapter = null
         gameStoreAdapter = null
         gameMetacriticAdapter = null
