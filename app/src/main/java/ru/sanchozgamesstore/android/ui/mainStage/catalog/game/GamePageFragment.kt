@@ -3,6 +3,7 @@ package ru.sanchozgamesstore.android.ui.mainStage.catalog.game
 import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
@@ -15,6 +16,8 @@ import ru.sanchozgamesstore.android.data.domain.models.game.screenshot.Screensho
 import ru.sanchozgamesstore.android.data.domain.response.Resource
 import ru.sanchozgamesstore.android.data.domain.response.Resource.Status
 import ru.sanchozgamesstore.android.ui.customView.RatingBarViewItem
+import ru.sanchozgamesstore.android.ui.gallery.dialog.GalleryDialogFragment
+import ru.sanchozgamesstore.android.ui.gallery.dialog.GalleryDialogFragment.Companion.getBundle
 import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.*
 import ru.sanchozgamesstore.android.utils.defaultPictureLoadParams
 import ru.sanchozgamesstore.android.utils.itemDecoration.OrientationItemDecoration
@@ -61,6 +64,7 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
 
         gameParentPlatformAdapter = GameParentPlatformAdapter()
         gameScreenshotAdapter = GameScreenshotAdapter().apply {
+            //TODO вынести в const val
             setCutCount(3)
         }
         gameStoreAdapter = GameStoreAdapter()
@@ -134,6 +138,30 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
 
         viewModel.screenshots.observe(viewLifecycleOwner) {
             fillScreenshotsBlock(it)
+
+            if (it.status == Status.SUCCESS && it.data != null) {
+                gameScreenshotAdapter?.apply {
+                    //Действие при клике на скриншот
+                    setOnScreenshotClickListener { pos ->
+                        GalleryDialogFragment().apply {
+                            arguments = getBundle(
+                                galleryItems = it.data,
+                                selectedItem = pos
+                            )
+                        }.show(childFragmentManager, null)
+                    }
+
+                    //Действие при клике на скриншот-декорацию
+                    setOnViewAllClickListener {
+                        val action =
+                            GamePageFragmentDirections.actionGamePageFragmentToGalleryFragment(
+                                galleryItems = it.data.toTypedArray(),
+                                title = viewModel.gameDetails.value?.data?.name //TODO отдельный метод во viewmodel
+                            )
+                        findNavController().navigate(action)
+                    }
+                }
+            }
         }
 
         viewModel.gameMetaData.observe(viewLifecycleOwner) {

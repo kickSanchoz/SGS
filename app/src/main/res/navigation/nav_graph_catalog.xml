@@ -14,6 +14,7 @@
             android:id="@+id/action_catalogFragment_to_gamePageFragment"
             app:destination="@id/gamePageFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/gamePageFragment"
         android:name="ru.sanchozgamesstore.android.ui.mainStage.catalog.game.GamePageFragment"
@@ -23,5 +24,23 @@
             android:name="gameId"
             android:defaultValue="-1"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_gamePageFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="ru.sanchozgamesstore.android.ui.gallery.GalleryFragment"
+        android:label="GalleryFragment">
+        <argument
+            android:name="galleryItems"
+            app:argType="ru.sanchozgamesstore.android.data.domain.models.game.screenshot.ScreenshotModel[]" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+
 </navigation>

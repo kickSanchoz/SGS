@@ -20,6 +20,51 @@ class GameScreenshotAdapter :
      * */
     private var cutCount: Int = CUT_COUNT
 
+    /**
+     * Действие при клике на скриншот
+     * */
+    private var onScreenshotClickListener: ((position: Int) -> Unit)? = null
+
+    /**
+     * Действие при клике на скриншот-декорацию
+     * */
+    private var onViewAllClickListener: (() -> Unit)? = null
+
+    /**
+     * Добавление скриншотов в адаптер
+     * */
+    fun addAll(screenshots: List<ScreenshotModel>) {
+        screenshotList.clear()
+        screenshotList.addAll(screenshots)
+//        notifyDataSetChanged()
+        notifyItemRangeChanged(0, screenshotList.size)
+    }
+
+    /**
+     * Установить число видимых элементов
+     * */
+    fun setCutCount(value: Int) {
+        if (value >= MIN_CUT_COUNT) {
+            cutCount = value
+        } else {
+            throw IllegalStateException("Cut count must be > $MIN_CUT_COUNT")
+        }
+    }
+
+    /**
+     * Установить действие при клике на скриншот
+     * */
+    fun setOnScreenshotClickListener(block: (position: Int) -> Unit) {
+        onScreenshotClickListener = block
+    }
+
+    /**
+     * Установить действие при клике на скриншот-декорацию
+     * */
+    fun setOnViewAllClickListener(block: () -> Unit) {
+        onViewAllClickListener = block
+    }
+
     override fun getItemViewType(position: Int): Int {
         return if (isCutPosition(position)) {
             CUT_ITEM
@@ -29,7 +74,7 @@ class GameScreenshotAdapter :
     }
 
     /**
-     * Является ли текущая позиция айтемом, открывающим галлерею скриншотов
+     * Является ли текущая позиция айтемом, открывающим галерею скриншотов
      * */
     private fun isCutPosition(position: Int): Boolean {
         /*
@@ -77,7 +122,17 @@ class GameScreenshotAdapter :
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<ScreenshotModel>, position: Int) {
-        holder.bind(screenshotList[position])
+        when (holder.itemViewType) {
+            DEFAULT_ITEM -> {
+                holder.bind(screenshotList[position], position)
+            }
+            CUT_ITEM -> {
+                holder.bind(screenshotList[position])
+            }
+            else -> {
+                throw IllegalStateException("Unknown view type on bind view holder")
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -88,32 +143,14 @@ class GameScreenshotAdapter :
         }
     }
 
-    /**
-     * Добавление скриншотов в адаптер
-     * */
-    fun addAll(screenshots: List<ScreenshotModel>) {
-        screenshotList.clear()
-        screenshotList.addAll(screenshots)
-        notifyDataSetChanged()
-    }
-
-    /**
-     * Установить число видимых элементов
-     * */
-    fun setCutCount(value: Int) {
-        if (value >= MIN_CUT_COUNT) {
-            cutCount = value
-        } else {
-            throw IllegalStateException("Cut count must be > 1")
-        }
-    }
-
-    class DefaultItemViewHolder(private val binding: ItemGameScreenshotBinding) :
+    inner class DefaultItemViewHolder(private val binding: ItemGameScreenshotBinding) :
         BaseViewHolder<ScreenshotModel>(binding.root) {
-        override fun bind(data: ScreenshotModel) {
+        override fun bind(data: ScreenshotModel, position: Int) {
             binding.apply {
                 cvScreenshot.setOnClickListener {
-
+                    onScreenshotClickListener?.invoke(
+                        position
+                    )
                 }
 
                 ivScreenshot.load(data.image) {
@@ -123,12 +160,12 @@ class GameScreenshotAdapter :
         }
     }
 
-    class CutItemViewHolder(private val binding: ItemGameScreenshotViewAllBinding) :
+    inner class CutItemViewHolder(private val binding: ItemGameScreenshotViewAllBinding) :
         BaseViewHolder<ScreenshotModel>(binding.root) {
         override fun bind(data: ScreenshotModel) {
             binding.apply {
                 cvScreenshot.setOnClickListener {
-
+                    onViewAllClickListener?.invoke()
                 }
 
                 ivScreenshot.alpha = CUT_ITEM_ALPHA
