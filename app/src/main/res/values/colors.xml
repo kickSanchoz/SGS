@@ -9,6 +9,7 @@
     <color name="background">#060709</color>
     <!--    <color name="background_bottomNavigation">#131519</color>-->
     <color name="background_bottomNavigation">#2C2D2F</color>
+    <color name="ripple_default">@color/white15</color>
 
     <color name="transparent">#00000000</color>
 

@@ -8,7 +8,7 @@ import ru.sanchozgamesstore.R
 import ru.sanchozgamesstore.android.base.BaseFragment
 import ru.sanchozgamesstore.android.ui.gallery.adapters.GalleryAdapter
 import ru.sanchozgamesstore.android.ui.gallery.dialog.GalleryDialogFragment
-import ru.sanchozgamesstore.android.utils.itemDecoration.VerticalGridItemDecoration
+import ru.sanchozgamesstore.android.utils.itemDecoration.GridItemDecoration
 import ru.sanchozgamesstore.databinding.FragmentGalleryBinding
 
 @AndroidEntryPoint
@@ -44,8 +44,12 @@ class GalleryFragment : BaseFragment<FragmentGalleryBinding>() {
 
                 layoutManager = GridLayoutManager(root.context, SPAN_COUNT)
 
-                //TODO добавить отступы по бокам
-                addItemDecoration(VerticalGridItemDecoration(8, 8))
+                addItemDecoration(
+                    GridItemDecoration(
+                        spaceBetween_columns = 8,
+                        spaceBetween_rows = 8,
+                    )
+                )
             }
         }
     }

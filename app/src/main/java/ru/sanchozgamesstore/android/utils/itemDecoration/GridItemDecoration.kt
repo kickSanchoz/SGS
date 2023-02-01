@@ -7,21 +7,49 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.sanchozgamesstore.android.utils.px
 import kotlin.math.ceil
 
-class VerticalGridItemDecoration(
-    horizontalSpace: Int = 0,
-    verticalSpace: Int = 0,
+/**
+ * @param spaceBetween_columns Расстояние между колонками
+ * @param spaceBetween_rows Расстояние между строками
+ * @param spaceOut Расстояние снаружи ресайклера:
+ *
+ * для горизонтального лейаута - слева, справа;
+ *
+ * для вертикального лейаута - сверху, снизу.
+ * @param spaceSides Расстояние по сторонам ресайклера:
+ *
+ * для горизонтального лейаута - сверху, снизу;
+ *
+ * для вертикального лейаута - слева, справа.
+ * */
+/*
+* FIXME: при горизонтальной ориентации и spanCount > 1 отступы дублируются на некоторых элементах
+* Например, orientation=horizontal и spanCount = 2, растояние между строками устанавливается
+* для всех строк, кроме последней. Но в данной реализации отступ добавляется и для последней
+* строки(???)
+* */
+class GridItemDecoration(
+    spaceBetween_columns: Int = 0,
+    spaceBetween_rows: Int = 0,
 ) : RecyclerView.ItemDecoration() {
 
     /**
      * Оступы между колонками таблицы
      * */
-    private val horizontalSpaceDp = horizontalSpace.px
+    private val spaceBetweenColumnsDp = spaceBetween_columns.px
 
     /**
      * Оступы между строками таблицы
      * */
-    private val verticalSpaceDp = verticalSpace.px
+    private val spaceBetweenRowsDp = spaceBetween_rows.px
 
+    /**
+     * Ориентация RecyclerView.
+     *
+     * При прямом направлении добавления элементов (reverseLayout = false)
+     * VERTICAL - элементы добавляются слева направо, при переносе добавляется строка снизу
+     * HORIZONTAL - элементы добавляются сверху вниз, при переносе добавляется колонка справа
+     * */
+    private var layoutOrientation: Int? = null
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -29,6 +57,7 @@ class VerticalGridItemDecoration(
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
+
         val layoutManager = try {
             parent.layoutManager as GridLayoutManager
         } catch (e: Exception) {
@@ -38,12 +67,7 @@ class VerticalGridItemDecoration(
             )
         }
 
-        //Этот декоратор может работать только с вертикальной таблицей :(
-        if (layoutManager.orientation != RecyclerView.VERTICAL) {
-            throw IllegalStateException(
-                "Unfortunately, this decorator can only work with vertical orientation layout"
-            )
-        }
+        layoutOrientation = layoutManager.orientation
 
         //Этот декоратор может работать только с передним направлением таблицы :(
         if (layoutManager.reverseLayout) {
@@ -61,13 +85,14 @@ class VerticalGridItemDecoration(
         //Позиция элемента в списке
         val position = parent.getChildAdapterPosition(view)
 
-        setHorizontalSpace(
+        setSpaceBetweenColumns(
             outRect = outRect,
             position = position,
             spanCount = spanCount,
+            listSize = itemsCount,
         )
 
-        setVerticalSpace(
+        setSpaceBetweenRows(
             outRect = outRect,
             position = position,
             spanCount = spanCount,
@@ -91,7 +116,14 @@ class VerticalGridItemDecoration(
             spanCount = spanCount
         )
 
-        return colPos == 0
+        return when (layoutOrientation) {
+            RecyclerView.VERTICAL, RecyclerView.HORIZONTAL -> {
+                colPos == 0
+            }
+            else -> {
+                throw IllegalStateException(LAYOUT_NOT_INITIALIZED)
+            }
+        }
     }
 
     /**
@@ -103,6 +135,7 @@ class VerticalGridItemDecoration(
     private fun isLastColumn(
         pos: Int,
         spanCount: Int,
+        listSize: Int,
     ): Boolean {
         //Номер текущей колонки
         val colPos = getColumnPosition(
@@ -110,7 +143,20 @@ class VerticalGridItemDecoration(
             spanCount = spanCount,
         )
 
-        return colPos == spanCount - 1
+        return when (layoutOrientation) {
+            RecyclerView.VERTICAL -> {
+                colPos == spanCount - 1
+            }
+            RecyclerView.HORIZONTAL -> {
+                //Всего столбцов в таблице
+                val totalColumns = ceil(listSize.toDouble() / spanCount).toInt()
+
+                colPos == totalColumns - 1
+            }
+            else -> {
+                throw IllegalStateException(LAYOUT_NOT_INITIALIZED)
+            }
+        }
     }
 
     /**
@@ -129,7 +175,14 @@ class VerticalGridItemDecoration(
             spanCount = spanCount
         )
 
-        return rowPos == 0
+        return when (layoutOrientation) {
+            RecyclerView.VERTICAL, RecyclerView.HORIZONTAL -> {
+                rowPos == 0
+            }
+            else -> {
+                throw IllegalStateException(LAYOUT_NOT_INITIALIZED)
+            }
+        }
     }
 
     /**
@@ -150,10 +203,20 @@ class VerticalGridItemDecoration(
             spanCount = spanCount,
         )
 
-        //Всего строк в таблице
-        val totalRow = ceil(listSize.toDouble() / spanCount).toInt()
+        return when (layoutOrientation) {
+            RecyclerView.VERTICAL -> {
+                //Всего строк в таблице
+                val totalRows = ceil(listSize.toDouble() / spanCount).toInt()
 
-        return rowPos == totalRow - 1
+                rowPos == totalRows - 1
+            }
+            RecyclerView.HORIZONTAL -> {
+                rowPos == spanCount - 1
+            }
+            else -> {
+                throw IllegalStateException(LAYOUT_NOT_INITIALIZED)
+            }
+        }
 
     }
 
@@ -167,8 +230,21 @@ class VerticalGridItemDecoration(
         pos: Int,
         spanCount: Int
     ): Int {
-        //Остаток от деления == номер колонки
-        return pos % spanCount
+        return when (layoutOrientation) {
+            RecyclerView.VERTICAL -> {
+                //Остаток от деления == номер колонки
+                pos % spanCount
+            }
+            RecyclerView.HORIZONTAL -> {
+                //Результат деления (с округлением в меньшую сторону) == номер колонки
+                return pos / spanCount
+            }
+            else -> {
+                throw IllegalStateException(LAYOUT_NOT_INITIALIZED)
+            }
+        }
+
+
     }
 
     /**
@@ -181,8 +257,19 @@ class VerticalGridItemDecoration(
         pos: Int,
         spanCount: Int
     ): Int {
-        //Результат деления (с округлением в меньшую сторону) == номер строки
-        return pos / spanCount
+        return when (layoutOrientation) {
+            RecyclerView.VERTICAL -> {
+                //Результат деления (с округлением в меньшую сторону) == номер строки
+                pos / spanCount
+            }
+            RecyclerView.HORIZONTAL -> {
+                //Остаток от деления == номер строки
+                pos % spanCount
+            }
+            else -> {
+                throw IllegalStateException(LAYOUT_NOT_INITIALIZED)
+            }
+        }
     }
 
     /**
@@ -191,11 +278,13 @@ class VerticalGridItemDecoration(
      * @param outRect размеры элемента списка
      * @param position позиция элемента в списке
      * @param spanCount число столбцов (ВЕРТИКАЛЬНАЯ ориентация) или строк (ГОРИЗОНТАЛЬНАЯ ориентация)
+     * @param listSize размер всего списка
      * */
-    private fun setHorizontalSpace(
+    private fun setSpaceBetweenColumns(
         outRect: Rect,
         position: Int,
         spanCount: Int,
+        listSize: Int,
     ) {
         /*
         * Если число столбцов <= 1, то устанавливать горизонтальные отступы не нужно
@@ -214,6 +303,7 @@ class VerticalGridItemDecoration(
         val isLastColumn = isLastColumn(
             pos = position,
             spanCount = spanCount,
+            listSize = listSize
         )
 
         /*
@@ -234,16 +324,16 @@ class VerticalGridItemDecoration(
         when {
             isFirstColumn -> {
                 //Для первой колонки отступ только СПРАВА
-                outRect.right = horizontalSpaceDp / 2
+                outRect.right = spaceBetweenColumnsDp / 2
             }
             isLastColumn -> {
                 //Для последней колонки отступ только СЛЕВА
-                outRect.left = horizontalSpaceDp / 2
+                outRect.left = spaceBetweenColumnsDp / 2
             }
             else -> {
                 //Для всех остальных отступ и СЛЕВА, и СПРАВА
-                outRect.left = horizontalSpaceDp / 2
-                outRect.right = horizontalSpaceDp / 2
+                outRect.left = spaceBetweenColumnsDp / 2
+                outRect.right = spaceBetweenColumnsDp / 2
             }
         }
     }
@@ -256,11 +346,11 @@ class VerticalGridItemDecoration(
      * @param spanCount число столбцов (ВЕРТИКАЛЬНАЯ ориентация) или строк (ГОРИЗОНТАЛЬНАЯ ориентация)
      * @param listSize размер всего списка
      * */
-    private fun setVerticalSpace(
+    private fun setSpaceBetweenRows(
         outRect: Rect,
         position: Int,
         spanCount: Int,
-        listSize: Int
+        listSize: Int,
     ) {
         //Текущая позиция элемента является находится в последней строке таблицы
         val isLastRow = isLastRow(
@@ -271,7 +361,11 @@ class VerticalGridItemDecoration(
 
         //Для всех элементов задаём нижний оступ, кроме элементов последней строки
         if (!isLastRow) {
-            outRect.bottom = verticalSpaceDp
+            outRect.bottom = spaceBetweenRowsDp
         }
+    }
+
+    companion object {
+        const val LAYOUT_NOT_INITIALIZED = "Layout orientation variable hasn't been initialized"
     }
 }

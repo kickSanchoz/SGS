@@ -63,7 +63,7 @@ class GalleryAdapter : RecyclerView.Adapter<BaseViewHolder<ScreenshotModel>>() {
                     defaultPictureLoadParams(root.context)
                 }
 
-                ivScreenshot.setOnClickListener {
+                cvScreenshot.setOnClickListener {
                     onScreenshotClickListener?.invoke(
                         position
                     )
