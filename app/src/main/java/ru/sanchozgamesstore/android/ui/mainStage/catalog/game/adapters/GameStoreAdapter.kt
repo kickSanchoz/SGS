@@ -1,5 +1,9 @@
 package ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -38,7 +42,7 @@ class GameStoreAdapter : RecyclerView.Adapter<GameStoreAdapter.GameStoreViewHold
     fun addAll(stores: List<GameToStoreModel>) {
         storeList.clear()
         storeList.addAll(stores)
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0, storeList.size)
     }
 
     class GameStoreViewHolder(private val binding: ItemGameStoreBinding) :
@@ -49,6 +53,17 @@ class GameStoreAdapter : RecyclerView.Adapter<GameStoreAdapter.GameStoreViewHold
 
                 ivIcon.load(store.icon) {
                     defaultPictureLoadParams(binding.root.context)
+                }
+
+                cvGameStore.setOnClickListener {
+                    try {
+                        val uri = Uri.parse(store.url)
+
+                        val intent = Intent(Intent.ACTION_VIEW, uri)
+                        root.context.startActivity(intent)
+                    } catch (e: ActivityNotFoundException) {
+                        Log.e("Uri parse error", "${e.message}")
+                    }
                 }
             }
         }
