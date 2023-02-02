@@ -61,6 +61,15 @@ class GamePageViewModel @Inject constructor(
     }
 
     /**
+     * Название игры
+     * */
+    val gameTitle = gameDetails.map {
+        it.data?.name
+    }.apply {
+        observeForever { }
+    }
+
+    /**
      * Метаданные игры
      * */
     val gameMetaData = gameDetails.map { details ->

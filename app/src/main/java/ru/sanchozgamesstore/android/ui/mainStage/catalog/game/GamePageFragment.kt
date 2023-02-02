@@ -64,8 +64,7 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
 
         gameParentPlatformAdapter = GameParentPlatformAdapter()
         gameScreenshotAdapter = GameScreenshotAdapter().apply {
-            //TODO вынести в const val
-            setCutCount(3)
+            setCutCount(SCREENSHOTS_CUT_COUNT)
         }
         gameStoreAdapter = GameStoreAdapter()
         gameMetadataAdapter = GameMetadataAdapter()
@@ -143,30 +142,6 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
 
         viewModel.screenshots.observe(viewLifecycleOwner) {
             fillScreenshotsBlock(it)
-
-            if (it.status == Status.SUCCESS && it.data != null) {
-                gameScreenshotAdapter?.apply {
-                    //Действие при клике на скриншот
-                    setOnScreenshotClickListener { pos ->
-                        GalleryDialogFragment().apply {
-                            arguments = getBundle(
-                                galleryItems = it.data,
-                                selectedItem = pos
-                            )
-                        }.show(childFragmentManager, null)
-                    }
-
-                    //Действие при клике на скриншот-декорацию
-                    setOnViewAllClickListener {
-                        val action =
-                            GamePageFragmentDirections.actionGamePageFragmentToGalleryFragment(
-                                galleryItems = it.data.toTypedArray(),
-                                title = viewModel.gameDetails.value?.data?.name //TODO отдельный метод во viewmodel
-                            )
-                        findNavController().navigate(action)
-                    }
-                }
-            }
         }
 
         viewModel.gameMetaData.observe(viewLifecycleOwner) {
@@ -273,9 +248,31 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
         }
 
         if (screenshots.status == Status.SUCCESS) {
-            screenshots.data?.let { data ->
-                //Заполнение скриншотов
-                gameScreenshotAdapter?.addAll(data)
+            screenshots.data?.let { items ->
+                gameScreenshotAdapter?.apply {
+                    //Заполнение скриншотов
+                    addAll(items)
+
+                    //Действие при клике на скриншот
+                    setOnScreenshotClickListener { pos ->
+                        GalleryDialogFragment().apply {
+                            arguments = getBundle(
+                                galleryItems = items,
+                                selectedItem = pos
+                            )
+                        }.show(childFragmentManager, null)
+                    }
+
+                    //Действие при клике на скриншот-декорацию
+                    setOnViewAllClickListener {
+                        val action =
+                            GamePageFragmentDirections.actionGamePageFragmentToGalleryFragment(
+                                galleryItems = items.toTypedArray(),
+                                title = viewModel.gameTitle.value
+                            )
+                        findNavController().navigate(action)
+                    }
+                }
             } ?: run {
                 //Данных нет
                 return
@@ -319,5 +316,6 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
     companion object {
         private const val TAG = "GamePageFragment"
         private const val STORE_SPAN_COUNT = 2
+        private const val SCREENSHOTS_CUT_COUNT = 3
     }
 }
