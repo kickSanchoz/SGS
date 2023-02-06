@@ -524,7 +524,7 @@ class GameRepositoryLocalImpl : GameRepository {
 
         val gameDetails = gameDetailsApi.toModel()
 
-        delay(1)
+        delay(5000)
 
         return Resource.success(gameDetails)
     }
@@ -581,7 +581,7 @@ class GameRepositoryLocalImpl : GameRepository {
             )
         }
 
-        delay(1)
+        delay(1000)
 
         return Resource.success(res)
     }
@@ -674,7 +674,7 @@ class GameRepositoryLocalImpl : GameRepository {
         }
 
         val res: List<GameToStoreModel> = gameStores.map {
-            val rStore = fakeRemoteStores.find { rStore ->
+            val rStore = remoteStores.find { rStore ->
                 rStore.id == it.store_id
             }
             val lStore = Store.getStoreById(it.store_id)
@@ -689,7 +689,7 @@ class GameRepositoryLocalImpl : GameRepository {
             )
         }
 
-        delay(1)
+        delay(1000)
 
         return Resource.success(res)
     }

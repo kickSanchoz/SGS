@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxItemDecoration
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -84,6 +85,19 @@ class RatingBarViewItem(
      * */
     fun setRatings(ratingMap: RatingMap) {
         clearRatingBar()
+
+        //Игра была оценена пользователями
+        val isRated = ratingMap.entries.sumOf {
+            it.value.count
+        } != 0
+
+        //Если оценки есть, то отображаем полоску рейтингов, иначе представление отсутствия данных
+        binding.groupContent.isVisible = isRated
+        binding.lEmpty.root.isVisible = !isRated
+
+        if (!isRated) {
+            return
+        }
 
         /*
         * Т.к. мапа в виде ключей имеет все известные виды рейтинга, то включаем в список UNDEFINED

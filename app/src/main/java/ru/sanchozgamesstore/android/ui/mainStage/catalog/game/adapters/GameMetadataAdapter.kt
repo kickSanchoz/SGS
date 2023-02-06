@@ -32,7 +32,7 @@ class GameMetadataAdapter : RecyclerView.Adapter<GameMetadataAdapter.GameMetadat
     fun addAll(sections: List<GameMetadata>) {
         sectionList.clear()
         sectionList.addAll(sections)
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0, sectionList.size)
     }
 
     class GameMetadataViewHolder(private val binding: GameMetaDataSectionViewItem) :

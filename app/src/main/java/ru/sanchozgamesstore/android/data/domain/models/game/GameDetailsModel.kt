@@ -25,8 +25,8 @@ import ru.sanchozgamesstore.android.utils.converter.DateConverter
  * @param _released дата релиза игры (YYYY-MM-DD)
  * @param tba информация об игре будет оглашена позже
  * @param _updated дата последнего обновления информации об игре (YYYY-MM-DDTHH:MM:SS)
- * @param background_image картинка-фон игры
- * @param background_image_additional дополнительная картинка-фон игры
+ * @param _background_image картинка-фон игры
+ * @param _background_image_additional дополнительная картинка-фон игры
  * @param website url сайта игры
  * @param rating средний рейтинг игры
  * @param rating_top высшая оценка игры
@@ -58,11 +58,11 @@ data class GameDetailsModel(
     val description_raw: String,
     val metacritic: Int,
     val metacritic_platforms: List<MetacriticPlatformModel>,
-    private val _released: String,
+    private val _released: String?,
     val tba: Boolean,
     private val _updated: String,
-    val background_image: String,
-    val background_image_additional: String,
+    private val _background_image: String?,
+    private val _background_image_additional: String?,
     val website: String,
     val rating: Double,
     val rating_top: Int,
@@ -88,14 +88,20 @@ data class GameDetailsModel(
     /**
      * Дата релиза игры (dd.MM.yyyy)
      * */
-    val released: String
-        get() = DateConverter.backendDateToDisplayDate(_released)
+    val released: String?
+        get() = DateConverter.backendDateToDisplayDate(_released).takeIf { _released != null }
 
     /**
      * Дата последнего обновления информации об игре (dd.MM.yyyy HH:mm)
      * */
     val updated: String
         get() = DateConverter.backendDateTimeToDisplayDateTime(_updated)
+
+    val background_image: String?
+        get() = _background_image ?: _background_image_additional
+
+    val background_image_additional: String?
+        get() = _background_image_additional
 
     /**
      * Мапа "разновидность рейтинга" - "данные рейтинга"

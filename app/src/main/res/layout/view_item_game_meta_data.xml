@@ -31,7 +31,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
-            tools:text="@string/Dummy_GameMetaDataSequence"
+            tools:text="@string/Plug_GameMetaDataSequence"
             tools:visibility="visible" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -39,10 +39,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:gravity="center"
+            android:gravity="start"
             android:text="@string/TBD"
             android:textAppearance="@style/TextAppearance.Medium.S10"
-            android:textColor="@color/grey"
+            android:textColor="@color/empty_grey"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -36,7 +36,7 @@
                 android:ellipsize="end"
                 android:maxLines="12"
                 android:textAppearance="@style/TextAppearance.S10"
-                tools:text="@string/Dummy_GameDescription" />
+                tools:text="@string/Plug_GameDescription" />
 
             <com.google.android.material.card.MaterialCardView
                 style="@style/DefaultCardView.Padding"

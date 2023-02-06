@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -16,36 +15,30 @@
             style="@style/DefaultCardView.R4"
             android:layout_width="28dp"
             android:layout_height="28dp"
+            app:cardBackgroundColor="@color/empty_grey"
             app:contentPadding="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:cardBackgroundColor="@color/green">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_score"
-                style="@style/TextViewAutoSize.SingleLine"
+            <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:ellipsize="none"
-                android:gravity="center"
-                android:textAppearance="@style/TextAppearance.Bold.S14"
-                app:autoSizePresetSizes="@array/text_autosize_8.10.12.14"
-                tools:text="@string/Plug_GameMetacriticScore" />
+                android:src="@drawable/ic_metacritic" />
 
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_platform"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textAppearance="@style/TextAppearance.S10"
+            android:text="@string/NotRatedYet"
+            android:textAppearance="@style/TextAppearance.Medium.S10"
+            android:textColor="@color/empty_grey"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cv_score"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/Plug_GamePlatform" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

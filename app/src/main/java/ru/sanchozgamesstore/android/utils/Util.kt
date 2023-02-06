@@ -60,17 +60,6 @@ fun ImageRequest.Builder.defaultPictureLoadParams(
 }
 
 /**
- * Функция для аккумулирования строки
- *
- * @param acc аккумулированная строка
- * @param s строка для добавления
- * @param delimiter разделитель строк
- * */
-fun reducedString(acc: String, s: String, delimiter: String): String {
-    return "$acc$delimiter$s"
-}
-
-/**
  * Изменение состояние шиммера
  *
  * @param value включить/выключить шиммер
@@ -86,4 +75,50 @@ fun ShimmerFrameLayout.shimmerEnabled(value: Boolean) {
             stopShimmer()
         }
     }
+}
+
+
+/**
+ * Список строк в последовательность
+ *
+ * @param delimiter разделитель строк
+ *
+ * @return null, если пустой список, иначе преобразованную строку
+ * */
+fun List<String>.toSequence(delimiter: String): String? {
+    return if (this.isEmpty()) {
+        null
+    } else {
+        this.reduce { acc, s -> reducedString(acc, s, delimiter) }
+    }
+}
+
+/**
+ * Список строк в последовательность
+ *
+ * @return null, если пустой список, иначе преобразованную строку
+ * */
+fun List<String>.toSequence(): String? {
+    return toSequence("")
+}
+
+/**
+ * Функция для аккумулирования строки
+ *
+ * @param acc аккумулированная строка
+ * @param s строка для добавления
+ * @param delimiter разделитель строк
+ * */
+fun reducedString(acc: String, s: String, delimiter: String): String {
+    return "$acc$delimiter$s"
+}
+
+/**
+ * Функция для аккумулирования строки
+ *
+ * @param acc аккумулированная строка
+ * @param s строка для добавления
+ * */
+fun reducedString(acc: String, s: String): String {
+    return reducedString(acc, s, "")
 }

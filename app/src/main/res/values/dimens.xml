@@ -10,6 +10,7 @@
     <dimen name="s12">12sp</dimen>
     <dimen name="s10">10sp</dimen>
     <dimen name="s8">8sp</dimen>
+    <dimen name="s2">2sp</dimen>
 
     <dimen name="elevation8dp">8dp</dimen>
     <dimen name="elevation4dp">4dp</dimen>

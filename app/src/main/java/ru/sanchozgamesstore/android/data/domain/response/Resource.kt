@@ -19,6 +19,20 @@ data class Resource<out T>(
     val hasError: Boolean
         get() = status == Status.ERROR || status == Status.NETWORK_ERROR
 
+    /**
+     * Запрос выполнен успешно ([Status.SUCCESS]) и данные есть
+     * */
+    val dataLoaded: Boolean
+        get() = status == Status.SUCCESS && data != null
+
+    /**
+     * Запрос выполнен успешно ([Status.SUCCESS]), но данных нет.
+     *
+     * Или запрос не был завершен успешно ([hasError]).
+     * */
+    val dataNotLoaded: Boolean
+        get() = (status == Status.SUCCESS && data == null) || hasError
+
     fun <R> map(block: (T?) -> R?): Resource<R> {
         return Resource(status, block(data), errorBody)
     }

@@ -34,14 +34,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/iv_background"
+                    <include
+                        android:id="@+id/block_background"
+                        layout="@layout/block_game_background"
                         android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:foreground="@drawable/trending_gradient_btt_25_black"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_launcher_background"
-                        app:layout_constraintDimensionRatio="H,18:11"
+                        android:layout_height="wrap_content"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -51,7 +48,7 @@
                         layout="@layout/block_game_parent_platform"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="@id/iv_background"
+                        app:layout_constraintBottom_toBottomOf="@id/block_background"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
@@ -145,7 +142,7 @@
                         app:layout_constraintTop_toBottomOf="@id/br_about_screenshots" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/cl_metaData"
+                        android:id="@+id/cl_metadata"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
@@ -190,7 +187,7 @@
                         android:layout_marginTop="12dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/cl_metaData" />
+                        app:layout_constraintTop_toBottomOf="@id/cl_metadata" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

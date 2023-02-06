@@ -19,7 +19,7 @@ import ru.sanchozgamesstore.android.data.domain.models.publisher.PublisherModel
 import ru.sanchozgamesstore.android.data.domain.models.store.StoreModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
 import ru.sanchozgamesstore.android.data.repository.game.GameRepository
-import ru.sanchozgamesstore.android.utils.reducedString
+import ru.sanchozgamesstore.android.utils.toSequence
 import javax.inject.Inject
 
 @HiltViewModel
@@ -53,9 +53,15 @@ class GamePageViewModel @Inject constructor(
         value = Resource.loading()
 
         observeForever {
-            if (it.status == Resource.Status.SUCCESS && it.data != null) {
-                getGameStores(it.data.id, it.data.stores)
-                getGameScreenshots(it.data.id)
+            when {
+                it.dataLoaded -> {
+                    getGameStores(it.data!!.id, it.data.stores)
+                    getGameScreenshots(it.data.id)
+                }
+                it.dataNotLoaded -> {
+                    stores.value = Resource.error(DATA_NOT_LOADED)
+                    screenshots.value = Resource.error(DATA_NOT_LOADED)
+                }
             }
         }
     }
@@ -75,28 +81,24 @@ class GamePageViewModel @Inject constructor(
     val gameMetaData = gameDetails.map { details ->
         val data = details.data
 
-        val res = if (details.status == Resource.Status.SUCCESS && data != null) {
-            listOf<GameMetadata>(
-                GameMetadata(
-                    header = GameMetadataSection.PLATFORMS,
-                    sequence = platformsToSequence(data.platforms)
-                ),
-                GameMetadata(
-                    header = GameMetadataSection.GENRES,
-                    sequence = genresToSequence(data.genres)
-                ),
-                GameMetadata(
-                    header = GameMetadataSection.DEVELOPERS,
-                    sequence = developersToSequence(data.developers)
-                ),
-                GameMetadata(
-                    header = GameMetadataSection.PUBLISHERS,
-                    sequence = publishersToSequence(data.publishers)
-                ),
-            )
-        } else {
-            null
-        }
+        val res = listOf<GameMetadata>(
+            GameMetadata(
+                header = GameMetadataSection.PLATFORMS,
+                sequence = platformsToSequence(data?.platforms ?: emptyList())
+            ),
+            GameMetadata(
+                header = GameMetadataSection.GENRES,
+                sequence = genresToSequence(data?.genres ?: emptyList())
+            ),
+            GameMetadata(
+                header = GameMetadataSection.DEVELOPERS,
+                sequence = developersToSequence(data?.developers ?: emptyList())
+            ),
+            GameMetadata(
+                header = GameMetadataSection.PUBLISHERS,
+                sequence = publishersToSequence(data?.publishers ?: emptyList())
+            ),
+        )
 
         Resource(details.status, res, null)
     }
@@ -165,19 +167,6 @@ class GamePageViewModel @Inject constructor(
     //---------------------------------Доп. методы---------------------------------
 
     /**
-     * Список строк в последовательность
-     *
-     * @return null, если пустой список, иначе преобразованную строку
-     * */
-    private fun List<String>.toSequence(): String? {
-        return if (this.isEmpty()) {
-            null
-        } else {
-            this.reduce { acc, s -> reducedString(acc, s, DELIMITER_NEWLINE) }
-        }
-    }
-
-    /**
      * Преобразовать игровые плафтормы к виду
      *
      * (
@@ -192,7 +181,7 @@ class GamePageViewModel @Inject constructor(
     ): String? {
         val res = platforms.map {
             it.platform.name
-        }.toSequence()
+        }.toSequence(DELIMITER_NEWLINE)
 
         return res
     }
@@ -212,7 +201,7 @@ class GamePageViewModel @Inject constructor(
     ): String? {
         val res = genres.map {
             it.name
-        }.toSequence()
+        }.toSequence(DELIMITER_NEWLINE)
 
         return res
     }
@@ -232,7 +221,7 @@ class GamePageViewModel @Inject constructor(
     ): String? {
         val res = developers.map {
             it.name
-        }.toSequence()
+        }.toSequence(DELIMITER_NEWLINE)
 
         return res
     }
@@ -252,7 +241,7 @@ class GamePageViewModel @Inject constructor(
     ): String? {
         val res = publishers.map {
             it.name
-        }.toSequence()
+        }.toSequence(DELIMITER_NEWLINE)
 
         return res
     }
@@ -265,6 +254,8 @@ class GamePageViewModel @Inject constructor(
     }
 
     companion object {
+        private const val DATA_NOT_LOADED = "data not loaded"
+
         private const val DELIMITER_NEWLINE = ",\n"
     }
 

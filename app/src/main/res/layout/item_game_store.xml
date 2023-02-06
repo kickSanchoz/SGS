@@ -34,7 +34,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth="wrap_content_constrained"
-                tools:text="@string/Dummy_GameStore" />
+                tools:text="@string/Plug_GameStore" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_icon"

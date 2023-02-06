@@ -12,7 +12,10 @@ import ru.sanchozgamesstore.R
 import ru.sanchozgamesstore.android.base.BaseFragment
 import ru.sanchozgamesstore.android.data.domain.models.game.GameDetailsModel
 import ru.sanchozgamesstore.android.data.domain.models.game.GameToStoreModel
+import ru.sanchozgamesstore.android.data.domain.models.game.metadata.GameMetadata
 import ru.sanchozgamesstore.android.data.domain.models.game.screenshot.ScreenshotModel
+import ru.sanchozgamesstore.android.data.domain.models.platform.MetacriticPlatformModel
+import ru.sanchozgamesstore.android.data.domain.models.tag.TagModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
 import ru.sanchozgamesstore.android.data.domain.response.Resource.Status
 import ru.sanchozgamesstore.android.ui.customView.RatingBarViewItem
@@ -22,9 +25,9 @@ import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.*
 import ru.sanchozgamesstore.android.utils.defaultPictureLoadParams
 import ru.sanchozgamesstore.android.utils.itemDecoration.GridItemDecoration
 import ru.sanchozgamesstore.android.utils.itemDecoration.OrientationItemDecoration
-import ru.sanchozgamesstore.android.utils.reducedString
 import ru.sanchozgamesstore.android.utils.removeItemDecorations
 import ru.sanchozgamesstore.android.utils.shimmerEnabled
+import ru.sanchozgamesstore.android.utils.toSequence
 import ru.sanchozgamesstore.databinding.FragmentGamePageBinding
 
 @AndroidEntryPoint
@@ -135,19 +138,17 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
             fillGamePage(it)
         }
 
+        viewModel.screenshots.observe(viewLifecycleOwner) {
+            fillScreenshotsBlock(it)
+        }
+
         viewModel.stores.observe(viewLifecycleOwner) {
             Log.d("stores", "$it")
             fillStoresBlock(it)
         }
 
-        viewModel.screenshots.observe(viewLifecycleOwner) {
-            fillScreenshotsBlock(it)
-        }
-
         viewModel.gameMetaData.observe(viewLifecycleOwner) {
-            if (it.status == Status.SUCCESS && it.data != null) {
-                gameMetadataAdapter?.addAll(it.data)
-            }
+            fillMetadataBlock(it)
         }
     }
 
@@ -158,41 +159,36 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
 
         setMainViewsVisibility(gameDetails)
 
-        if (gameDetails.status == Status.SUCCESS && gameDetails.data != null) {
-            val data = gameDetails.data
+        //Фон страницы игры
+        fillBackgroundBlock(gameDetails.map { it?.background_image })
+
+        //Дата выхода
+        fillReleaseDateBlock(gameDetails.map { it?.released })
+
+        //Оценки метакритики
+        fillMetacriticBlock(gameDetails.map { it?.metacritic_platforms })
+
+        //Тэги игры
+        fillTagsBlock(gameDetails.map { it?.tags })
+
+
+        if (gameDetails.dataLoaded) {
+            val data = gameDetails.data!!
 
             //Заполнение родительских платформ
             gameParentPlatformAdapter?.addAll(data.parent_platforms.map { parentPlatform ->
                 parentPlatform.image
             })
 
-            gameMetacriticAdapter?.addAll(data.metacritic_platforms)
-
             binding.apply {
-                //Установить картинку игры
-                ivBackground.load(data.background_image) {
-                    defaultPictureLoadParams(binding.root.context)
-                }
-
                 //Установить название игры
                 blockTitle.tvTitle.text = data.name
 
-                //Установить дату релиза игры
-                binding.blockReleaseDate.tvReleaseDate.text = data.released
-
+                //Установить рейтинги, оставленные пользователями
                 ratingBarViewItem?.setRatings(data.ratingMap)
 
                 //Установить описание игры
                 blockAbout.tvAbout.text = data.description_raw
-
-                val tags = if (data.tags.isEmpty()) {
-                    null
-                } else {
-                    data.tags.map {
-                        it.name
-                    }.reduce { acc, s -> reducedString(acc, s, ", ") }
-                }
-                blockTags.tvTags.text = tags
             }
         }
     }
@@ -201,7 +197,8 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
      * Установить видимости вью, зависящих от gameDetails
      * */
     private fun setMainViewsVisibility(gameDetails: Resource<GameDetailsModel>) {
-        if (gameDetails.status == Status.SUCCESS && gameDetails.data == null) {
+        //TODO заменить данное условие отдельным экраном с ошибкой
+        if (gameDetails.dataNotLoaded) {
             //Данных нет
             return
         }
@@ -209,29 +206,168 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
         val status = gameDetails.status
 
         binding.apply {
+            //Родительские платформы
             blockParentPlatform.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
             blockParentPlatform.rvParentPlatform.isVisible = status != Status.LOADING
 
-            blockTitle.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
-            blockTitle.tvTitle.isVisible = status != Status.LOADING
-
-            blockReleaseDate.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
-            blockReleaseDate.clReleaseDate.isVisible = status != Status.LOADING
-
+            //Рейтинг игры
             blockRatings.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
             blockRatings.lRatings.root.isVisible = status != Status.LOADING
 
+            //Название игры
+            blockTitle.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
+            blockTitle.tvTitle.isVisible = status != Status.LOADING
+
+            //Описание игры
             blockAbout.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
             blockAbout.llAbout.isVisible = status != Status.LOADING
+        }
+    }
 
-            blockMetacritic.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
-            blockMetacritic.llMetacritic.isVisible = status != Status.LOADING
+    /**
+     * Заполнение блока фона страницы игры
+     * */
+    private fun fillBackgroundBlock(background: Resource<String>) {
+        binding.apply {
+            /*
+            * Представление отсутствия данных видимо во всех случаях, кроме успешной загрузке данных
+            * */
+            blockBackground.lEmpty.root.isVisible = !background.dataLoaded
 
-            blockMetadata.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
-            blockMetadata.rvMetadata.isVisible = status != Status.LOADING
+            /*
+            * Фон страницы игры устанавилвается только при успешной загрузке данных
+            * */
+            blockBackground.ivBackground.isVisible = background.dataLoaded
 
-            blockTags.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
-            blockTags.llTags.isVisible = status != Status.LOADING
+            if (background.dataLoaded) {
+                //Установить картинку игры
+                blockBackground.ivBackground.load(background.data) {
+                    defaultPictureLoadParams(binding.root.context)
+                }
+            }
+        }
+    }
+
+    /**
+     * Заполнение блока даты выхода
+     * */
+    private fun fillReleaseDateBlock(releaseDate: Resource<String>) {
+        binding.apply {
+            /*
+            * Шиммер виден только на загрузке
+            * */
+            blockReleaseDate.lShimmer.sflRoot.shimmerEnabled(releaseDate.status == Status.LOADING)
+
+            /*
+            * Блок дата релиза виден, если загрузка завершена
+            * */
+            blockReleaseDate.clReleaseDate.isVisible = releaseDate.status != Status.LOADING
+
+            /*
+            * Карточка даты релиза видна только,
+            * если данные загружены и строка не пустая
+            * */
+            blockReleaseDate.cvReleaseDate.isVisible =
+                releaseDate.dataLoaded && releaseDate.data!!.isNotEmpty()
+
+            /*
+            * Представление отсутствия данных видимо только,
+            * если данные не загружены
+            * или
+            * если данные загружены и строка пустая
+            * */
+            blockReleaseDate.lEmpty.root.isVisible =
+                releaseDate.dataNotLoaded
+                        || releaseDate.dataLoaded && releaseDate.data!!.isEmpty()
+
+            //Установить дату релиза игры
+            binding.blockReleaseDate.tvReleaseDate.text = releaseDate.data
+        }
+    }
+
+    /**
+     * Заполнение блока оценок метакритики
+     * */
+    private fun fillMetacriticBlock(metacritics: Resource<List<MetacriticPlatformModel>>) {
+        binding.apply {
+            /*
+            * Шиммер виден только на загрузке
+            * */
+            blockMetacritic.lShimmer.sflRoot.shimmerEnabled(metacritics.status == Status.LOADING)
+
+            /*
+            * Блок оценок метакритики виден, если загрузка завершена
+            * */
+            blockMetacritic.clMetacritic.isVisible = metacritics.status != Status.LOADING
+
+            /*
+            * Ресайклер оценок метакритики виден,
+            * если данные загружены и список не пустой
+            * */
+            blockMetacritic.rvMetactiric.isVisible =
+                metacritics.dataLoaded && metacritics.data!!.isNotEmpty()
+
+            /*
+            * Представление отсутствия данных видимо только,
+            * если данные не загружены
+            * или
+            * если данные загружены и список пустой
+            * */
+            blockMetacritic.lEmpty.root.isVisible =
+                metacritics.dataNotLoaded
+                        || metacritics.dataLoaded && metacritics.data!!.isEmpty()
+
+            if (metacritics.dataLoaded) {
+                metacritics.data!!.let { items ->
+                    gameMetacriticAdapter?.addAll(items)
+                }
+            }
+        }
+    }
+
+    /**
+     * Заполнение блока тэгов игры
+     * */
+    private fun fillTagsBlock(tags: Resource<List<TagModel>>) {
+        binding.apply {
+            /*
+            * Шиммер виден только на загрузке
+            * */
+            blockTags.lShimmer.sflRoot.shimmerEnabled(tags.status == Status.LOADING)
+
+            /*
+            * Блок тэгов виден, если загрузка завершена
+            * */
+            blockTags.clTags.isVisible = tags.status != Status.LOADING
+
+            /*
+            * Последовательность тэгов видна только,
+            * если данные загружены и список не пустой
+            * */
+            blockTags.tvTags.isVisible =
+                tags.dataLoaded && tags.data!!.isNotEmpty()
+
+            /*
+            * Представление отсутствия данных видимо только,
+            * если данные не загружены
+            * или
+            * если данные загружены и список пустой
+            * */
+            blockTags.lEmpty.root.isVisible =
+                tags.dataNotLoaded
+                        || tags.dataLoaded && tags.data!!.isEmpty()
+
+            if (tags.dataLoaded) {
+                val tagsSequence = if (tags.data!!.isEmpty()) {
+                    null
+                } else {
+                    tags.data.map {
+                        it.name
+                    }.toSequence(", ")
+                }
+
+                blockTags.tvTags.text = tagsSequence
+            }
         }
     }
 
@@ -239,16 +375,32 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
      * Заполнение блока скриншотов
      * */
     private fun fillScreenshotsBlock(screenshots: Resource<List<ScreenshotModel>>) {
-
-        val status = screenshots.status
-
         binding.apply {
-            blockScreenshots.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
-            blockScreenshots.rvScreenshots.isVisible = status != Status.LOADING
+            /*
+            * Шиммер виден только на загрузке
+            * */
+            blockScreenshots.lShimmer.sflRoot.shimmerEnabled(screenshots.status == Status.LOADING)
+
+            /*
+            * Ресайклер скриншотов виден только,
+            * если данные загружены и список не пустой
+            * */
+            blockScreenshots.rvScreenshots.isVisible =
+                screenshots.dataLoaded && screenshots.data!!.isNotEmpty()
+
+            /*
+            * Представление отсутствия данных видимо только,
+            * если данные не загружены
+            * или
+            * если данные загружены и список пустой
+            * */
+            blockScreenshots.lEmpty.root.isVisible =
+                screenshots.dataNotLoaded
+                        || screenshots.dataLoaded && screenshots.data!!.isEmpty()
         }
 
-        if (screenshots.status == Status.SUCCESS) {
-            screenshots.data?.let { items ->
+        if (screenshots.dataLoaded) {
+            screenshots.data!!.let { items ->
                 gameScreenshotAdapter?.apply {
                     //Заполнение скриншотов
                     addAll(items)
@@ -273,9 +425,6 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
                         findNavController().navigate(action)
                     }
                 }
-            } ?: run {
-                //Данных нет
-                return
             }
         }
     }
@@ -284,20 +433,66 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
      * Заполнение блока магазинов
      * */
     private fun fillStoresBlock(stores: Resource<List<GameToStoreModel>>) {
-        val status = stores.status
-
         binding.apply {
-            blockStores.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
-            blockStores.llStores.isVisible = status != Status.LOADING
+            /*
+            * Шиммер виден только на загрузке
+            * */
+            blockStores.lShimmer.sflRoot.shimmerEnabled(stores.status == Status.LOADING)
+
+            /*
+            * Блок магазинов виден, если загрузка завершена
+            * */
+            blockStores.clStores.isVisible = stores.status != Status.LOADING
+
+            /*
+            * Ресайклер магазинов виден только,
+            * если данные загружены и список не пустой
+            * */
+            blockStores.rvStores.isVisible =
+                stores.dataLoaded && stores.data!!.isNotEmpty()
+
+            /*
+            * Представление отсутствия данных видимо только,
+            * если данные не загружены
+            * или
+            * если данные загружены и список пустой
+            * */
+            blockStores.lEmpty.root.isVisible =
+                stores.dataNotLoaded
+                        || stores.dataLoaded && stores.data!!.isEmpty()
         }
 
-        if (stores.status == Status.SUCCESS) {
-            stores.data?.let { data ->
+        if (stores.dataLoaded) {
+            stores.data!!.let { data ->
                 //Заполнение магазинов
                 gameStoreAdapter?.addAll(data)
-            } ?: run {
-                //Данных нет
-                return
+            }
+        }
+    }
+
+    /**
+     * Заполнение блока метаданных
+     * */
+    private fun fillMetadataBlock(metadata: Resource<List<GameMetadata>>) {
+        binding.apply {
+            /*
+            * Шиммер виден только на загрузке
+            * */
+            blockMetadata.lShimmer.sflRoot.shimmerEnabled(metadata.status == Status.LOADING)
+
+            /*
+            * Ресайклер метаданных виден, если загрузка завершена
+            * */
+            blockMetadata.rvMetadata.isVisible = metadata.status != Status.LOADING
+        }
+
+        if (metadata.status != Status.LOADING) {
+            /*
+            * data не может быть null, т.к. всегда устанавливается значение во viewModel, а также
+            * представление отсутствия данных отображается внутри адаптера
+            * */
+            metadata.data!!.let { data ->
+                gameMetadataAdapter?.addAll(data)
             }
         }
     }

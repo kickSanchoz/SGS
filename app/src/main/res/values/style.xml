@@ -160,6 +160,21 @@
     <!--  TextAppearance   -->
 
 
+    <!--  TextView  -->
+
+    <style name="TextViewAutoSize">
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizePresetSizes">@array/text_autosize_8.10.12.14.16</item>
+    </style>
+
+    <style name="TextViewAutoSize.SingleLine">
+        <item name="maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <!--  TextView  -->
+
+
     <!--  CardView Style   -->
 
     <style name="DefaultCardView">

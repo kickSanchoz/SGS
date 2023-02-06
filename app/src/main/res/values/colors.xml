@@ -38,4 +38,6 @@
     <color name="shimmer_grey_highlight">#5F5F5F</color>
     <color name="shimmer_grey">#C2C2C2</color>
 
+    <color name="empty_grey">@color/grey</color>
+
 </resources>
