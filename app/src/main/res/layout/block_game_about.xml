@@ -11,7 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <include
+            android:id="@+id/l_shimmer"
+            layout="@layout/shimmer_game_about"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ll_about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,10 +34,14 @@
             tools:visibility="visible">
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/About"
-                android:textAppearance="@style/TextAppearance.Bold.S14" />
+                android:textAppearance="@style/TextAppearance.Bold.S14"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_about"
@@ -36,16 +51,29 @@
                 android:ellipsize="end"
                 android:maxLines="12"
                 android:textAppearance="@style/TextAppearance.S10"
-                tools:text="@string/Plug_GameDescription" />
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_label"
+                tools:text="@string/Plug_GameDescription"
+                tools:visibility="visible" />
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_readFull"
                 style="@style/DefaultCardView.Padding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:visibility="visible"
                 app:cardBackgroundColor="@color/white"
                 app:contentPaddingLeft="16dp"
-                app:contentPaddingRight="16dp">
+                app:contentPaddingRight="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_about"
+                app:layout_constraintWidth="wrap_content_constrained"
+                tools:visibility="visible">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
@@ -56,18 +84,20 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-        </LinearLayout>
+            <include
+                android:id="@+id/l_empty"
+                layout="@layout/empty_game_about"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_label"
+                tools:visibility="gone" />
 
-        <include
-            android:id="@+id/l_shimmer"
-            layout="@layout/shimmer_game_about"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="gone" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

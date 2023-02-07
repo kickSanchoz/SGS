@@ -524,7 +524,7 @@ class GameRepositoryLocalImpl : GameRepository {
 
         val gameDetails = gameDetailsApi.toModel()
 
-        delay(5000)
+        delay(1000)
 
         return Resource.success(gameDetails)
     }

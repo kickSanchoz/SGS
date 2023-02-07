@@ -22,6 +22,7 @@ import ru.sanchozgamesstore.android.ui.customView.RatingBarViewItem
 import ru.sanchozgamesstore.android.ui.gallery.dialog.GalleryDialogFragment
 import ru.sanchozgamesstore.android.ui.gallery.dialog.GalleryDialogFragment.Companion.getBundle
 import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.*
+import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.dialogs.GameDescriptionDialogFragment
 import ru.sanchozgamesstore.android.utils.defaultPictureLoadParams
 import ru.sanchozgamesstore.android.utils.itemDecoration.GridItemDecoration
 import ru.sanchozgamesstore.android.utils.itemDecoration.OrientationItemDecoration
@@ -165,6 +166,9 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
         //Дата выхода
         fillReleaseDateBlock(gameDetails.map { it?.released })
 
+        //Описание игры
+        fillAboutBlock(gameDetails.map { it?.description_raw })
+
         //Оценки метакритики
         fillMetacriticBlock(gameDetails.map { it?.metacritic_platforms })
 
@@ -186,9 +190,6 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
 
                 //Установить рейтинги, оставленные пользователями
                 ratingBarViewItem?.setRatings(data.ratingMap)
-
-                //Установить описание игры
-                blockAbout.tvAbout.text = data.description_raw
             }
         }
     }
@@ -217,10 +218,6 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
             //Название игры
             blockTitle.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
             blockTitle.tvTitle.isVisible = status != Status.LOADING
-
-            //Описание игры
-            blockAbout.lShimmer.sflRoot.shimmerEnabled(status == Status.LOADING)
-            blockAbout.llAbout.isVisible = status != Status.LOADING
         }
     }
 
@@ -282,6 +279,56 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
 
             //Установить дату релиза игры
             binding.blockReleaseDate.tvReleaseDate.text = releaseDate.data
+        }
+    }
+
+    /**
+     * Заполнение блока описания игры
+     * */
+    private fun fillAboutBlock(description: Resource<String>) {
+        binding.apply {
+            /*
+            * Шиммер виден только на загрузке
+            * */
+            blockAbout.lShimmer.sflRoot.shimmerEnabled(description.status == Status.LOADING)
+
+            /*
+            * Блок описания игры виден, если загрузка завершена
+            * */
+            blockAbout.llAbout.isVisible = description.status != Status.LOADING
+
+            /*
+            * Текст и "читать польностью" видно только,
+            * если данные загружены и строка не пустая
+            * */
+            val showContent = description.dataLoaded && description.data!!.isNotEmpty()
+
+            blockAbout.tvAbout.isVisible = showContent
+            blockAbout.cvReadFull.isVisible = showContent
+
+            /*
+            * Представление отсутствия данных видимо только,
+            * если данные не загружены
+            * или
+            * если данные загружены и строка пустая
+            * */
+            blockAbout.lEmpty.root.isVisible = description.dataNotLoaded
+                    || description.dataLoaded && description.data!!.isEmpty()
+
+            if (description.dataLoaded && description.data!!.isNotEmpty()) {
+                //Установить описание игры
+                blockAbout.tvAbout.text = description.data
+
+                //Диалоговое окно для удобного чтения описания игры
+                blockAbout.llAbout.setOnClickListener {
+                    GameDescriptionDialogFragment().apply {
+                        arguments = GameDescriptionDialogFragment.getBundle(
+                            description = description.data
+                        )
+                    }.show(childFragmentManager, null)
+                }
+
+            }
         }
     }
 

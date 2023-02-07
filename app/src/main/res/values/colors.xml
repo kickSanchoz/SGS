@@ -9,6 +9,7 @@
     <color name="background">#060709</color>
     <!--    <color name="background_bottomNavigation">#131519</color>-->
     <color name="background_bottomNavigation">#2C2D2F</color>
+    <color name="background_dialog_fragment">@color/grey5</color>
     <color name="ripple_default">@color/white15</color>
 
     <color name="transparent">#00000000</color>
@@ -34,6 +35,7 @@
     <color name="grey2">#8F9093</color>
     <color name="grey3">#707070</color>
     <color name="grey4">#2D2D2D</color>
+    <color name="grey5">#1E1E1E</color>
 
     <color name="shimmer_grey_highlight">#5F5F5F</color>
     <color name="shimmer_grey">#C2C2C2</color>
