@@ -27,6 +27,10 @@
 
     <string name="NumberOutOfTotal">%d из %d</string>
 
+    <string name="Username_lc">username</string>
+    <string name="Fullname_lc">full name</string>
+    <string name="Email_lc">email</string>
+
     <string name="Plug_GameName">Game title</string>
     <string name="Plug_GameReleaseDate">01.01.1977</string>
     <string name="Plug_GameDescription">Rockstar Games went bigger, since their previous installment of the series. You get the complicated and realistic world-building from Liberty City of GTA4 in the setting of lively and diverse Los Santos, from an old fan favorite GTA San Andreas. 561 different vehicles (including every transport you can operate) and the amount is rising with every update. \nSimultaneous storytelling from three unique perspectives: \nFollow Michael, ex-criminal living his life of leisure away from the past, Franklin, a kid that seeks the better future, and Trevor, the exact past Michael is trying to run away from. \nGTA Online will provide a lot of additional challenge even for the experienced players, coming fresh from the story mode. Now you will have other players around that can help you just as likely as ruin your mission. Every GTA mechanic up to date can be experienced by players through the unique customizable character, and community content paired with the leveling system tends to keep everyone busy and engaged.</string>
@@ -35,5 +39,7 @@
     <string name="Plug_GameMetacriticScore">100</string>
     <string name="Plug_GamePlatform">Xbox Series S/X</string>
     <string name="Plug_GameTags">Singleplayer, Steam Achievements, Multiplayer, Atmospheric, Full controller support, Great Soundtrack, RPG, Co-op, Open World, cooperative, First-Person, Third Person, Funny, Sandbox, Comedy, Third-Person Shooter, Moddable, Crime, vr mod</string>
+    <string name="Plug_ProfileBusinessCardSectionLabel">username</string>
+    <string name="Plug_ProfileBusinessCardSectionTitle">TestSanchoz</string>
 
 </resources>
