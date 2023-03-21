@@ -19,7 +19,7 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<BaseViewHolder<T>>(
      * Очистить список
      * */
     fun clear() {
-        val size = itemCount
+        val size = itemsList.size
         _itemsList.clear()
         notifyItemRangeRemoved(0, size)
     }
@@ -28,7 +28,7 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<BaseViewHolder<T>>(
      * Добавить элементы в список
      * */
     open fun addAll(items: List<T>) {
-        val size = itemCount
+        val size = itemsList.size
         _itemsList.addAll(items)
         notifyItemRangeChanged(size, itemsList.size)
     }
@@ -37,9 +37,10 @@ abstract class BaseRecyclerAdapter<T> : RecyclerView.Adapter<BaseViewHolder<T>>(
      * Установить данные в список
      * */
     fun submitData(items: List<T>) {
-        val size = itemCount
-        _itemsList.clear()
+        val size = itemsList.size
+        clear()
         _itemsList.addAll(items)
+        //TODO отступы itemDecoration не прыгают только если вызывать rangeRemoved (???)
         notifyItemRangeRemoved(0, size)
     }
 
