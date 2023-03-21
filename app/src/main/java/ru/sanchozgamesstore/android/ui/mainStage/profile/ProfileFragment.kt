@@ -52,10 +52,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             srlPage.setOnRefreshListener {
                 viewModel.refreshPage()
             }
-
-            blockBusinessCard.root.setOnClickListener {
-                businessCardSectionAdapter?.addAll(viewModel.profile.value!!.data!!.businessCardSections)
-            }
         }
     }
 
@@ -63,8 +59,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         super.observeData()
 
         viewModel.profile.observe(viewLifecycleOwner) {
-            Log.e("Profile", "${it.data}")
-
             binding.srlPage.isRefreshing = false
 
             fillBusinessCard(it)
@@ -77,21 +71,19 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
             blockBusinessCard.cvBusinessCard.isVisible = profile.status != Status.LOADING
 
-            if (profile.status != Status.LOADING) {
-                blockBusinessCard.ivAvatar.load(profile.data?.avatar) {
-                    defaultPictureLoadParams(root.context)
-                    listener(
-                        onError = { request, result ->
-                            result.drawable?.setTint(
-                                ResourcesCompat.getColor(
-                                    binding.root.resources,
-                                    R.color.white,
-                                    null
-                                )
+            blockBusinessCard.ivAvatar.load(profile.data?.avatar) {
+                defaultPictureLoadParams(root.context)
+                listener(
+                    onError = { request, result ->
+                        result.drawable?.setTint(
+                            ResourcesCompat.getColor(
+                                binding.root.resources,
+                                R.color.white,
+                                null
                             )
-                        }
-                    )
-                }
+                        )
+                    }
+                )
             }
 
             if (profile.dataLoaded) {
