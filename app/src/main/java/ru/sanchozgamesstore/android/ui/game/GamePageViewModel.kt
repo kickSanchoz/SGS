@@ -1,4 +1,4 @@
-package ru.sanchozgamesstore.android.ui.mainStage.catalog.game
+package ru.sanchozgamesstore.android.ui.game
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

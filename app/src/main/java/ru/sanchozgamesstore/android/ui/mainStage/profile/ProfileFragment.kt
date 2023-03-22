@@ -1,6 +1,5 @@
 package ru.sanchozgamesstore.android.ui.mainStage.profile
 
-import android.util.Log
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels

@@ -1,4 +1,4 @@
-package ru.sanchozgamesstore.android.ui.mainStage.catalog.game.dialogs
+package ru.sanchozgamesstore.android.ui.game.dialogs
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels

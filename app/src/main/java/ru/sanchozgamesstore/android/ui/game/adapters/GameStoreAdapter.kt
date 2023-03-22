@@ -1,4 +1,4 @@
-package ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters
+package ru.sanchozgamesstore.android.ui.game.adapters
 
 import android.content.ActivityNotFoundException
 import android.content.Intent

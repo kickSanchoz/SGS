@@ -1,4 +1,4 @@
-package ru.sanchozgamesstore.android.ui.mainStage.catalog.game
+package ru.sanchozgamesstore.android.ui.game
 
 import android.util.Log
 import androidx.core.view.isVisible
@@ -21,8 +21,8 @@ import ru.sanchozgamesstore.android.data.domain.response.Resource.Status
 import ru.sanchozgamesstore.android.ui.customView.RatingBarViewItem
 import ru.sanchozgamesstore.android.ui.gallery.dialog.GalleryDialogFragment
 import ru.sanchozgamesstore.android.ui.gallery.dialog.GalleryDialogFragment.Companion.getBundle
-import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.*
-import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.dialogs.GameDescriptionDialogFragment
+import ru.sanchozgamesstore.android.ui.game.adapters.*
+import ru.sanchozgamesstore.android.ui.game.dialogs.GameDescriptionDialogFragment
 import ru.sanchozgamesstore.android.utils.defaultPictureLoadParams
 import ru.sanchozgamesstore.android.utils.itemDecoration.GridItemDecoration
 import ru.sanchozgamesstore.android.utils.itemDecoration.OrientationItemDecoration

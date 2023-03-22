@@ -13,7 +13,7 @@ import ru.sanchozgamesstore.R
 import ru.sanchozgamesstore.android.base.BaseViewItem
 import ru.sanchozgamesstore.android.data.domain.enums.RatingSpecies
 import ru.sanchozgamesstore.android.data.domain.models.rating.RatingMap
-import ru.sanchozgamesstore.android.ui.mainStage.catalog.game.adapters.GameRatingAdapter
+import ru.sanchozgamesstore.android.ui.game.adapters.GameRatingAdapter
 import ru.sanchozgamesstore.android.utils.removeItemDecorations
 import ru.sanchozgamesstore.databinding.ViewItemRatingBarBinding
 
