@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import ru.sanchozgamesstore.android.utils.defaultPictureLoadParams
+import ru.sanchozgamesstore.android.utils.pictureLoadParams
 import ru.sanchozgamesstore.databinding.ItemGameParentPlatformBinding
 
 class GameParentPlatformAdapter :
@@ -34,7 +34,7 @@ class GameParentPlatformAdapter :
     fun addAll(parentPlatformIcons: List<Int>) {
         iconList.clear()
         iconList.addAll(parentPlatformIcons)
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0, iconList.size)
     }
 
     class ParentPlatformViewHolder(private val binding: ItemGameParentPlatformBinding) :
@@ -42,8 +42,10 @@ class GameParentPlatformAdapter :
         fun bind(icon: Int) {
             val iconRes = ResourcesCompat.getDrawable(binding.root.resources, icon, null)
 
-            binding.ivIcon.load(iconRes) {
-                defaultPictureLoadParams(binding.root.context)
+            binding.ivIcon.apply image@{
+                load(iconRes) {
+                    pictureLoadParams(this@image)
+                }
             }
         }
     }

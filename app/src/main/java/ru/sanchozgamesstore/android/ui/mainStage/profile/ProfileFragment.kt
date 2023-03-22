@@ -1,6 +1,5 @@
 package ru.sanchozgamesstore.android.ui.mainStage.profile
 
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import coil.load
@@ -11,8 +10,8 @@ import ru.sanchozgamesstore.android.data.domain.models.user.UserModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
 import ru.sanchozgamesstore.android.data.domain.response.Resource.Status
 import ru.sanchozgamesstore.android.ui.mainStage.profile.adapters.ProfileBusinessCardSectionAdapter
-import ru.sanchozgamesstore.android.utils.defaultPictureLoadParams
 import ru.sanchozgamesstore.android.utils.itemDecoration.OrientationItemDecoration
+import ru.sanchozgamesstore.android.utils.pictureLoadParams
 import ru.sanchozgamesstore.android.utils.shimmerEnabled
 import ru.sanchozgamesstore.databinding.FragmentProfileBinding
 
@@ -70,19 +69,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
             blockBusinessCard.cvBusinessCard.isVisible = profile.status != Status.LOADING
 
-            blockBusinessCard.ivAvatar.load(profile.data?.avatar) {
-                defaultPictureLoadParams(root.context)
-                listener(
-                    onError = { request, result ->
-                        result.drawable?.setTint(
-                            ResourcesCompat.getColor(
-                                binding.root.resources,
-                                R.color.white,
-                                null
-                            )
-                        )
-                    }
-                )
+            blockBusinessCard.ivAvatar.apply image@{
+                load(profile.data?.avatar) {
+                    pictureLoadParams(this@image)
+                }
+
             }
 
             if (profile.dataLoaded) {

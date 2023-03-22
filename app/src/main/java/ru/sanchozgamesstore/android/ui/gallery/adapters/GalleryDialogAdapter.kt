@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import ru.sanchozgamesstore.android.base.BaseViewHolder
 import ru.sanchozgamesstore.android.data.domain.models.game.screenshot.ScreenshotModel
-import ru.sanchozgamesstore.android.utils.defaultPictureLoadParams
+import ru.sanchozgamesstore.android.utils.pictureLoadParams
 import ru.sanchozgamesstore.databinding.ItemGalleryDialogElementBinding
 
 class GalleryDialogAdapter: RecyclerView.Adapter<BaseViewHolder<ScreenshotModel>>() {
@@ -47,8 +47,10 @@ class GalleryDialogAdapter: RecyclerView.Adapter<BaseViewHolder<ScreenshotModel>
         BaseViewHolder<ScreenshotModel>(binding.root) {
         override fun bind(data: ScreenshotModel) {
             binding.apply {
-                pvScreenshot.load(data.image) {
-                    defaultPictureLoadParams(root.context)
+                pvScreenshot.apply image@{
+                    load(data.image) {
+                        pictureLoadParams(this@image)
+                    }
                 }
             }
         }

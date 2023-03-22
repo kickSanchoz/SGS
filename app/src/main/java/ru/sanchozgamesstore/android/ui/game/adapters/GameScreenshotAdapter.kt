@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import ru.sanchozgamesstore.android.base.BaseViewHolder
 import ru.sanchozgamesstore.android.data.domain.models.game.screenshot.ScreenshotModel
-import ru.sanchozgamesstore.android.utils.defaultPictureLoadParams
+import ru.sanchozgamesstore.android.utils.pictureLoadParams
 import ru.sanchozgamesstore.databinding.ItemGameScreenshotBinding
 import ru.sanchozgamesstore.databinding.ItemGameScreenshotViewAllBinding
 
@@ -36,7 +36,6 @@ class GameScreenshotAdapter :
     fun addAll(screenshots: List<ScreenshotModel>) {
         screenshotList.clear()
         screenshotList.addAll(screenshots)
-//        notifyDataSetChanged()
         notifyItemRangeChanged(0, screenshotList.size)
     }
 
@@ -153,8 +152,10 @@ class GameScreenshotAdapter :
                     )
                 }
 
-                ivScreenshot.load(data.image) {
-                    defaultPictureLoadParams(binding.root.context)
+                ivScreenshot.apply image@{
+                    load(data.image) {
+                        pictureLoadParams(this@image)
+                    }
                 }
             }
         }
@@ -170,8 +171,10 @@ class GameScreenshotAdapter :
 
                 ivScreenshot.alpha = CUT_ITEM_ALPHA
 
-                ivScreenshot.load(data.image) {
-                    defaultPictureLoadParams(binding.root.context)
+                ivScreenshot.apply image@{
+                    load(data.image) {
+                        pictureLoadParams(this@image)
+                    }
                 }
             }
         }

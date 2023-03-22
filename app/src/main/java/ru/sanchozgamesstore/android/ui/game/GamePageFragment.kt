@@ -23,9 +23,9 @@ import ru.sanchozgamesstore.android.ui.gallery.dialog.GalleryDialogFragment
 import ru.sanchozgamesstore.android.ui.gallery.dialog.GalleryDialogFragment.Companion.getBundle
 import ru.sanchozgamesstore.android.ui.game.adapters.*
 import ru.sanchozgamesstore.android.ui.game.dialogs.GameDescriptionDialogFragment
-import ru.sanchozgamesstore.android.utils.defaultPictureLoadParams
 import ru.sanchozgamesstore.android.utils.itemDecoration.GridItemDecoration
 import ru.sanchozgamesstore.android.utils.itemDecoration.OrientationItemDecoration
+import ru.sanchozgamesstore.android.utils.pictureLoadParams
 import ru.sanchozgamesstore.android.utils.removeItemDecorations
 import ru.sanchozgamesstore.android.utils.shimmerEnabled
 import ru.sanchozgamesstore.android.utils.toSequence
@@ -232,14 +232,16 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
             blockBackground.lEmpty.root.isVisible = !background.dataLoaded
 
             /*
-            * Фон страницы игры устанавилвается только при успешной загрузке данных
+            * Фон страницы игры устанавливается только при успешной загрузке данных
             * */
             blockBackground.ivBackground.isVisible = background.dataLoaded
 
             if (background.dataLoaded) {
                 //Установить картинку игры
-                blockBackground.ivBackground.load(background.data) {
-                    defaultPictureLoadParams(binding.root.context)
+                blockBackground.ivBackground.apply image@{
+                    load(background.data) {
+                        pictureLoadParams(this@image)
+                    }
                 }
             }
         }

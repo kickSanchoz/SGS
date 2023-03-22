@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import ru.sanchozgamesstore.android.base.BaseViewHolder
 import ru.sanchozgamesstore.android.data.domain.models.game.screenshot.ScreenshotModel
-import ru.sanchozgamesstore.android.utils.defaultPictureLoadParams
+import ru.sanchozgamesstore.android.utils.pictureLoadParams
 import ru.sanchozgamesstore.databinding.ItemGalleryScreenshotBinding
 
 class GalleryAdapter : RecyclerView.Adapter<BaseViewHolder<ScreenshotModel>>() {
@@ -59,8 +59,10 @@ class GalleryAdapter : RecyclerView.Adapter<BaseViewHolder<ScreenshotModel>>() {
         BaseViewHolder<ScreenshotModel>(binding.root) {
         override fun bind(data: ScreenshotModel, position: Int) {
             binding.apply {
-                ivScreenshot.load(data.image) {
-                    defaultPictureLoadParams(root.context)
+                ivScreenshot.apply image@{
+                    load(data.image) {
+                        pictureLoadParams(this@image)
+                    }
                 }
 
                 cvScreenshot.setOnClickListener {

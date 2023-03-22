@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import ru.sanchozgamesstore.android.data.domain.models.game.GameToStoreModel
-import ru.sanchozgamesstore.android.utils.defaultPictureLoadParams
+import ru.sanchozgamesstore.android.utils.pictureLoadParams
 import ru.sanchozgamesstore.databinding.ItemGameStoreBinding
 
 class GameStoreAdapter : RecyclerView.Adapter<GameStoreAdapter.GameStoreViewHolder>() {
@@ -51,8 +51,10 @@ class GameStoreAdapter : RecyclerView.Adapter<GameStoreAdapter.GameStoreViewHold
             binding.apply {
                 tvTitle.text = store.name
 
-                ivIcon.load(store.icon) {
-                    defaultPictureLoadParams(binding.root.context)
+                ivIcon.apply image@{
+                    load(store.icon) {
+                        pictureLoadParams(this@image)
+                    }
                 }
 
                 cvGameStore.setOnClickListener {

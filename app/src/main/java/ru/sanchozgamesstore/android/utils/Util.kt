@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.res.Resources
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -57,6 +59,47 @@ fun ImageRequest.Builder.defaultPictureLoadParams(
     crossfade(true)
     placeholder(getPlaceholder(context))
     error(R.drawable.ic_question_mark)
+}
+
+/**
+ * Параметры при загрузке изображений
+ * @param view представление, в которое загружается изображение
+ * @param errorImage изображение при неуспешной загрузке
+ * @param onSuccess действие при успешной загрузке изображения
+ * @param onError действие при неуспешной загрузке изображения
+ * */
+fun ImageRequest.Builder.pictureLoadParams(
+    view: ImageView,
+    @DrawableRes errorImage: Int? = R.drawable.ic_question_mark,
+    onSuccess: (() -> Unit)? = null,
+    onError: (() -> Unit)? = null,
+) {
+    val rememberedScaleType = view.scaleType
+
+    crossfade(true)
+    placeholder(getPlaceholder(view.context))
+    error(errorImage ?: R.drawable.ic_question_mark)
+
+    listener(
+        onSuccess = { request, result ->
+            view.scaleType = rememberedScaleType
+
+            onSuccess?.invoke()
+        },
+        onError = { request, result ->
+            view.scaleType = ImageView.ScaleType.FIT_CENTER
+
+            result.drawable?.setTint(
+                ResourcesCompat.getColor(
+                    view.resources,
+                    R.color.white,
+                    null
+                )
+            )
+
+            onError?.invoke()
+        }
+    )
 }
 
 /**
