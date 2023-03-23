@@ -13,6 +13,11 @@ import ru.sanchozgamesstore.android.data.remote.models.game.GameToStoreBriefApiM
 import ru.sanchozgamesstore.android.data.remote.models.game.screenshot.ScreenshotApiModel
 
 class GameRepositoryLocalEmptyImpl : GameRepository {
+
+    override suspend fun getFavoriteGames(): Resource<List<GameDetailsModel>> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getGameDetail(
         id: Int
     ): Resource<GameDetailsModel> {

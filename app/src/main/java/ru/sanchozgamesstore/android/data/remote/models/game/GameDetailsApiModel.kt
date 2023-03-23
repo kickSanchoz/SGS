@@ -65,7 +65,7 @@ data class GameDetailsApiModel(
     @Json(name = UPDATED) val updated: String,
     @Json(name = BACKGROUND_IMAGE) val background_image: String?,
     @Json(name = BACKGROUND_IMAGE_ADDITIONAL) val background_image_additional: String?,
-    @Json(name = WEBSITE) val website: String,
+    @Json(name = WEBSITE) val website: String?,
     @Json(name = RATING) val rating: Double,
     @Json(name = RATING_TOP) val rating_top: Int,
     @Json(name = RATINGS) val ratings: List<RatingApiModel>?,

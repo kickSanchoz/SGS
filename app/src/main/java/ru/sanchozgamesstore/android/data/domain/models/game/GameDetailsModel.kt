@@ -63,7 +63,7 @@ data class GameDetailsModel(
     private val _updated: String,
     private val _background_image: String?,
     private val _background_image_additional: String?,
-    val website: String,
+    val website: String?,
     val rating: Double,
     val rating_top: Int,
     val ratings: List<RatingModel>,

@@ -2,35 +2,39 @@ package ru.sanchozgamesstore.android.ui.mainStage.profile
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.liveData
+import androidx.lifecycle.switchMap
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import ru.sanchozgamesstore.android.data.domain.models.user.UserModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
+import ru.sanchozgamesstore.android.data.repository.game.GameRepository
 import ru.sanchozgamesstore.android.data.repository.profile.ProfileRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val profileRepository: ProfileRepository
+    private val profileRepository: ProfileRepository,
+    private val gameRepository: GameRepository,
 ) : ViewModel() {
+
+    private val refreshTrigger = MutableLiveData(Unit)
 
     /**
      * Данные профиля
      * */
-    val profile = MutableLiveData<Resource<UserModel>>().apply {
-        value = Resource.loading()
+    val profile = refreshTrigger.switchMap {
+        liveData {
+            emit(Resource.loading())
+            emit(profileRepository.getProfile())
+        }
     }
 
     /**
-     * Получить данные профиля
+     * Избранные игры
      * */
-    private fun getProfile() {
-        profile.value = Resource.loading()
-
-        viewModelScope.launch {
-            val res = profileRepository.getProfile()
-            profile.value = res
+    val favoriteGames = refreshTrigger.switchMap {
+        liveData {
+            emit(Resource.loading())
+            emit(gameRepository.getFavoriteGames())
         }
     }
 
@@ -38,10 +42,6 @@ class ProfileViewModel @Inject constructor(
      * Обновить страницу
      * */
     fun refreshPage() {
-        getProfile()
-    }
-
-    init {
-        getProfile()
+        refreshTrigger.value = refreshTrigger.value.apply { }
     }
 }

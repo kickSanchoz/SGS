@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:src="@drawable/ic_emoji_with_game_controller"
+            android:layout_width="48dp"
+            android:layout_height="48dp"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:textAppearance="@style/TextAppearance.Medium.S14"
+            android:textColor="@color/grey"
+            android:layout_marginTop="8dp"
+            android:text="@string/NoFavoriteGamesYet"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</layout>

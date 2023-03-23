@@ -9,6 +9,11 @@ import ru.sanchozgamesstore.android.data.domain.response.Resource
 interface GameRepository {
 
     /**
+     * Получить список существующих игр
+     * */
+    suspend fun getFavoriteGames(): Resource<List<GameDetailsModel>>
+
+    /**
      * Получить подробную информацию об игре
      *
      * @param id id игры, информацию о которой нужно получить
