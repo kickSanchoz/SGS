@@ -1,5 +1,6 @@
 package ru.sanchozgamesstore.android.ui.mainStage.profile
 
+import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -99,6 +100,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
         viewModel.favoriteGames.observe(viewLifecycleOwner) {
             fillFavoriteGames(it)
+        }
+
+        viewModel.accountToken.observe(viewLifecycleOwner) {
+            Log.e("Account Token", "$it")
         }
     }
 

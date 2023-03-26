@@ -18,6 +18,31 @@
             android:layout_height="match_parent"
             android:text="@string/Catalog" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSetToken"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:text="SetToken"
+                android:textAllCaps="false" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDeleteToken"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete Token"
+                android:textAllCaps="false" />
+
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/btn_toGamePage"
             android:layout_width="wrap_content"

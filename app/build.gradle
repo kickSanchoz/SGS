@@ -85,6 +85,10 @@ dependencies {
     implementation 'androidx.hilt:hilt-work:1.0.0'
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
 
+    //Datastore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+    implementation 'androidx.datastore:datastore-core:1.0.0'
+
     //Room
     def room_version = "2.3.0"
     implementation "androidx.room:room-runtime:$room_version"
@@ -117,6 +121,7 @@ dependencies {
 
     //Others dependencies
     implementation "androidx.work:work-runtime-ktx:2.7.1"
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
 
 
     //Tests

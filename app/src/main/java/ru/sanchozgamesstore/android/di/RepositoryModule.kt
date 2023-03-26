@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ru.sanchozgamesstore.android.data.local.datastore.AccountTokenDataStore
 import ru.sanchozgamesstore.android.data.repository.game.GameRepository
 import ru.sanchozgamesstore.android.data.repository.game.GameRepositoryLocalImpl
 import ru.sanchozgamesstore.android.data.repository.profile.ProfileRepository
@@ -20,5 +21,9 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideProfileRepository(): ProfileRepository = ProfileRepositoryLocalImpl()
+    fun provideProfileRepository(
+        accountTokenDataStore: AccountTokenDataStore
+    ): ProfileRepository = ProfileRepositoryLocalImpl(
+        accountTokenDataStore = accountTokenDataStore
+    )
 }

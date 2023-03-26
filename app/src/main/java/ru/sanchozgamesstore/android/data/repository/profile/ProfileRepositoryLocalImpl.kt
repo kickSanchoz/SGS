@@ -1,12 +1,44 @@
 package ru.sanchozgamesstore.android.data.repository.profile
 
+import androidx.lifecycle.LiveData
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import ru.sanchozgamesstore.android.data.domain.models.user.UserModel
 import ru.sanchozgamesstore.android.data.domain.models.user.toModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
+import ru.sanchozgamesstore.android.data.local.datastore.AccountTokenDataStore
 import ru.sanchozgamesstore.android.data.remote.models.user.UserApiModel
+import javax.inject.Inject
 
-class ProfileRepositoryLocalImpl : ProfileRepository {
+class ProfileRepositoryLocalImpl @Inject constructor(
+    private val accountTokenDataStore: AccountTokenDataStore,
+) : ProfileRepository {
+
+    override suspend fun login(): Unit = withContext(IO) {
+        setAccountToken("tempToken")
+    }
+
+    override suspend fun logout(): Unit = withContext(IO) {
+        deleteAccountToken()
+    }
+
+    override suspend fun getAccountToken(): String? = withContext(IO) {
+        accountTokenDataStore.getAccountToken()
+    }
+
+    override suspend fun getAccountTokenLiveData(): LiveData<String> =
+        accountTokenDataStore.getAccountTokenLiveData()
+
+
+    override suspend fun setAccountToken(token: String): Unit = withContext(IO) {
+        accountTokenDataStore.setAccountToken(token)
+    }
+
+    override suspend fun deleteAccountToken() {
+        accountTokenDataStore.deleteAccountToken()
+    }
+
     override suspend fun fetchProfile(): Resource<UserModel> {
         val userApiModel = UserApiModel(
             id = 665740,

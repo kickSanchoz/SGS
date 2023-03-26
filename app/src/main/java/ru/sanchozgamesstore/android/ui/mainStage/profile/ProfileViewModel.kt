@@ -19,6 +19,13 @@ class ProfileViewModel @Inject constructor(
     private val refreshTrigger = MutableLiveData(Unit)
 
     /**
+     * Обновить страницу
+     * */
+    fun refreshPage() {
+        refreshTrigger.value = refreshTrigger.value.apply { }
+    }
+
+    /**
      * Данные профиля
      * */
     val profile = refreshTrigger.switchMap {
@@ -38,10 +45,10 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Обновить страницу
-     * */
-    fun refreshPage() {
-        refreshTrigger.value = refreshTrigger.value.apply { }
+    //TODO delete
+    val accountToken = refreshTrigger.switchMap {
+        liveData {
+            emit(profileRepository.getAccountToken())
+        }
     }
 }
