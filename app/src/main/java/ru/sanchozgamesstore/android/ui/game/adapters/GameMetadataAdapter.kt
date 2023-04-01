@@ -27,7 +27,7 @@ class GameMetadataAdapter : RecyclerView.Adapter<GameMetadataAdapter.GameMetadat
     }
 
     /**
-     * Добавлить разделы в адаптер
+     * Добавить разделы в адаптер
      * */
     fun addAll(sections: List<GameMetadata>) {
         sectionList.clear()

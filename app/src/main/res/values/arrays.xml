@@ -15,6 +15,12 @@
         <item>@dimen/s14</item>
     </array>
 
+    <array name="text_autosize_8.10.12">
+        <item>@dimen/s8</item>
+        <item>@dimen/s10</item>
+        <item>@dimen/s12</item>
+    </array>
+
     <array name="text_autosize_12.14.16.18">
         <item>@dimen/s12</item>
         <item>@dimen/s14</item>

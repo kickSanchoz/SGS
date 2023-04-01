@@ -528,7 +528,7 @@ class GameRepositoryLocalImpl : GameRepository {
                 slug = "the-witcher-3-wild-hunt",
                 description = null,
                 description_raw = null,
-                metacritic = 91,
+                metacritic = 100,
                 metacritic_platforms = listOf<MetacriticPlatformApiModel>(
                     MetacriticPlatformApiModel(
                         metascore = 79,
@@ -1023,7 +1023,7 @@ class GameRepositoryLocalImpl : GameRepository {
                 slug = "portal-2",
                 description = null,
                 description_raw = null,
-                metacritic = 91,
+                metacritic = 75,
                 metacritic_platforms = listOf<MetacriticPlatformApiModel>(
                     MetacriticPlatformApiModel(
                         metascore = 79,
@@ -1518,7 +1518,7 @@ class GameRepositoryLocalImpl : GameRepository {
                 slug = "tomb-raider",
                 description = null,
                 description_raw = null,
-                metacritic = 91,
+                metacritic = 40,
                 metacritic_platforms = listOf<MetacriticPlatformApiModel>(
                     MetacriticPlatformApiModel(
                         metascore = 79,

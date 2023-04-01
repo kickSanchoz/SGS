@@ -2,11 +2,13 @@ package ru.sanchozgamesstore.android.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.load
 import ru.sanchozgamesstore.android.data.domain.models.game.GameDetailsModel
+import ru.sanchozgamesstore.android.utils.getColorByScore
 import ru.sanchozgamesstore.android.utils.pictureLoadParams
 import ru.sanchozgamesstore.databinding.ItemGameCardBinding
 
@@ -36,6 +38,15 @@ class GameListAdapter :
                         pictureLoadParams(this@image)
                     }
                 }
+
+                cvScore.setCardBackgroundColor(
+                    ResourcesCompat.getColor(
+                        binding.root.resources,
+                        getColorByScore(gameDetails.metacritic),
+                        null
+                    )
+                )
+                tvScore.text = gameDetails.metacritic.toString()
 
                 tvTitle.text = gameDetails.name
             }

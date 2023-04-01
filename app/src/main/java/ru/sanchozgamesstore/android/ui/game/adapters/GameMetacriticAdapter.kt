@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import ru.sanchozgamesstore.android.data.domain.models.platform.MetacriticPlatformModel
+import ru.sanchozgamesstore.android.utils.getColorByScore
 import ru.sanchozgamesstore.databinding.ItemGameMetacriticBinding
 
 class GameMetacriticAdapter :
@@ -36,7 +37,7 @@ class GameMetacriticAdapter :
     fun addAll(metacriticPlatforms: List<MetacriticPlatformModel>) {
         metacriticPlatformList.clear()
         metacriticPlatformList.addAll(metacriticPlatforms)
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0, metacriticPlatformList.size)
     }
 
     class GameMetacriticViewHolder(private val binding: ItemGameMetacriticBinding) :
@@ -46,7 +47,7 @@ class GameMetacriticAdapter :
                 cvScore.setCardBackgroundColor(
                     ResourcesCompat.getColor(
                         binding.root.resources,
-                        metacriticPlatform.colorByMetascore,
+                        getColorByScore(metacriticPlatform.metascore),
                         null
                     )
                 )

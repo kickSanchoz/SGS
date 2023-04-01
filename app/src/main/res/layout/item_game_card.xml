@@ -28,7 +28,36 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_launcher_background" />
+                tools:src="@color/shimmer_grey" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_score"
+                style="@style/DefaultCardView.R4"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="4dp"
+                app:contentPadding="2dp"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_background"
+                app:layout_constraintEnd_toEndOf="@id/iv_background"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@id/iv_background"
+                app:layout_constraintTop_toTopOf="@id/iv_background"
+                app:layout_constraintVertical_bias="1.0"
+                tools:cardBackgroundColor="@color/green">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_score"
+                    style="@style/TextViewAutoSize.SingleLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ellipsize="none"
+                    android:gravity="center"
+                    android:textAppearance="@style/TextAppearance.Bold"
+                    app:autoSizePresetSizes="@array/text_autosize_8.10.12"
+                    tools:text="@string/Plug_GameMetacriticScore" />
+
+            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_title"
