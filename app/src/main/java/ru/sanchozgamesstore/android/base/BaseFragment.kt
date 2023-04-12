@@ -53,6 +53,7 @@ abstract class BaseFragment<VB : ViewDataBinding> : Fragment() {
      * */
     @CallSuper
     open fun setUpViews() {
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 
     /**

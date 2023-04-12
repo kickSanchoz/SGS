@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import ru.sanchozgamesstore.android.data.domain.models.user.UserAuthorizationModel
 import ru.sanchozgamesstore.android.data.domain.models.user.UserModel
 import ru.sanchozgamesstore.android.data.domain.models.user.toModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
@@ -15,12 +16,18 @@ class ProfileRepositoryLocalImpl @Inject constructor(
     private val accountTokenDataStore: AccountTokenDataStore,
 ) : ProfileRepository {
 
-    override suspend fun login(): Unit = withContext(IO) {
+    override suspend fun login(
+        authorizationModel: UserAuthorizationModel
+    ): Resource<Unit> = withContext(IO) {
         setAccountToken("tempToken")
+
+        Resource.success()
     }
 
-    override suspend fun logout(): Unit = withContext(IO) {
+    override suspend fun logout(): Resource<Unit> = withContext(IO) {
         deleteAccountToken()
+
+        Resource.success()
     }
 
     override suspend fun getAccountToken(): String? = withContext(IO) {

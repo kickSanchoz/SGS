@@ -30,9 +30,15 @@
     <string name="Username_lc">username</string>
     <string name="Fullname_lc">full name</string>
     <string name="Email_lc">email</string>
+    <string name="Email">Email</string>
+    <string name="Password">Password</string>
 
     <string name="FavoriteGames">Favorite games</string>
     <string name="NoFavoriteGamesYet">No favorite games yet</string>
+
+    <string name="Login">Log in</string>
+    <string name="Continue">Continue</string>
+    <string name="required_field">Поле обязательно для заполнения</string>
 
     <string name="Plug_GameName">Game title</string>
     <string name="Plug_GameReleaseDate">01.01.1977</string>

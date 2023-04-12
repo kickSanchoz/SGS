@@ -1,6 +1,7 @@
 package ru.sanchozgamesstore.android.data.repository.profile
 
 import androidx.lifecycle.LiveData
+import ru.sanchozgamesstore.android.data.domain.models.user.UserAuthorizationModel
 import ru.sanchozgamesstore.android.data.domain.models.user.UserModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
 
@@ -9,12 +10,14 @@ interface ProfileRepository {
     /**
      * Войти в аккаунт
      * */
-    suspend fun login()
+    suspend fun login(
+        authorizationModel: UserAuthorizationModel,
+    ): Resource<Unit>
 
     /**
      * Выйти из аккаунта
      * */
-    suspend fun logout()
+    suspend fun logout(): Resource<Unit>
 
     /**
      * TODO delete - Временный метод
