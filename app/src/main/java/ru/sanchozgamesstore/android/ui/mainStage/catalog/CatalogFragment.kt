@@ -17,14 +17,6 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>() {
     override fun observeView() {
         super.observeView()
 
-        binding.btnSetToken.setOnClickListener {
-            viewModel.setAccountToken("censoredToken")
-        }
-
-        binding.btnDeleteToken.setOnClickListener {
-            viewModel.deleteAccountToken()
-        }
-
         binding.btnToGamePage.setOnClickListener {
             DeepLinkController(this).openGamePageFragment(1)
         }

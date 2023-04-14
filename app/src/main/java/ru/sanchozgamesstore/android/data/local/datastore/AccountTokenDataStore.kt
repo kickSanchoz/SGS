@@ -1,6 +1,7 @@
 package ru.sanchozgamesstore.android.data.local.datastore
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.LiveData
@@ -14,14 +15,17 @@ import ru.sanchozgamesstore.android.data.local.datastore.base.BaseDataStore
 
 class AccountTokenDataStore(appContext: Context) : BaseDataStore(appContext) {
 
-    private val accountToken: Flow<String> = appDataStore.data.map {
-        it[FIELD_TOKEN].toString()
+    /**
+     * Токен пользователя
+     * */
+    private val accountToken: Flow<String?> = appDataStore.data.map {
+        it[FIELD_TOKEN]?.toString()
     }
 
     /**
      * Получить токен аккаунта в виде liveData, если он есть, иначе null
      * */
-    suspend fun getAccountTokenLiveData(): LiveData<String> = withContext(IO) {
+    suspend fun getAccountTokenLiveData(): LiveData<String?> = withContext(IO) {
         accountToken.asLiveData()
     }
 
@@ -30,6 +34,15 @@ class AccountTokenDataStore(appContext: Context) : BaseDataStore(appContext) {
      * */
     suspend fun getAccountToken(): String? = withContext(IO) {
         accountToken.firstOrNull()
+    }
+
+    /**
+     * Пользователь авторизован
+     * */
+    suspend fun isAuthorized(): Boolean = withContext(IO) {
+        val res = accountToken.firstOrNull() != null
+        Log.e("token exist", "$res")
+        return@withContext res
     }
 
     /**
@@ -46,6 +59,7 @@ class AccountTokenDataStore(appContext: Context) : BaseDataStore(appContext) {
      * */
     suspend fun deleteAccountToken() = withContext(IO) {
         appDataStore.edit {
+            Log.e("removing", "yep")
             it.remove(FIELD_TOKEN)
         }
     }

@@ -15,8 +15,9 @@
         android:theme="@style/Theme.SanchozGamesStore"
         tools:targetApi="31">
         <activity
-            android:name=".android.ui.authorizationStage.AuthorizationActivity"
-            android:exported="true">
+            android:name=".android.ui.splashStage.SplashActivity"
+            android:exported="true"
+            android:theme="@style/splashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,14 +25,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".android.ui.authorizationStage.AuthorizationActivity"
+            android:exported="false" />
+        <activity
             android:name=".android.ui.mainStage.MainActivity"
-            android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
+            android:exported="false" />
     </application>
 
 </manifest>

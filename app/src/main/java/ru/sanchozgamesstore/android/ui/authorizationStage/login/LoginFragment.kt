@@ -1,11 +1,12 @@
 package ru.sanchozgamesstore.android.ui.authorizationStage.login
 
-import android.util.Log
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import ru.sanchozgamesstore.R
 import ru.sanchozgamesstore.android.base.BaseFragment
-import ru.sanchozgamesstore.android.data.domain.response.Resource
+import ru.sanchozgamesstore.android.data.domain.response.Resource.Status
+import ru.sanchozgamesstore.android.utils.toMainActivity
 import ru.sanchozgamesstore.databinding.FragmentLoginBinding
 
 @AndroidEntryPoint
@@ -36,17 +37,22 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
         viewModel.loginState.observe(viewLifecycleOwner) {
             when (it.status) {
-                Resource.Status.SUCCESS -> {
-                    Log.e("LoginState", "toMainActivity")
+                Status.SUCCESS -> {
+                    toMainActivity()
                 }
-                Resource.Status.LOADING -> {
+
+                Status.LOADING -> {
 
                 }
-                Resource.Status.ERROR -> {
 
-                }
-                Resource.Status.NETWORK_ERROR -> {
+                Status.ERROR, Status.NETWORK_ERROR -> {
+                    val message = it.errorBody?.message ?: "Не удалось войти в профиль"
 
+                    Toast.makeText(
+                        context,
+                        message,
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

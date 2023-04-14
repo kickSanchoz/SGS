@@ -7,12 +7,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.sanchozgamesstore.android.data.domain.models.user.UserAuthorizationModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
-import ru.sanchozgamesstore.android.data.repository.profile.ProfileRepository
+import ru.sanchozgamesstore.android.data.repository.authorization.AuthorizationRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val profileRepository: ProfileRepository,
+    private val authorizationRepository: AuthorizationRepository
 ) : ViewModel() {
 
     val authorizationModel = UserAuthorizationModel()
@@ -23,7 +23,7 @@ class LoginViewModel @Inject constructor(
         loginState.value = Resource.loading()
         viewModelScope.launch {
             if (authorizationModel.isAuthorizationFieldsIsFilled()) {
-                val res = profileRepository.login(authorizationModel)
+                val res = authorizationRepository.login(authorizationModel)
                 loginState.value = res
             }
         }

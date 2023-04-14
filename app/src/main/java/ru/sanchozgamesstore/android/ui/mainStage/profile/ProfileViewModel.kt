@@ -44,11 +44,4 @@ class ProfileViewModel @Inject constructor(
             emit(gameRepository.getFavoriteGames())
         }
     }
-
-    //TODO delete
-    val accountToken = refreshTrigger.switchMap {
-        liveData {
-            emit(profileRepository.getAccountToken())
-        }
-    }
 }

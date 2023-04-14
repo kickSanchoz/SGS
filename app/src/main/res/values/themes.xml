@@ -16,4 +16,13 @@
         <item name="android:splitMotionEvents">false</item>
         <item name="android:windowBackground">@color/background</item>
     </style>
+
+    <!-- Splash theme. -->
+    <style name="splashScreen" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="android:navigationBarColor">@color/transparent</item>
+    </style>
 </resources>
