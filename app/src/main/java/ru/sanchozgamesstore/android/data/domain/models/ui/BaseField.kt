@@ -1,6 +1,5 @@
 package ru.sanchozgamesstore.android.data.domain.models.ui
 
-import android.util.Log
 import androidx.annotation.StringRes
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -28,9 +27,7 @@ abstract class BaseField<T>(private val required: Boolean) : Error {
         }
     }
     val errorText = MediatorLiveData<String?>().apply {
-        observeForever {
-            Log.e("errorText", "$it")
-        }
+        observeForever { }
     }
     val isErrorEnabled = Transformations.map(errorText) {
         !it.isNullOrEmpty()

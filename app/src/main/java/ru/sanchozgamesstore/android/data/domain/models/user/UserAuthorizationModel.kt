@@ -1,6 +1,7 @@
 package ru.sanchozgamesstore.android.data.domain.models.user
 
 import ru.sanchozgamesstore.android.data.domain.models.ui.StringField
+import ru.sanchozgamesstore.android.data.remote.models.authorization.AuthorizationApiModel
 
 /**
  * Модель пользователя при авторизации
@@ -27,4 +28,11 @@ class UserAuthorizationModel {
             !it.isError
         }
     }
+}
+
+fun UserAuthorizationModel.toAuthorizationApiModel(): AuthorizationApiModel {
+    return AuthorizationApiModel(
+        email = email.data.value ?: "",
+        password = password.data.value ?: "",
+    )
 }

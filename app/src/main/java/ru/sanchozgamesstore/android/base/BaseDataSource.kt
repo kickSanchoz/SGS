@@ -14,7 +14,6 @@ abstract class BaseDataSource {
     private val adapter: JsonAdapter<ErrorBody> =
         Moshi.Builder().build().adapter(ErrorBody::class.java)
 
-    @Suppress("BlockingMethodInNonBlockingContext")
     protected suspend fun <T> getResult(call: suspend () -> Response<T>): Resource<T> {
         try {
             val response = call()
@@ -27,11 +26,7 @@ abstract class BaseDataSource {
                 Log.e("Retrofit", "Method: ${response.raw().request.method} ")
                 Log.e("Retrofit", "=============================")
                 Log.e("Retrofit", errorBody.toString())
-                var errorString = ""
-                errorBody?.errors?.forEach { (t, u) ->
-                    errorString += "$t: ${u.reduceOrNull { acc, s -> "$acc, $s" }}\n"
-                }
-                Log.e("Retrofit", "Errors: $errorString")
+
                 Log.e("Retrofit", "httpCode: ${response.code()}")
                 Log.e("Retrofit", "=============================")
 

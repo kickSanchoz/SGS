@@ -12,6 +12,8 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import ru.sanchozgamesstore.android.data.remote.datasources.authorization.AuthorizationDataSource
+import ru.sanchozgamesstore.android.data.remote.services.AuthorizationService
 import ru.sanchozgamesstore.android.utils.API_URL
 import ru.sanchozgamesstore.android.utils.remote.NetworkListener
 import java.util.*
@@ -52,12 +54,24 @@ object RemoteDataModule {
         .build()
 
 
-    //------------------------Services------------------------
+    //------------------------API Services------------------------
 
-    //------------------------Services------------------------
+    @Provides
+    fun provideAuthorizationService(retrofit: Retrofit): AuthorizationService =
+        retrofit.create(AuthorizationService::class.java)
+
+    //------------------------API Services------------------------
 
 
     //------------------------DataSources------------------------
+
+    @Singleton
+    @Provides
+    fun provideAuthorizationDataSource(
+        authorizationService: AuthorizationService,
+    ) = AuthorizationDataSource(
+        authorizationService = authorizationService,
+    )
 
     //------------------------DataSources------------------------
 }

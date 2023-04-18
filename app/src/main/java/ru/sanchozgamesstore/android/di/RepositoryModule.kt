@@ -5,8 +5,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.sanchozgamesstore.android.data.local.datastore.AccountTokenDataStore
+import ru.sanchozgamesstore.android.data.remote.datasources.authorization.AuthorizationDataSource
 import ru.sanchozgamesstore.android.data.repository.authorization.AuthorizationRepository
-import ru.sanchozgamesstore.android.data.repository.authorization.AuthorizationRepositoryLocalImpl
+import ru.sanchozgamesstore.android.data.repository.authorization.AuthorizationRepositoryImpl
 import ru.sanchozgamesstore.android.data.repository.game.GameRepository
 import ru.sanchozgamesstore.android.data.repository.game.GameRepositoryLocalImpl
 import ru.sanchozgamesstore.android.data.repository.profile.ProfileRepository
@@ -28,8 +29,10 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideAuthorizationRepository(
-        accountTokenDataStore: AccountTokenDataStore
-    ): AuthorizationRepository = AuthorizationRepositoryLocalImpl(
-        accountTokenDataStore = accountTokenDataStore
+        accountTokenDataStore: AccountTokenDataStore,
+        authorizationDataSource: AuthorizationDataSource,
+    ): AuthorizationRepository = AuthorizationRepositoryImpl(
+        accountTokenDataStore = accountTokenDataStore,
+        authorizationDataSource = authorizationDataSource,
     )
 }
