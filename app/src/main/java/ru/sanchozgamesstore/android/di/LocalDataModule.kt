@@ -7,6 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ru.sanchozgamesstore.android.data.local.datastore.AccountTokenDataStore
+import ru.sanchozgamesstore.android.data.local.datastore.ApiKeyDataStore
 import javax.inject.Singleton
 
 @Module
@@ -25,6 +26,14 @@ object LocalDataModule {
     fun provideAccountTokenDataStore(
         @ApplicationContext context: Context
     ): AccountTokenDataStore = AccountTokenDataStore(
+        appContext = context
+    )
+
+    @Provides
+    @Singleton
+    fun provideApiKeyDataStore(
+        @ApplicationContext context: Context
+    ): ApiKeyDataStore = ApiKeyDataStore(
         appContext = context
     )
 

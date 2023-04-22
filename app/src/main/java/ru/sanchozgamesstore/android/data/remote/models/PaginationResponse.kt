@@ -2,12 +2,12 @@ package ru.sanchozgamesstore.android.data.remote.models
 
 import com.squareup.moshi.Json
 
-data class PaginationResponse<T>(
-    @Json(name = COUNT) val count: Int,
-    @Json(name = NEXT) val next: Int?,
-    @Json(name = PREVIOUS) val previous: Int?,
-    @Json(name = RESULTS) val results: List<T>,
-) {
+abstract class PaginationResponse<T> {
+    @Json(name = COUNT) var count: Int? = null
+    @Json(name = NEXT) var next: Int? = null
+    @Json(name = PREVIOUS) var previous: Int? = null
+    @Json(name = RESULTS) abstract var results: List<T>?
+
     companion object {
         const val COUNT = "count"
         const val NEXT = "next"

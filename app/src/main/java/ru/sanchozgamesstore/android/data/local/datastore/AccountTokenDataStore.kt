@@ -41,7 +41,7 @@ class AccountTokenDataStore(appContext: Context) : BaseDataStore(appContext) {
      * */
     suspend fun isAuthorized(): Boolean = withContext(IO) {
         val res = accountToken.firstOrNull() != null
-        Log.e("token exist", "$res")
+        Log.e("user authorized", "$res")
         return@withContext res
     }
 
@@ -59,7 +59,6 @@ class AccountTokenDataStore(appContext: Context) : BaseDataStore(appContext) {
      * */
     suspend fun deleteAccountToken() = withContext(IO) {
         appDataStore.edit {
-            Log.e("removing", "yep")
             it.remove(FIELD_TOKEN)
         }
     }
