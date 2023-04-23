@@ -16,7 +16,7 @@ import ru.sanchozgamesstore.android.data.remote.models.platform.requirements.Req
 @JsonClass(generateAdapter = true)
 data class GamePlatformApiModel(
     @Json(name = PLATFORM) val platform: PlatformApiModel,
-    @Json(name = RELEASED_AT) val released_at: String,
+    @Json(name = RELEASED_AT) val released_at: String?,
     @Json(name = REQUIREMENTS) val requirements: RequirementsApiModel?,
 ) {
     fun toModel(): GamePlatformModel {

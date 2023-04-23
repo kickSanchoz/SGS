@@ -126,7 +126,7 @@ class GamePageViewModel @Inject constructor(
         gameDetails.value = Resource.loading()
 
         viewModelScope.launch {
-            gameDetails.value = gamesRepository.getGameDetail(id)
+            gameDetails.value = gamesRepository.getGameDetails(id)
         }
     }
 
@@ -149,6 +149,7 @@ class GamePageViewModel @Inject constructor(
 
         viewModelScope.launch {
             stores.value = gamesRepository.getGameStores(id, remoteStores)
+//            stores.value = Resource.error("")
         }
     }
 

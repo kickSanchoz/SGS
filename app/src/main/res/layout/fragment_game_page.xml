@@ -103,33 +103,32 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/br_releaseDate" />
 
-                    <include
-                        android:id="@+id/block_about"
-                        layout="@layout/block_game_about"
+                    <LinearLayout
+                        android:id="@+id/ll_about_screenshots"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="12dp"
-                        app:layout_constraintEnd_toStartOf="@id/block_screenshots"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/block_ratings" />
-
-                    <include
-                        android:id="@+id/block_screenshots"
-                        layout="@layout/block_game_screenshots"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/block_about"
-                        app:layout_constraintTop_toBottomOf="@id/block_ratings" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/block_ratings">
 
-                    <androidx.constraintlayout.widget.Barrier
-                        android:id="@+id/br_about_screenshots"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:barrierDirection="bottom"
-                        app:constraint_referenced_ids="block_about,block_screenshots" />
+                        <include
+                            android:id="@+id/block_about"
+                            layout="@layout/block_game_about"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginEnd="12dp"
+                            android:layout_weight="1" />
+
+                        <include
+                            android:id="@+id/block_screenshots"
+                            layout="@layout/block_game_screenshots"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_weight="0" />
+
+                    </LinearLayout>
 
                     <include
                         android:id="@+id/block_stores"
@@ -139,7 +138,7 @@
                         android:layout_marginTop="12dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/br_about_screenshots" />
+                        app:layout_constraintTop_toBottomOf="@id/ll_about_screenshots" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cl_metadata"

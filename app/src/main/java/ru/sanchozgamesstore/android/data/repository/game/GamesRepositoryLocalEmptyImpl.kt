@@ -18,7 +18,7 @@ class GamesRepositoryLocalEmptyImpl : GamesRepository {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getGameDetail(
+    override suspend fun getGameDetails(
         id: Int
     ): Resource<GameDetailsModel> {
         val gameDetailsApi: GameDetailsApiModel = GameDetailsApiModel(
@@ -124,16 +124,16 @@ class GamesRepositoryLocalEmptyImpl : GamesRepository {
 
     override suspend fun getGameStores(
         id: Int,
-        remoteStores: List<StoreModel>
+        gameStores: List<StoreModel>
     ): Resource<List<GameToStoreModel>> {
 
         //Полученный с сервера список объектов игра_id - магазин_id
-        val gameStores = listOf<GameToStoreBriefApiModel>().map {
+        val remoteStores = listOf<GameToStoreBriefApiModel>().map {
             it.toModel()
         }
 
-        val res: List<GameToStoreModel> = gameStores.map {
-            val rStore = remoteStores.find { rStore ->
+        val res: List<GameToStoreModel> = remoteStores.map {
+            val rStore = gameStores.find { rStore ->
                 rStore.id == it.store_id
             }
             val lStore = Store.getStoreById(it.store_id)

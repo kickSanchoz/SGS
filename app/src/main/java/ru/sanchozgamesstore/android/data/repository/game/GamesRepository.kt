@@ -18,7 +18,7 @@ interface GamesRepository {
      *
      * @param id id игры, информацию о которой нужно получить
      * */
-    suspend fun getGameDetail(
+    suspend fun getGameDetails(
         id: Int,
     ): Resource<GameDetailsModel>
 
@@ -35,11 +35,11 @@ interface GamesRepository {
      * Получить магазины, на которых продаётся игра (С НАЗВАНИЕМ, ДОМЕНАМИ И ССЫЛКАМИ НА СТРАНИЦУ МАГАЗИНА).
      *
      * @param id id игры, магазины которого необходимо получить
-     * @param remoteStores список магазинов, полученных из детальной информации об игре
+     * @param gameStores список магазинов, полученных из детальной информации об игре
      * */
     suspend fun getGameStores(
         id: Int,
-        remoteStores: List<StoreModel>
+        gameStores: List<StoreModel>
     ): Resource<List<GameToStoreModel>>
 
     /**

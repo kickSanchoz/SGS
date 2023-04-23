@@ -12,6 +12,6 @@ import ru.sanchozgamesstore.android.data.domain.models.platform.requirements.Req
  * */
 data class GamePlatformModel(
     val platform: PlatformModel,
-    val released_at: String,
+    val released_at: String?,
     val requirements: RequirementsModel?,
 )
