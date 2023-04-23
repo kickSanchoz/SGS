@@ -6,14 +6,14 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.switchMap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
-import ru.sanchozgamesstore.android.data.repository.game.GameRepository
+import ru.sanchozgamesstore.android.data.repository.game.GamesRepository
 import ru.sanchozgamesstore.android.data.repository.profile.ProfileRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val profileRepository: ProfileRepository,
-    private val gameRepository: GameRepository,
+    private val gamesRepository: GamesRepository,
 ) : ViewModel() {
 
     private val refreshTrigger = MutableLiveData(Unit)
@@ -41,7 +41,7 @@ class ProfileViewModel @Inject constructor(
     val favoriteGames = refreshTrigger.switchMap {
         liveData {
             emit(Resource.loading())
-            emit(gameRepository.getFavoriteGames())
+            emit(gamesRepository.getFavoriteGames())
         }
     }
 }

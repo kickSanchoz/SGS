@@ -14,7 +14,11 @@ import ru.sanchozgamesstore.android.data.remote.models.game.GamePlatformApiModel
 import ru.sanchozgamesstore.android.data.remote.models.game.GameToStoreBriefApiModel
 import ru.sanchozgamesstore.android.data.remote.models.game.screenshot.ScreenshotApiModel
 import ru.sanchozgamesstore.android.data.remote.models.genre.GenreApiModel
-import ru.sanchozgamesstore.android.data.remote.models.platform.*
+import ru.sanchozgamesstore.android.data.remote.models.platform.MetacriticPlatformApiModel
+import ru.sanchozgamesstore.android.data.remote.models.platform.ParentPlatformApiModel
+import ru.sanchozgamesstore.android.data.remote.models.platform.ParentPlatformResponse
+import ru.sanchozgamesstore.android.data.remote.models.platform.PlatformApiModel
+import ru.sanchozgamesstore.android.data.remote.models.platform.PlatformBriefApiModel
 import ru.sanchozgamesstore.android.data.remote.models.platform.requirements.RequirementsApiModel
 import ru.sanchozgamesstore.android.data.remote.models.publisher.PublisherApiModel
 import ru.sanchozgamesstore.android.data.remote.models.rating.RatingApiModel
@@ -22,7 +26,7 @@ import ru.sanchozgamesstore.android.data.remote.models.store.StoreApiModel
 import ru.sanchozgamesstore.android.data.remote.models.store.StoreResponse
 import ru.sanchozgamesstore.android.data.remote.models.tag.TagApiModel
 
-class GameRepositoryLocalImpl : GameRepository {
+class GamesRepositoryLocalImpl : GamesRepository {
 
     override suspend fun getFavoriteGames(): Resource<List<GameDetailsModel>> {
         val gameListApi = listOf(

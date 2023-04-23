@@ -12,7 +12,7 @@ import ru.sanchozgamesstore.android.data.remote.models.game.GameDetailsApiModel
 import ru.sanchozgamesstore.android.data.remote.models.game.GameToStoreBriefApiModel
 import ru.sanchozgamesstore.android.data.remote.models.game.screenshot.ScreenshotApiModel
 
-class GameRepositoryLocalEmptyImpl : GameRepository {
+class GamesRepositoryLocalEmptyImpl : GamesRepository {
 
     override suspend fun getFavoriteGames(): Resource<List<GameDetailsModel>> {
         TODO("Not yet implemented")

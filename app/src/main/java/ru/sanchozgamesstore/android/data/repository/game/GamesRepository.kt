@@ -6,7 +6,7 @@ import ru.sanchozgamesstore.android.data.domain.models.game.screenshot.Screensho
 import ru.sanchozgamesstore.android.data.domain.models.store.StoreModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
 
-interface GameRepository {
+interface GamesRepository {
 
     /**
      * Получить список существующих игр

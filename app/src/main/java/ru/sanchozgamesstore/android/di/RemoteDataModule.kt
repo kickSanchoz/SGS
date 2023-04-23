@@ -13,10 +13,12 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import ru.sanchozgamesstore.android.data.remote.datasources.authorization.AuthorizationDataSource
+import ru.sanchozgamesstore.android.data.remote.datasources.games.GamesDataSource
 import ru.sanchozgamesstore.android.data.remote.datasources.profile.ProfileDataSource
 import ru.sanchozgamesstore.android.data.remote.injectors.AccountTokenInjector
 import ru.sanchozgamesstore.android.data.remote.injectors.ApiKeyInjector
 import ru.sanchozgamesstore.android.data.remote.services.AuthorizationService
+import ru.sanchozgamesstore.android.data.remote.services.GamesService
 import ru.sanchozgamesstore.android.data.remote.services.ProfileService
 import ru.sanchozgamesstore.android.data.repository.accountToken.AccountTokenRepository
 import ru.sanchozgamesstore.android.data.repository.apiKey.ApiKeyRepository
@@ -74,6 +76,10 @@ object RemoteDataModule {
     fun provideProfileService(retrofit: Retrofit): ProfileService =
         retrofit.create(ProfileService::class.java)
 
+    @Provides
+    fun provideGamesService(retrofit: Retrofit): GamesService =
+        retrofit.create(GamesService::class.java)
+
     //------------------------API Services------------------------
 
 
@@ -93,6 +99,14 @@ object RemoteDataModule {
         profileService: ProfileService,
     ) = ProfileDataSource(
         profileService = profileService,
+    )
+
+    @Singleton
+    @Provides
+    fun provideGamesDataSource(
+        gamesService: GamesService,
+    ) = GamesDataSource(
+        gamesService = gamesService,
     )
 
     //------------------------DataSources------------------------

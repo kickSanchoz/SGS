@@ -18,13 +18,13 @@ import ru.sanchozgamesstore.android.data.domain.models.genre.GenreModel
 import ru.sanchozgamesstore.android.data.domain.models.publisher.PublisherModel
 import ru.sanchozgamesstore.android.data.domain.models.store.StoreModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
-import ru.sanchozgamesstore.android.data.repository.game.GameRepository
+import ru.sanchozgamesstore.android.data.repository.game.GamesRepository
 import ru.sanchozgamesstore.android.utils.toSequence
 import javax.inject.Inject
 
 @HiltViewModel
 class GamePageViewModel @Inject constructor(
-    private val gameRepository: GameRepository
+    private val gamesRepository: GamesRepository
 ) : ViewModel() {
 
     /**
@@ -58,6 +58,7 @@ class GamePageViewModel @Inject constructor(
                     getGameStores(it.data!!.id, it.data.stores)
                     getGameScreenshots(it.data.id)
                 }
+
                 it.dataNotLoaded -> {
                     stores.value = Resource.error(DATA_NOT_LOADED)
                     screenshots.value = Resource.error(DATA_NOT_LOADED)
@@ -125,7 +126,7 @@ class GamePageViewModel @Inject constructor(
         gameDetails.value = Resource.loading()
 
         viewModelScope.launch {
-            gameDetails.value = gameRepository.getGameDetail(id)
+            gameDetails.value = gamesRepository.getGameDetail(id)
         }
     }
 
@@ -136,7 +137,7 @@ class GamePageViewModel @Inject constructor(
         stores.value = Resource.loading()
 
         viewModelScope.launch {
-            stores.value = gameRepository.getGameStores(id)
+            stores.value = gamesRepository.getGameStores(id)
         }
     }
 
@@ -147,7 +148,7 @@ class GamePageViewModel @Inject constructor(
         stores.value = Resource.loading()
 
         viewModelScope.launch {
-            stores.value = gameRepository.getGameStores(id, remoteStores)
+            stores.value = gamesRepository.getGameStores(id, remoteStores)
         }
     }
 
@@ -158,7 +159,7 @@ class GamePageViewModel @Inject constructor(
         screenshots.value = Resource.loading()
 
         viewModelScope.launch {
-            screenshots.value = gameRepository.getGameScreenshots(id)
+            screenshots.value = gamesRepository.getGameScreenshots(id)
         }
     }
     //---------------------------------Получение данных---------------------------------
