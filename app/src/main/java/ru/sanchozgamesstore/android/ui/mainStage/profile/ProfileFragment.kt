@@ -15,6 +15,7 @@ import ru.sanchozgamesstore.android.data.domain.response.Resource.Status
 import ru.sanchozgamesstore.android.ui.adapters.GameListAdapter
 import ru.sanchozgamesstore.android.ui.adapters.GameListShimmerAdapter
 import ru.sanchozgamesstore.android.ui.mainStage.profile.adapters.ProfileBusinessCardSectionAdapter
+import ru.sanchozgamesstore.android.utils.DeepLinkController
 import ru.sanchozgamesstore.android.utils.itemDecoration.GridItemDecoration
 import ru.sanchozgamesstore.android.utils.itemDecoration.OrientationItemDecoration
 import ru.sanchozgamesstore.android.utils.pictureLoadParams
@@ -48,7 +49,11 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
         businessCardSectionAdapter = ProfileBusinessCardSectionAdapter()
 
-        gameListAdapter = GameListAdapter()
+        gameListAdapter = GameListAdapter().apply {
+            setOnClickListener {
+                DeepLinkController(this@ProfileFragment).openGamePageFragment(it.id)
+            }
+        }
 
         gameListShimmerAdapter = GameListShimmerAdapter().apply {
             submitData(List(6) {})

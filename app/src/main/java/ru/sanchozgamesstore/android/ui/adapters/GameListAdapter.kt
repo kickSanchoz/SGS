@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.load
 import ru.sanchozgamesstore.android.data.domain.models.game.GameDetailsModel
@@ -14,6 +15,12 @@ import ru.sanchozgamesstore.databinding.ItemGameCardBinding
 
 class GameListAdapter :
     ListAdapter<GameDetailsModel, GameListAdapter.GamesListViewHolder>(DIFF_CALLBACK) {
+
+    private var onClickListener: ((game: GameDetailsModel) -> Unit)? = null
+
+    fun setOnClickListener(block: (game: GameDetailsModel) -> Unit) {
+        onClickListener = block
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GamesListViewHolder {
         return GamesListViewHolder(
@@ -30,7 +37,7 @@ class GameListAdapter :
     }
 
 
-    class GamesListViewHolder(private val binding: ItemGameCardBinding) : ViewHolder(binding.root) {
+    inner class GamesListViewHolder(private val binding: ItemGameCardBinding) : ViewHolder(binding.root) {
         fun bind(gameDetails: GameDetailsModel) {
             binding.apply {
                 ivBackground.apply image@{
@@ -49,8 +56,17 @@ class GameListAdapter :
                 tvScore.text = gameDetails.metacritic.toString()
 
                 tvTitle.text = gameDetails.name
+
+                cvGame.setOnClickListener {
+                    onClickListener?.invoke(gameDetails)
+                }
             }
         }
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        onClickListener = null
     }
 
     companion object {
