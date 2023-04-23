@@ -12,14 +12,14 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import ru.sanchozgamesstore.android.data.local.datastore.AccountTokenDataStore
-import ru.sanchozgamesstore.android.data.local.datastore.ApiKeyDataStore
 import ru.sanchozgamesstore.android.data.remote.datasources.authorization.AuthorizationDataSource
 import ru.sanchozgamesstore.android.data.remote.datasources.profile.ProfileDataSource
 import ru.sanchozgamesstore.android.data.remote.injectors.AccountTokenInjector
 import ru.sanchozgamesstore.android.data.remote.injectors.ApiKeyInjector
 import ru.sanchozgamesstore.android.data.remote.services.AuthorizationService
 import ru.sanchozgamesstore.android.data.remote.services.ProfileService
+import ru.sanchozgamesstore.android.data.repository.accountToken.AccountTokenRepository
+import ru.sanchozgamesstore.android.data.repository.apiKey.ApiKeyRepository
 import ru.sanchozgamesstore.android.utils.API_URL
 import ru.sanchozgamesstore.android.utils.remote.NetworkListener
 import java.util.*
@@ -51,16 +51,16 @@ object RemoteDataModule {
     @Provides
     fun provideOkhttp(
         @ApplicationContext applicationContext: Context,
-        accountTokenDataStore: AccountTokenDataStore,
-        apiKeyDataStore: ApiKeyDataStore,
+        accountTokenRepository: AccountTokenRepository,
+        apiKeyRepository: ApiKeyRepository,
     ): OkHttpClient = OkHttpClient
         .Builder()
         .eventListener(NetworkListener(applicationContext))
         .connectTimeout(1, TimeUnit.MINUTES)
         .readTimeout(1, TimeUnit.MINUTES)
         .writeTimeout(1, TimeUnit.MINUTES)
-        .addInterceptor(AccountTokenInjector(accountTokenDataStore = accountTokenDataStore))
-        .addInterceptor(ApiKeyInjector(apiKeyDataStore = apiKeyDataStore))
+        .addInterceptor(AccountTokenInjector(accountTokenRepository = accountTokenRepository))
+        .addInterceptor(ApiKeyInjector(apiKeyRepository = apiKeyRepository))
         .build()
 
 
@@ -69,6 +69,10 @@ object RemoteDataModule {
     @Provides
     fun provideAuthorizationService(retrofit: Retrofit): AuthorizationService =
         retrofit.create(AuthorizationService::class.java)
+
+    @Provides
+    fun provideProfileService(retrofit: Retrofit): ProfileService =
+        retrofit.create(ProfileService::class.java)
 
     //------------------------API Services------------------------
 
@@ -81,6 +85,14 @@ object RemoteDataModule {
         authorizationService: AuthorizationService,
     ) = AuthorizationDataSource(
         authorizationService = authorizationService,
+    )
+
+    @Singleton
+    @Provides
+    fun provideProfileDataSource(
+        profileService: ProfileService,
+    ) = ProfileDataSource(
+        profileService = profileService,
     )
 
     //------------------------DataSources------------------------

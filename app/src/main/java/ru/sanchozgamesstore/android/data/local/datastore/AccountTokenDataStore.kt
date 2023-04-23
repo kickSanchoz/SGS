@@ -39,7 +39,7 @@ class AccountTokenDataStore(appContext: Context) : BaseDataStore(appContext) {
     /**
      * Пользователь авторизован
      * */
-    suspend fun isAuthorized(): Boolean = withContext(IO) {
+    suspend fun hasToken(): Boolean = withContext(IO) {
         val res = accountToken.firstOrNull() != null
         Log.e("user authorized", "$res")
         return@withContext res

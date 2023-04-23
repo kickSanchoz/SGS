@@ -31,7 +31,7 @@ class ProfileViewModel @Inject constructor(
     val profile = refreshTrigger.switchMap {
         liveData {
             emit(Resource.loading())
-            emit(profileRepository.getProfile())
+            emitSource(profileRepository.getProfileLiveData())
         }
     }
 

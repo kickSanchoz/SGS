@@ -3,17 +3,17 @@ package ru.sanchozgamesstore.android.data.remote.injectors
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
-import ru.sanchozgamesstore.android.data.local.datastore.AccountTokenDataStore
 import ru.sanchozgamesstore.android.data.remote.annotations.InjectAccountToken
+import ru.sanchozgamesstore.android.data.repository.accountToken.AccountTokenRepository
 
 class AccountTokenInjector(
-    private val accountTokenDataStore: AccountTokenDataStore,
+    private val accountTokenRepository: AccountTokenRepository,
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val annotationPresented = chain.request().isAnnotationPresented(InjectAccountToken::class)
 
         val accountToken = runBlocking {
-            return@runBlocking accountTokenDataStore.getAccountToken()
+            return@runBlocking accountTokenRepository.getAccountToken()
         }
 
 

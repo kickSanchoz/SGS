@@ -1,20 +1,23 @@
 package ru.sanchozgamesstore.android.data.repository.authorization
 
-import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import ru.sanchozgamesstore.android.data.domain.models.user.UserAuthorizationModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
-import ru.sanchozgamesstore.android.data.local.datastore.AccountTokenDataStore
 import ru.sanchozgamesstore.android.data.remote.datasources.authorization.AuthorizationDataSource
+import ru.sanchozgamesstore.android.data.repository.accountToken.AccountTokenRepository
+import ru.sanchozgamesstore.android.data.repository.apiKey.ApiKeyRepository
+import ru.sanchozgamesstore.android.data.repository.profile.ProfileRepository
 import javax.inject.Inject
 
 class AuthorizationRepositoryImpl @Inject constructor(
-    private val accountTokenDataStore: AccountTokenDataStore,
+    private val accountTokenRepository: AccountTokenRepository,
+    private val apiKeyRepository: ApiKeyRepository,
     private val authorizationDataSource: AuthorizationDataSource,
+    private val profileRepository: ProfileRepository,
 ) : AuthorizationRepository {
     override suspend fun isAuthorized(): Boolean = withContext(IO) {
-        return@withContext accountTokenDataStore.isAuthorized()
+        return@withContext accountTokenRepository.hasToken()
     }
 
     override suspend fun login(
@@ -24,29 +27,18 @@ class AuthorizationRepositoryImpl @Inject constructor(
             val res = authorizationDataSource.login(authorizationModel)
 
             if (res.dataLoaded) {
-                setAccountToken(res.data!!)
+                accountTokenRepository.setAccountToken(res.data!!)
+                profileRepository.fetchProfile()
             }
 
             return@withContext res.map { }
         }
 
-    override suspend fun logout(): Resource<Unit> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun logout(): Resource<Unit> = withContext(IO) {
+        accountTokenRepository.deleteAccountToken()
+        apiKeyRepository.deleteApiKey()
+        profileRepository.clearProfileLocalData()
 
-    override suspend fun getAccountToken(): String? = withContext(IO) {
-        accountTokenDataStore.getAccountToken()
-    }
-
-    override suspend fun getAccountTokenLiveData(): LiveData<String?> =
-        accountTokenDataStore.getAccountTokenLiveData()
-
-
-    override suspend fun setAccountToken(token: String): Unit = withContext(IO) {
-        accountTokenDataStore.setAccountToken(token)
-    }
-
-    override suspend fun deleteAccountToken(): Unit = withContext(IO) {
-        accountTokenDataStore.deleteAccountToken()
+        return@withContext Resource.success()
     }
 }

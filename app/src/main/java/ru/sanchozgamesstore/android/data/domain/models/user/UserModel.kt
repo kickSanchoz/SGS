@@ -2,6 +2,7 @@ package ru.sanchozgamesstore.android.data.domain.models.user
 
 import ru.sanchozgamesstore.android.data.domain.models.user.businessCard.BusinessCardModel
 import ru.sanchozgamesstore.android.data.domain.models.user.businessCard.BusinessCardModel.Companion.Section
+import ru.sanchozgamesstore.android.data.local.database.models.UserRoomModel
 import ru.sanchozgamesstore.android.data.remote.models.user.UserApiModel
 
 /**
@@ -128,6 +129,7 @@ data class UserModel(
     }
 }
 
+//--------------------------- API ---------------------------
 fun UserApiModel.toModel(): UserModel {
     return UserModel(
         id = id,
@@ -182,3 +184,116 @@ fun UserApiModel.toModel(): UserModel {
         set_password = set_password,
     )
 }
+//--------------------------- API ---------------------------
+
+//--------------------------- ROOM ---------------------------
+fun UserModel.toRoom(): UserRoomModel {
+    return UserRoomModel(
+        id = id,
+        email = email,
+        username = username,
+        slug = slug,
+        full_name = full_name.takeIf { !it.isNullOrBlank() },
+        avatar = avatar.takeIf { !it.isNullOrBlank() },
+        bio = bio.takeIf { !it.isNullOrBlank() },
+        bio_raw = bio_raw.takeIf { !it.isNullOrBlank() },
+        games_count = games_count,
+        games_wishlist_count = games_wishlist_count,
+        collections_count = collections_count,
+        reviews_count = reviews_count,
+        reviews_text_count = reviews_text_count,
+        comments_count = comments_count,
+        steam_id = steam_id.takeIf { !it.isNullOrBlank() },
+        steam_id_status = steam_id_status.takeIf { !it.isNullOrBlank() },
+        steam_id_date = steam_id_date.takeIf { !it.isNullOrBlank() },
+        steam_id_confirm = steam_id_confirm,
+        gamer_tag = gamer_tag.takeIf { !it.isNullOrBlank() },
+        gamer_tag_status = gamer_tag_status.takeIf { !it.isNullOrBlank() },
+        gamer_tag_date = gamer_tag_date.takeIf { !it.isNullOrBlank() },
+        gamer_tag_confirm = gamer_tag_confirm,
+        psn_online_id = psn_online_id.takeIf { !it.isNullOrBlank() },
+        psn_online_id_status = psn_online_id_status.takeIf { !it.isNullOrBlank() },
+        psn_online_id_date = psn_online_id_date.takeIf { !it.isNullOrBlank() },
+        psn_online_id_confirm = psn_online_id_confirm,
+        gog = gog.takeIf { !it.isNullOrBlank() },
+        gog_status = gog_status.takeIf { !it.isNullOrBlank() },
+        gog_date = gog_date.takeIf { !it.isNullOrBlank() },
+        has_confirmed_accounts = has_confirmed_accounts,
+        game_background = game_background.takeIf { !it.isNullOrBlank() },
+        following_count = following_count,
+        share_image = share_image.takeIf { !it.isNullOrBlank() },
+        subscribe_mail_synchronization = subscribe_mail_synchronization,
+        subscribe_mail_reviews_invite = subscribe_mail_reviews_invite,
+        subscribe_mail_recommendations = subscribe_mail_recommendations,
+        select_platform = select_platform,
+        token_program = token_program,
+        tokens = tokens,
+        is_staff = is_staff,
+        rated_games_percent = rated_games_percent,
+        is_editor = is_editor,
+        noindex = noindex,
+        steam_id_locked = steam_id_locked,
+        gamer_tag_locked = gamer_tag_locked,
+        psn_online_id_locked = psn_online_id_locked,
+        gog_locked = gog_locked,
+        email_confirmed = email_confirmed,
+        can_edit_games = can_edit_games,
+        set_password = set_password,
+    )
+}
+
+fun UserRoomModel.toModel(): UserModel {
+    return UserModel(
+        id = id,
+        email = email,
+        username = username,
+        slug = slug,
+        full_name = full_name,
+        avatar = avatar,
+        bio = bio,
+        bio_raw = bio_raw,
+        games_count = games_count,
+        games_wishlist_count = games_wishlist_count,
+        collections_count = collections_count,
+        reviews_count = reviews_count,
+        reviews_text_count = reviews_text_count,
+        comments_count = comments_count,
+        steam_id = steam_id,
+        steam_id_status = steam_id_status,
+        steam_id_date = steam_id_date,
+        steam_id_confirm = steam_id_confirm,
+        gamer_tag = gamer_tag,
+        gamer_tag_status = gamer_tag_status,
+        gamer_tag_date = gamer_tag_date,
+        gamer_tag_confirm = gamer_tag_confirm,
+        psn_online_id = psn_online_id,
+        psn_online_id_status = psn_online_id_status,
+        psn_online_id_date = psn_online_id_date,
+        psn_online_id_confirm = psn_online_id_confirm,
+        gog = gog,
+        gog_status = gog_status,
+        gog_date = gog_date,
+        has_confirmed_accounts = has_confirmed_accounts,
+        game_background = game_background,
+        following_count = following_count,
+        share_image = share_image,
+        subscribe_mail_synchronization = subscribe_mail_synchronization,
+        subscribe_mail_reviews_invite = subscribe_mail_reviews_invite,
+        subscribe_mail_recommendations = subscribe_mail_recommendations,
+        select_platform = select_platform,
+        token_program = token_program,
+        tokens = tokens,
+        is_staff = is_staff,
+        rated_games_percent = rated_games_percent,
+        is_editor = is_editor,
+        noindex = noindex,
+        steam_id_locked = steam_id_locked,
+        gamer_tag_locked = gamer_tag_locked,
+        psn_online_id_locked = psn_online_id_locked,
+        gog_locked = gog_locked,
+        email_confirmed = email_confirmed,
+        can_edit_games = can_edit_games,
+        set_password = set_password,
+    )
+}
+//--------------------------- ROOM ---------------------------

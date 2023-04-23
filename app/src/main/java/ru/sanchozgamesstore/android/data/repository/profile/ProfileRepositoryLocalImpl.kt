@@ -1,5 +1,6 @@
 package ru.sanchozgamesstore.android.data.repository.profile
 
+import androidx.lifecycle.LiveData
 import kotlinx.coroutines.delay
 import ru.sanchozgamesstore.android.data.domain.models.user.UserModel
 import ru.sanchozgamesstore.android.data.domain.models.user.toModel
@@ -134,7 +135,15 @@ class ProfileRepositoryLocalImpl @Inject constructor() : ProfileRepository {
         return Resource.success(userApiModel.toModel())
     }
 
-    override suspend fun saveProfileLocal() {
+    override suspend fun getProfileLiveData(): LiveData<Resource<UserModel>> {
+        TODO("Not yet implemented")
+    }
 
+    override suspend fun saveProfileLocal(userModel: UserModel) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun clearProfileLocalData(): Resource<Unit> {
+        TODO("Not yet implemented")
     }
 }
