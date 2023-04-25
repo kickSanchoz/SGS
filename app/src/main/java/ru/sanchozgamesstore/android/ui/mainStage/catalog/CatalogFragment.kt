@@ -2,7 +2,9 @@ package ru.sanchozgamesstore.android.ui.mainStage.catalog
 
 import android.util.Log
 import android.view.inputmethod.EditorInfo
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import ru.sanchozgamesstore.R
@@ -12,6 +14,7 @@ import ru.sanchozgamesstore.android.ui.adapters.GameListShimmerAdapter
 import ru.sanchozgamesstore.android.utils.DeepLinkController
 import ru.sanchozgamesstore.android.utils.hideKeyboard
 import ru.sanchozgamesstore.android.utils.itemDecoration.GridItemDecoration
+import ru.sanchozgamesstore.android.utils.shimmerEnabled
 import ru.sanchozgamesstore.databinding.FragmentCatalogBinding
 
 
@@ -39,6 +42,31 @@ class CatalogFragment : BaseFragment<FragmentCatalogBinding>() {
         gameListPagingAdapter = GameListPagingAdapter().apply {
             setOnClickListener {
                 DeepLinkController(this@CatalogFragment).openGamePageFragment(it.id)
+            }
+            addLoadStateListener {
+                binding.blockContent.lShimmer.sflRoot.shimmerEnabled(it.source.refresh is LoadState.Loading)
+
+                when (it.source.refresh) {
+                    is LoadState.Loading -> {
+                        binding.blockContent.rvGames.isVisible = false
+                        binding.blockContent.lEmpty.root.isVisible = false
+                    }
+
+                    is LoadState.NotLoading -> {
+                        if (it.source.refresh.endOfPaginationReached && gameListPagingAdapter?.itemCount == 0) {
+                            binding.blockContent.rvGames.isVisible = false
+                            binding.blockContent.lEmpty.root.isVisible = true
+                        } else {
+                            binding.blockContent.rvGames.isVisible = true
+                            binding.blockContent.lEmpty.root.isVisible = false
+                        }
+                    }
+
+                    is LoadState.Error -> {
+                        binding.blockContent.rvGames.isVisible = false
+                        binding.blockContent.lEmpty.root.isVisible = true
+                    }
+                }
             }
         }
 
