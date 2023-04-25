@@ -38,7 +38,10 @@
 
     <string name="Login">Log in</string>
     <string name="Continue">Continue</string>
-    <string name="required_field">Поле обязательно для заполнения</string>
+    <string name="required_field">Required field</string>
+
+    <string name="search">Search</string>
+    <string name="ThereWereNoResultsMatchingTheQuery">There were no results matching the query.</string>
 
     <string name="Plug_GameName">Game title</string>
     <string name="Plug_GameReleaseDate">01.01.1977</string>

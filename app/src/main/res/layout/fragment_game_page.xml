@@ -43,6 +43,18 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_go_back"
+                        style="@style/Button.Image"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:backgroundTint="@color/white15"
+                        app:icon="@drawable/ic_arrow_back"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <include
                         android:id="@+id/block_parentPlatform"
                         layout="@layout/block_game_parent_platform"

@@ -1,5 +1,7 @@
 package ru.sanchozgamesstore.android.data.repository.game
 
+import androidx.lifecycle.LiveData
+import androidx.paging.PagingData
 import kotlinx.coroutines.delay
 import ru.sanchozgamesstore.android.data.domain.enums.Store
 import ru.sanchozgamesstore.android.data.domain.models.game.GameDetailsModel
@@ -15,6 +17,10 @@ import ru.sanchozgamesstore.android.data.remote.models.game.screenshot.Screensho
 class GamesRepositoryLocalEmptyImpl : GamesRepository {
 
     override suspend fun getFavoriteGames(): Resource<List<GameDetailsModel>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getGamesBySearch(search: String): LiveData<PagingData<GameDetailsModel>> {
         TODO("Not yet implemented")
     }
 

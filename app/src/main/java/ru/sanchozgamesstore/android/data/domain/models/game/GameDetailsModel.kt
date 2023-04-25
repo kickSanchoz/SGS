@@ -56,7 +56,7 @@ data class GameDetailsModel(
     val slug: String,
     val description: String?,
     val description_raw: String?,
-    val metacritic: Int,
+    val metacritic: Int?,
     val metacritic_platforms: List<MetacriticPlatformModel>,
     private val _released: String?,
     val tba: Boolean,

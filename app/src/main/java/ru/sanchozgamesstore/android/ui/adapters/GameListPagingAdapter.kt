@@ -4,27 +4,28 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.load
 import ru.sanchozgamesstore.android.data.domain.models.game.GameDetailsModel
 import ru.sanchozgamesstore.android.utils.getColorByScore
 import ru.sanchozgamesstore.android.utils.pictureLoadParams
 import ru.sanchozgamesstore.databinding.ItemGameCardBinding
 
-class GameListAdapter :
-    ListAdapter<GameDetailsModel, GameListAdapter.GamesListViewHolder>(DIFF_CALLBACK) {
-
+class GameListPagingAdapter : PagingDataAdapter<GameDetailsModel, GameListPagingAdapter.ViewHolder>(
+    GameListAdapter.DIFF_CALLBACK
+) {
     private var onClickListener: ((game: GameDetailsModel) -> Unit)? = null
 
     fun setOnClickListener(block: (game: GameDetailsModel) -> Unit) {
         onClickListener = block
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GamesListViewHolder {
-        return GamesListViewHolder(
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ViewHolder {
+        return ViewHolder(
             ItemGameCardBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -33,13 +34,14 @@ class GameListAdapter :
         )
     }
 
-    override fun onBindViewHolder(holder: GamesListViewHolder, position: Int) {
-        holder.bind(currentList[position])
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        getItem(position)?.let {
+            holder.bind(it)
+        }
     }
 
-
-    inner class GamesListViewHolder(private val binding: ItemGameCardBinding) :
-        ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemGameCardBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(gameDetails: GameDetailsModel) {
             binding.apply {
                 ivBackground.apply image@{
@@ -68,29 +70,5 @@ class GameListAdapter :
                 }
             }
         }
-    }
-
-    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView)
-        onClickListener = null
-    }
-
-    companion object {
-        val DIFF_CALLBACK: DiffUtil.ItemCallback<GameDetailsModel> =
-            object : DiffUtil.ItemCallback<GameDetailsModel>() {
-                override fun areItemsTheSame(
-                    oldItem: GameDetailsModel,
-                    newItem: GameDetailsModel
-                ): Boolean {
-                    return oldItem.id == newItem.id
-                }
-
-                override fun areContentsTheSame(
-                    oldItem: GameDetailsModel,
-                    newItem: GameDetailsModel
-                ): Boolean {
-                    return oldItem == newItem
-                }
-            }
     }
 }

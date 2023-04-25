@@ -19,9 +19,9 @@ data class StoreApiModel(
     @Json(name = ID) val id: Int,
     @Json(name = NAME) val name: String,
     @Json(name = SLUG) val slug: String,
-    @Json(name = DOMAIN) val domain: String,
-    @Json(name = GAMES_COUNT) val games_count: Int,
-    @Json(name = IMAGE_BACKGROUND) val image_background: String,
+    @Json(name = DOMAIN) val domain: String?,
+    @Json(name = GAMES_COUNT) val games_count: Int?,
+    @Json(name = IMAGE_BACKGROUND) val image_background: String?,
 ) {
     fun toModel(): StoreModel {
         return StoreModel(

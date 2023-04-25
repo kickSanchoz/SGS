@@ -187,6 +187,20 @@
         <item name="android:textColorHint">@color/grey</item>
         <item name="hintTextColor">@color/grey</item>
     </style>
+
+    <style name="TextInputLayout.Search">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox</item>
+        <item name="boxCollapsedPaddingTop">0dp</item>
+        <item name="hintEnabled">false</item>
+        <item name="boxBackgroundColor">@color/grey8</item>
+        <item name="expandedHintEnabled">false</item>
+        <item name="startIconDrawable">@drawable/ic_search</item>
+        <item name="startIconTint">@color/grey</item>
+        <item name="endIconMode">clear_text</item>
+        <item name="endIconTint">@color/grey</item>
+        <item name="android:textColorHint">@color/grey2</item>
+        <item name="hintTextColor">@color/grey2</item>
+    </style>
     <!--  TextInputLayout  -->
 
 
@@ -268,6 +282,16 @@
     </style>
 
     <!--  RecyclerView Style  -->
+
+
+    <!--  Lottie Style  -->
+
+    <style name="LottieAnimation">
+        <item name="lottie_autoPlay">true</item>
+        <item name="lottie_loop">true</item>
+    </style>
+
+    <!--  Lottie Style  -->
 
 
     <!--  DialogFragment   -->

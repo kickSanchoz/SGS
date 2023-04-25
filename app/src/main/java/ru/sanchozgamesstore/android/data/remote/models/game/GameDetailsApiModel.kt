@@ -58,7 +58,7 @@ data class GameDetailsApiModel(
     @Json(name = SLUG) val slug: String,
     @Json(name = DESCRIPTION) val description: String?,
     @Json(name = DESCRIPTION_RAW) val description_raw: String?,
-    @Json(name = METACRITIC) val metacritic: Int,
+    @Json(name = METACRITIC) val metacritic: Int?,
     @Json(name = METACRITIC_PLATFORMS) val metacritic_platforms: List<MetacriticPlatformApiModel>?,
     @Json(name = RELEASED) val released: String?,
     @Json(name = TBA) val tba: Boolean,

@@ -18,8 +18,8 @@ data class PublisherApiModel(
     @Json(name = ID) val id: Int,
     @Json(name = NAME) val name: String,
     @Json(name = SLUG) val slug: String,
-    @Json(name = GAMES_COUNT) val games_count: Int,
-    @Json(name = IMAGE_BACKGROUND) val image_background: String,
+    @Json(name = GAMES_COUNT) val games_count: Int?,
+    @Json(name = IMAGE_BACKGROUND) val image_background: String?,
 ) {
     fun toModel(): PublisherModel {
         return PublisherModel(

@@ -1,5 +1,7 @@
 package ru.sanchozgamesstore.android.data.repository.game
 
+import androidx.lifecycle.LiveData
+import androidx.paging.PagingData
 import ru.sanchozgamesstore.android.data.domain.models.game.GameDetailsModel
 import ru.sanchozgamesstore.android.data.domain.models.game.GameToStoreModel
 import ru.sanchozgamesstore.android.data.domain.models.game.screenshot.ScreenshotModel
@@ -12,6 +14,13 @@ interface GamesRepository {
      * Получить список существующих игр
      * */
     suspend fun getFavoriteGames(): Resource<List<GameDetailsModel>>
+
+    /**
+     * Получить список пагинации
+     * */
+    fun getGamesBySearch(
+        search: String,
+    ): LiveData<PagingData<GameDetailsModel>>
 
     /**
      * Получить подробную информацию об игре

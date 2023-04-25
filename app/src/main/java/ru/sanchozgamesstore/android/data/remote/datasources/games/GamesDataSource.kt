@@ -17,6 +17,18 @@ class GamesDataSource @Inject constructor(
         it?.results
     }
 
+    suspend fun getGamesBySearch(
+        page: Int,
+        page_size: Int,
+        search: String,
+    ) = getResult {
+        gamesService.getGamesBySearch(
+            page = page,
+            page_size = page_size,
+            search = search,
+        )
+    }
+
     suspend fun getGameDetails(id: Int): Resource<GameDetailsApiModel> = getResult {
         gamesService.getGameDetails(
             gameId = id,

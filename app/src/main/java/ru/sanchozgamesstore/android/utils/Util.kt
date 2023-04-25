@@ -5,10 +5,12 @@ import android.content.Context
 import android.content.res.Resources
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import coil.request.ImageRequest
@@ -32,13 +34,6 @@ fun getPlaceholder(context: Context): CircularProgressDrawable {
         setStyle(CircularProgressDrawable.DEFAULT)
         setColorSchemeColors(ResourcesCompat.getColor(context.resources, R.color.red, null))
     }
-}
-
-fun Context.hideKeyboard(view: View) {
-    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-
-    view.clearFocus()
 }
 
 /**
@@ -120,7 +115,6 @@ fun ShimmerFrameLayout.shimmerEnabled(value: Boolean) {
     }
 }
 
-
 /**
  * Список строк в последовательность
  *
@@ -164,4 +158,28 @@ fun reducedString(acc: String, s: String, delimiter: String): String {
  * */
 fun reducedString(acc: String, s: String): String {
     return reducedString(acc, s, "")
+}
+
+fun Fragment.hideKeyboard() {
+    view?.let { activity?.hideKeyboard(it) }
+}
+
+fun Fragment.showKeyboard(et: EditText) {
+    view?.let { activity?.showKeyboard(et) }
+}
+
+fun Activity.hideKeyboard() {
+    hideKeyboard(currentFocus ?: View(this))
+}
+
+fun Context.hideKeyboard(view: View) {
+    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+
+    view.clearFocus()
+}
+
+fun Context.showKeyboard(view: View) {
+    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.showSoftInput(view, 0)
 }

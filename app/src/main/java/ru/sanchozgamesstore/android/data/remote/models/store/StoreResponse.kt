@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class StoreResponse(
-    @Json(name = ID) val id: Int,
+    @Json(name = ID) val id: Int?,
     @Json(name = URL) val url: String?,
     @Json(name = STORE) val store: StoreApiModel,
 ) {

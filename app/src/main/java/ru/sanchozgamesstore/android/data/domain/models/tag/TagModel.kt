@@ -16,7 +16,7 @@ data class TagModel(
     val slug: String,
     val language: String,
     val _games_count: Int?,
-    val image_background: String,
+    val image_background: String?,
 ) {
     val games_count: Int
         get() = _games_count ?: 0

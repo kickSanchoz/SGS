@@ -1,5 +1,7 @@
 package ru.sanchozgamesstore.android.data.repository.game
 
+import androidx.lifecycle.LiveData
+import androidx.paging.PagingData
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import ru.sanchozgamesstore.android.data.domain.enums.Store
@@ -9,6 +11,7 @@ import ru.sanchozgamesstore.android.data.domain.models.game.screenshot.Screensho
 import ru.sanchozgamesstore.android.data.domain.models.store.StoreModel
 import ru.sanchozgamesstore.android.data.domain.response.Resource
 import ru.sanchozgamesstore.android.data.remote.datasources.games.GamesDataSource
+import ru.sanchozgamesstore.android.data.remote.pagingsources.GamesPagingSource
 import javax.inject.Inject
 
 class GamesRepositoryImpl @Inject constructor(
@@ -20,6 +23,13 @@ class GamesRepositoryImpl @Inject constructor(
                 it.toModel()
             }
         }
+    }
+
+    override fun getGamesBySearch(search: String): LiveData<PagingData<GameDetailsModel>> {
+        return GamesPagingSource(
+            gamesDataSource = gamesDataSource,
+            search = search,
+        ).getPagerLiveData()
     }
 
     override suspend fun getGameDetails(id: Int): Resource<GameDetailsModel> = withContext(IO) {

@@ -21,7 +21,11 @@ import ru.sanchozgamesstore.android.data.domain.response.Resource.Status
 import ru.sanchozgamesstore.android.ui.customView.RatingBarViewItem
 import ru.sanchozgamesstore.android.ui.gallery.dialog.GalleryDialogFragment
 import ru.sanchozgamesstore.android.ui.gallery.dialog.GalleryDialogFragment.Companion.getBundle
-import ru.sanchozgamesstore.android.ui.game.adapters.*
+import ru.sanchozgamesstore.android.ui.game.adapters.GameMetacriticAdapter
+import ru.sanchozgamesstore.android.ui.game.adapters.GameMetadataAdapter
+import ru.sanchozgamesstore.android.ui.game.adapters.GameParentPlatformAdapter
+import ru.sanchozgamesstore.android.ui.game.adapters.GameScreenshotAdapter
+import ru.sanchozgamesstore.android.ui.game.adapters.GameStoreAdapter
 import ru.sanchozgamesstore.android.ui.game.dialogs.GameDescriptionDialogFragment
 import ru.sanchozgamesstore.android.utils.itemDecoration.GridItemDecoration
 import ru.sanchozgamesstore.android.utils.itemDecoration.OrientationItemDecoration
@@ -75,6 +79,10 @@ class GamePageFragment : BaseFragment<FragmentGamePageBinding>() {
         gameMetacriticAdapter = GameMetacriticAdapter()
 
         binding.apply {
+            btnGoBack.setOnClickListener {
+                activity?.onBackPressed()
+            }
+
             //Действия над ресайклером с родительскими платформами
             blockParentPlatform.rvParentPlatform.apply {
                 adapter = gameParentPlatformAdapter

@@ -1,5 +1,7 @@
 package ru.sanchozgamesstore.android.data.repository.game
 
+import androidx.lifecycle.LiveData
+import androidx.paging.PagingData
 import kotlinx.coroutines.delay
 import ru.sanchozgamesstore.android.data.domain.enums.Store
 import ru.sanchozgamesstore.android.data.domain.models.game.GameDetailsModel
@@ -2017,6 +2019,10 @@ class GamesRepositoryLocalImpl : GamesRepository {
         return Resource.success(gameListApi.map {
             it.toModel()
         })
+    }
+
+    override fun getGamesBySearch(search: String): LiveData<PagingData<GameDetailsModel>> {
+        TODO("Not yet implemented")
     }
 
     override suspend fun getGameDetails(
