@@ -125,7 +125,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     /**
      * Заполнение визитной карточке на странице пользователя
      * */
-    private fun fillBusinessCard(profile: Resource<UserModel>) {
+    private fun fillBusinessCard(profile: Resource<UserModel?>) {
         binding.apply {
             blockBusinessCard.lShimmer.sflRoot.shimmerEnabled(profile.status == Status.LOADING)
 

@@ -135,7 +135,7 @@ class ProfileRepositoryLocalImpl @Inject constructor() : ProfileRepository {
         return Resource.success(userApiModel.toModel())
     }
 
-    override suspend fun getProfileLiveData(): LiveData<Resource<UserModel>> {
+    override suspend fun getProfileLiveData(): LiveData<Resource<UserModel?>> {
         TODO("Not yet implemented")
     }
 

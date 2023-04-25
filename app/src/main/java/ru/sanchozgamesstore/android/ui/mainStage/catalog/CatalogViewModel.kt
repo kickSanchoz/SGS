@@ -3,6 +3,8 @@ package ru.sanchozgamesstore.android.ui.mainStage.catalog
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.switchMap
+import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.sanchozgamesstore.android.data.repository.game.GamesRepository
 import javax.inject.Inject
@@ -35,6 +37,6 @@ class CatalogViewModel @Inject constructor(
      * */
     val games = refreshTrigger.switchMap {
         lastSearchQuery = searchQuery.value
-        gamesRepository.getGamesBySearch(searchQuery.value ?: "")
+        gamesRepository.getGamesBySearch(searchQuery.value ?: "").cachedIn(viewModelScope)
     }
 }

@@ -42,7 +42,7 @@ class ProfileRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getProfileLiveData(): LiveData<Resource<UserModel>> = liveData(IO) {
+    override suspend fun getProfileLiveData(): LiveData<Resource<UserModel?>> = liveData(IO) {
         val res = userDaoDataSource.getUserLiveData()
 
         /*
@@ -54,14 +54,14 @@ class ProfileRepositoryImpl @Inject constructor(
         *   Затем запросить и сохранить новые данные с бэка
         * */
         if (res.value == null) {
-            fetchProfile()
+            val remoteProfile = fetchProfile()
             emitSource(res.map {
-                Resource.success(it!!.toModel())
+                Resource.success(remoteProfile.data)
             })
         } else {
             emitSource(
                 userDaoDataSource.getUserLiveData().map {
-                    Resource.success(it!!.toModel())
+                    Resource.success(it?.toModel())
                 }
             )
             fetchProfile()

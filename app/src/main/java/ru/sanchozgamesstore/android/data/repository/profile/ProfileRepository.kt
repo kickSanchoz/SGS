@@ -18,7 +18,7 @@ interface ProfileRepository {
     /**
      * Получить данные пользователя из БД
      * */
-    suspend fun getProfileLiveData(): LiveData<Resource<UserModel>>
+    suspend fun getProfileLiveData(): LiveData<Resource<UserModel?>>
 
     /**
      * Сохранить данные профиля
