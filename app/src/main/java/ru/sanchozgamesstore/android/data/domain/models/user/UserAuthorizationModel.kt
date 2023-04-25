@@ -32,7 +32,7 @@ class UserAuthorizationModel {
 
 fun UserAuthorizationModel.toAuthorizationApiModel(): AuthorizationApiModel {
     return AuthorizationApiModel(
-        email = email.data.value ?: "",
-        password = password.data.value ?: "",
+        email = email.data.value?.trim() ?: "",
+        password = password.data.value?.trim() ?: "",
     )
 }
