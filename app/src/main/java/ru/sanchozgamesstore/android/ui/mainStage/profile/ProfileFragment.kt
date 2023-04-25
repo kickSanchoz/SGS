@@ -20,6 +20,7 @@ import ru.sanchozgamesstore.android.utils.itemDecoration.GridItemDecoration
 import ru.sanchozgamesstore.android.utils.itemDecoration.OrientationItemDecoration
 import ru.sanchozgamesstore.android.utils.pictureLoadParams
 import ru.sanchozgamesstore.android.utils.shimmerEnabled
+import ru.sanchozgamesstore.android.utils.toAuthorizationActivity
 import ru.sanchozgamesstore.databinding.FragmentProfileBinding
 
 @AndroidEntryPoint
@@ -91,6 +92,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             srlPage.setOnRefreshListener {
                 viewModel.refreshPage()
             }
+
+            blockBusinessCard.btnLogout.setOnClickListener {
+                viewModel.logout()
+            }
         }
     }
 
@@ -106,6 +111,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         viewModel.favoriteGames.observe(viewLifecycleOwner) {
             Log.e("favoriteGames", "$it")
             fillFavoriteGames(it)
+        }
+
+        viewModel.logoutStatus.observe(viewLifecycleOwner) {
+            if (it.status == Status.SUCCESS) {
+                //TODO
+//                context?.sendBroadcast(Intent(BROADCAST_ACTION_UNAUTHORIZED))
+                toAuthorizationActivity()
+            }
         }
     }
 

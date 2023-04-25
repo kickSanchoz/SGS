@@ -8,8 +8,13 @@ import dagger.hilt.android.HiltAndroidApp
 class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-
         res = resources
+
+//        registerReceiver(object: BroadcastReceiver() {
+//            override fun onReceive(context: Context?, intent: Intent?) {
+//
+//            }
+//        }, IntentFilter(BROADCAST_ACTION_UNAUTHORIZED))
     }
 
     companion object {

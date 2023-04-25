@@ -41,4 +41,8 @@ class AuthorizationRepositoryImpl @Inject constructor(
 
         return@withContext Resource.success()
     }
+
+    companion object {
+        const val BROADCAST_ACTION_UNAUTHORIZED = "broadcast.action.unauthorized"
+    }
 }
