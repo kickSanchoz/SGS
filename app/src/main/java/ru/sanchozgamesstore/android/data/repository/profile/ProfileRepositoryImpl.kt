@@ -43,7 +43,7 @@ class ProfileRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getProfileLiveData(): LiveData<Resource<UserModel>> = liveData(IO) {
-        val res = userDaoDataSource.getUserLivaData()
+        val res = userDaoDataSource.getUserLiveData()
 
         /*
         * Если данных в БД ещё нет (например, первый вход в приложение):
@@ -60,7 +60,7 @@ class ProfileRepositoryImpl @Inject constructor(
             })
         } else {
             emitSource(
-                userDaoDataSource.getUserLivaData().map {
+                userDaoDataSource.getUserLiveData().map {
                     Resource.success(it!!.toModel())
                 }
             )

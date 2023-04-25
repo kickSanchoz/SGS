@@ -19,5 +19,5 @@ interface UserDao {
     suspend fun getUser(): UserRoomModel?
 
     @Query("SELECT * FROM user LIMIT 1")
-    fun getUserLivaData(): LiveData<UserRoomModel?>
+    fun getUserLiveData(): LiveData<UserRoomModel?>
 }

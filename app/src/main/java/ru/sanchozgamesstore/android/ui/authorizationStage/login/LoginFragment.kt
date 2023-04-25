@@ -1,6 +1,7 @@
 package ru.sanchozgamesstore.android.ui.authorizationStage.login
 
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import ru.sanchozgamesstore.R
@@ -36,6 +37,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         super.observeData()
 
         viewModel.loginState.observe(viewLifecycleOwner) {
+            binding.pbLoading.isVisible = it.status == Status.LOADING
+
             when (it.status) {
                 Status.SUCCESS -> {
                     toMainActivity()

@@ -26,7 +26,7 @@ class UserDaoDataSource @Inject constructor(
         userDao.getUser()
     }
 
-    fun getUserLivaData(): LiveData<UserRoomModel?> = getResult {
-        userDao.getUserLivaData()
+    fun getUserLiveData(): LiveData<UserRoomModel?> = getResult {
+        userDao.getUserLiveData()
     }
 }
